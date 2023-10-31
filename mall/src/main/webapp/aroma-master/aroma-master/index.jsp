@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,16 +32,16 @@
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item active"><a class="nav-link" href="index.html">홈으로</a></li>
+              <li class="nav-item active"><a class="nav-link" href="index.html">íì¼ë¡</a></li>
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">상품</a>
+                  aria-expanded="false">ìí</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="category.html">상품목록</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-product.html">상품상세</a></li>
-                  <li class="nav-item"><a class="nav-link" href="checkout.html">상품결제</a></li>
-                  <li class="nav-item"><a class="nav-link" href="confirmation.html">주문확인</a></li>
-                  <li class="nav-item"><a class="nav-link" href="cart.html">장바구니</a></li>
+                  <li class="nav-item"><a class="nav-link" href="category.html">ìíëª©ë¡</a></li>
+                  <li class="nav-item"><a class="nav-link" href="single-product.html">ìíìì¸</a></li>
+                  <li class="nav-item"><a class="nav-link" href="checkout.html">ìíê²°ì </a></li>
+                  <li class="nav-item"><a class="nav-link" href="confirmation.html">ì£¼ë¬¸íì¸</a></li>
+                  <li class="nav-item"><a class="nav-link" href="cart.html">ì¥ë°êµ¬ë</a></li>
                 </ul>
 							</li>
               <li class="nav-item submenu dropdown">
@@ -52,14 +54,14 @@
 							</li>
 							<li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">페이지</a>
+                  aria-expanded="false">íì´ì§</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="login.html">로그인</a></li>
-                  <li class="nav-item"><a class="nav-link" href="register.html">회원가입</a></li>
+                  <li class="nav-item"><a class="nav-link" href="login.html">ë¡ê·¸ì¸</a></li>
+                  <li class="nav-item"><a class="nav-link" href="register.html">íìê°ì</a></li>
                   <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
                 </ul>
               </li>
-              <li class="nav-item"><a class="nav-link" href="contact.html">고객센터</a></li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">ê³ ê°ì¼í°</a></li>
             </ul>
 
             <ul class="nav-shop">
@@ -87,7 +89,7 @@
           </div>
           <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
             <div class="hero-banner__content">
-              <h4>재밌는 쇼핑</h4>
+              <h4>ì¬ë°ë ì¼í</h4>
               <h1>Browse Our Premium Product</h1>
               <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth without morning over third. Their male dry. They are great appear whose land fly grass.</p>
               <a class="button button-hero" href="#">Browse Now</a>
@@ -486,7 +488,7 @@
                   <li><a href="#">By Admin</a></li>
                   <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
                 </ul>
-                <h4 class="card-blog__title"><a href="single-blog.html">Professional design staff and efficient equipment you’ll find we offer</a></h4>
+                <h4 class="card-blog__title"><a href="single-blog.html">Professional design staff and efficient equipment youâll find we offer</a></h4>
                 <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
                 <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
               </div>
