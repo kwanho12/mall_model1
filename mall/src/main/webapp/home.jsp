@@ -14,10 +14,16 @@
   <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
   <link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
   <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
-
   <link rel="stylesheet" href="css/style.css">
+  
+  <!--구글폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/font.css">
 </head>
 <body>
+
   <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/menu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
@@ -35,10 +41,10 @@
           </div>
           <div class="col-sm-7 col-lg-6 offset-lg-1 pl-4 pl-md-5 pl-lg-0">
             <div class="hero-banner__content">
-              <h4>ì¬ë°ë ì¼í</h4>
-              <h1>Browse Our Premium Product</h1>
-              <p>Us which over of signs divide dominion deep fill bring they're meat beho upon own earth without morning over third. Their male dry. They are great appear whose land fly grass.</p>
-              <a class="button button-hero" href="#">Browse Now</a>
+              <div style="font-size: 32px;">쇼핑의 즐거움</div>
+              <div style="font-size: 50px; font-weight:bold;">프리미엄 제품 판매</div>
+              <p>저희 회사는 최고의 품질을 자랑합니다.</p>
+              <a class="button button-hero" href="<%=request.getContextPath()%>/category.jsp">상품 둘러보기</a>
             </div>
           </div>
         </div>

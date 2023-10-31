@@ -18,6 +18,12 @@
   <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
 
   <link rel="stylesheet" href="css/style.css">
+  
+  <!--구글폰트 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/font.css">
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
