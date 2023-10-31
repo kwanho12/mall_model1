@@ -35,7 +35,7 @@
               <li class="nav-item active"><a class="nav-link" href="index.html">홈으로</a></li>
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">ìí</a>
+                  aria-expanded="false">상품</a>
                 <ul class="dropdown-menu">
                   <li class="nav-item"><a class="nav-link" href="category.html">ìíëª©ë¡</a></li>
                   <li class="nav-item"><a class="nav-link" href="single-product.html">ìíìì¸</a></li>
