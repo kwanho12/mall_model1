@@ -46,7 +46,6 @@
 	                <ul class="dropdown-menu">
 	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">로그인</a></li>
 	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/register.jsp">회원가입</a></li>
-	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/tracking.jsp">추적</a></li>
               		</ul>
              	 </li>
               <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/contact.jsp">고객센터</a></li>
@@ -55,7 +54,7 @@
             <ul class="nav-shop">
               <li class="nav-item"><button><i class="ti-search"></i></button></li>
               <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-              <li class="nav-item"><a class="button button-header" href="#">바로 구매</a></li>
+              <li class="nav-item"><a class="button button-header" href="#">장바구니에 담긴 상품 바로 구매</a></li>
             </ul>
           </div>
         </div>
