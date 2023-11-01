@@ -31,9 +31,10 @@
 	ArrayList<HashMap<String, Object>> list = customerDao.customerList();
 %>	
 	
-	<div class="container p-5 my-5 border">
+	<div class="container">
 		<h1>고객 DB</h1>
-		<table class="table table-dark table-striped table-hover">
+		<table class="table table-dark table-striped table-hover
+		">
 			<colgroup>
 	            <col width=10%>
 	            <col width=15%>
