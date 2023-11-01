@@ -9,15 +9,22 @@ import java.util.HashMap;
 
 public class CustomerListDao {
 	
-	public void customerList() throws Exception {
+	public ArrayList<HashMap<String, Object>> customerList() throws Exception {
+		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
 		String dbuser = "root";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
-		// 회원정보 조회 : 고객번호, id, 비밀번호, 주소, 고객이름, 휴대폰 번호 
-		String sql = "SELECT customer_no customerNo, customer_id customerId, createdate, updatedate, active FROM customer";
+		// 회원정보 조회 : 고객번호, id, 활동상태, 주소, 고객이름, 휴대폰 번호
+		/*
+		 * SELECT c.customer_no customerNo, c.customer_id customerId, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address
+		 * FROM customer c INNER JOIN customer_detail cd 
+		 * ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca 
+		 * ON ca.customer_no = c.customer_no
+		 * */
+		String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		
@@ -28,12 +35,15 @@ public class CustomerListDao {
 			
 			c.put("customerNo", rs.getInt("customerNo"));
 			c.put("customerId", rs.getString("customerId"));
-			c.put("createdate", rs.getString("createdate"));
-			c.put("updatedate", rs.getString("updatedate"));
 			c.put("active", rs.getString("active"));
+			c.put("customerName", rs.getString("customerName"));
+			c.put("customerPhone", rs.getString("customerPhone"));
+			c.put("address", rs.getString("address"));
 			
 			list.add(c);
 		
 		}
+		
+		return list;
 	}
 }

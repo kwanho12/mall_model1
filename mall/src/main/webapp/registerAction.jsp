@@ -24,7 +24,6 @@
 	customerAddr.setAddress(address);
 	
 	registerDao.register(customer, customerDetail, customerAddr);
-	session.setAttribute("customerId", request.getParameter("customerId"));
 	
 	response.sendRedirect(request.getContextPath()+"/home.jsp");
 %>

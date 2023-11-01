@@ -64,10 +64,17 @@
             	
             </ul>
             <ul>
-            	<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/register.jsp">회원가입</a></li>
+            	<%
+            	if(session.getAttribute("customerId") == null) {
+            		
+            	%>
+            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/register.jsp">회원가입</a></li>
+            	<%	
+            	}
+            	%>
+            	
             </ul>
-            
-       
+          
           </div>
         </div>
       </nav>
