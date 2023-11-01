@@ -49,7 +49,18 @@
               <li class="nav-item"><a class="button button-header" href="#">장바구니에 담긴 상품 바로 구매</a></li>
             </ul>
             <ul>
-            	<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">로그인</a></li>
+            	<% 
+            	if(session.getAttribute("customerId") != null) {		
+            	%>
+            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/logoutAction.jsp">로그아웃</a></li>
+            	<% 	
+            	} else {
+            	%>
+            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">로그인</a></li>
+            	<% 	
+            	}
+            	%>
+            	
             	
             </ul>
             <ul>

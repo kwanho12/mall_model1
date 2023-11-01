@@ -57,10 +57,22 @@ public class RegisterDao {
 		PreparedStatement stmt3 = conn.prepareStatement(sql3);
 		stmt3.setInt(1, customerNo);
 		stmt3.setString(2, customerAddr.getAddress());
-		System.out.println(stmt3 + "<--- stmt insertTest()");
+		System.out.println(stmt3 + "<--- stmt3 insertTest()");
 		
 		int row3 = stmt3.executeUpdate();
 		if(row3 != 1) {
+			conn.rollback();
+			return;
+		}
+		
+		String sql4 = "INSERT INTO customer_pw_history(customer_no, customer_pw, createdate) VALUES(?, ?, now() )";
+		PreparedStatement stmt4 = conn.prepareStatement(sql4);
+		stmt4.setInt(1, customerNo);
+		stmt4.setString(2, customer.getCustomerPw());
+		System.out.println(stmt4 + "<--- stmt4 insertTest()");
+		
+		int row4 = stmt4.executeUpdate();
+		if(row4 != 1) {
 			conn.rollback();
 			return;
 		}
