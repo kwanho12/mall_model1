@@ -84,8 +84,7 @@
     <section class="section-margin calc-60px">
       <div class="container">
         <div class="section-intro pb-60px">
-          <p>Popular Item in the market</p>
-          <h2>Trending <span class="section-intro__style">Product</span></h2>
+          <h2>인기 <span class="section-intro__style">상품</span></h2>
         </div>
         <div class="row">
           <div class="col-md-6 col-lg-4 col-xl-3">
