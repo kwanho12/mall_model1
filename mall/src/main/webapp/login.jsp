@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	if(session.getAttribute("customerId") != null) { // 로그인 되어 있으면 
+	response.sendRedirect(request.getContextPath()+"/home.jsp");
+	return;	
+	}
+
+	String msg = request.getParameter("msg");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,6 +55,13 @@
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>로그인 화면</h3>
+						<%
+						if(msg != null) {
+						%>
+							<p><%=msg%></p>
+						<%	
+						}
+						%>
 						<form class="row login_form" action="<%=request.getContextPath()%>/loginAction.jsp" id="contactForm" >
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="customerId" name="customerId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
@@ -56,7 +71,7 @@
 							</div>
 						
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="button button-login w-100">로그인</button>
+								<button type="submit" class="button button-login w-100">로그인</button>
 								<a href="#">비밀번호 찾기</a>
 							</div>
 						</form>
