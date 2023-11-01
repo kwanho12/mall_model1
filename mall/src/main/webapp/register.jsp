@@ -47,21 +47,21 @@
 				<div class="col-lg-6">
 					<div class="login_form_inner register_form_inner">
 						<h3>회원가입</h3>
-						<form class="row login_form" action="#/" id="register_form" >
+						<form class="row login_form" action="<%=request.getContextPath()%>/registerAction.jsp" id="register_form" >
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="memberId" name="memberId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = 'memberId'">
+								<input type="text" class="form-control" id="customerId" name="customerId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
              				</div>
 				            <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="password" name="password" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+								<input type="password" class="form-control" id="customerPw" name="customerPw" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
 				            </div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="name" name="name" placeholder="이름" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
+								<input type="text" class="form-control" id="customerName" name="customerName" placeholder="이름" onfocus="this.placeholder = ''" onblur="this.placeholder = '이름'">
 							</div>
 				            <div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="address" name="address" placeholder="주소" onfocus="this.placeholder = ''" onblur="this.placeholder = 'addresss'">
+								<input type="text" class="form-control" id="address" name="address" placeholder="주소" onfocus="this.placeholder = ''" onblur="this.placeholder = '주소'">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="휴대폰 번호" onfocus="this.placeholder = ''" onblur="this.placeholder = 'phoneNumber'">
+								<input type="text" class="form-control" id="customerPhone" name="customerPhone" placeholder="휴대폰 번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '휴대폰 번호'">
 							</div>
 							<div class="col-md-12 form-group">
 								<button type="submit" value="submit" class="button button-register w-100">가입하기</button>
