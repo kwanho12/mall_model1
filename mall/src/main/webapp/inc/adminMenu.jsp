@@ -17,7 +17,15 @@
            
               	<li class="nav-item submenu dropdown">  
 					<a href="<%=request.getContextPath()%>/customerList.jsp" class="nav-link" role="button" aria-haspopup="true"
-	                  aria-expanded="false">고객 list</a>        
+	                  aria-expanded="false">고객 목록</a>        
+				</li>
+				<li class="nav-item submenu dropdown">  
+					<a href="<%=request.getContextPath()%>/goodsList.jsp" class="nav-link" role="button" aria-haspopup="true"
+	                  aria-expanded="false">상품 목록</a>        
+				</li>
+				<li class="nav-item submenu dropdown">  
+					<a href="<%=request.getContextPath()%>/addGoods.jsp" class="nav-link" role="button" aria-haspopup="true"
+	                  aria-expanded="false">상품 추가</a>        
 				</li>
 				
             </ul>

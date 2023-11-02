@@ -27,7 +27,7 @@
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/menu.jsp"></jsp:include>
+  <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
 
           <!-- Start Filter Bar -->
