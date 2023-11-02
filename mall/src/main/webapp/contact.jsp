@@ -91,7 +91,9 @@
 					<%=notice.get("managerName") %>
 			</td>
 			<td>
+					<a href="<%=request.getContextPath() %>/noticeOne.jsp?noticeNo=<%=notice.get("noticeNo") %>">
 					<%=notice.get("noticeTitle") %>
+					</a>
 			</td>
 			<td>
 					<%=notice.get("createdate") %>
