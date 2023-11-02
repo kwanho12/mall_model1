@@ -58,6 +58,7 @@
 					<div class="col-md-12 form-group">
 						<button type="submit" class="button button-login w-100 mx-auto" style="margin:20px;">로그인</button>
 						<a href="<%=request.getContextPath()%>/managerRegister.jsp" style="font-size:20px;">관리자 추가</a>
+						<a href="<%=request.getContextPath()%>/home.jsp" style="font-size:20px;">홈페이지로 이동</a>
 					</div>
 				</form>
 			</div>	

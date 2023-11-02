@@ -73,8 +73,6 @@
 							<div class="col-md-12 form-group">
 								<button type="submit" class="button button-login w-100 mx-auto" style="margin:30px;">로그인</button>
 								<a href="#" style="font-size:20px">비밀번호 찾기</a>
-							</div>
-							<div class="col-md-12 form-group">
 								<a href="<%=request.getContextPath()%>/managerLogin.jsp" style="font-size:20px">관리자 로그인</a>
 							</div>
 						</form>
