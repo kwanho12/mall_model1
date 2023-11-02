@@ -7,7 +7,9 @@
     pageEncoding="UTF-8"%>
 <%
 	//insertProductAction
-	String uploadPath = request.getServletContext().getRealPath("/upload");
+	
+	// String uploadPath = request.getServletContext().getRealPath("/upload");
+	String uploadPath = "/Users/jkh/Desktop/DB/mall-gitRepository/mall/mall/src/main/webapp/upload";
 	MultipartRequest req = new MultipartRequest(
 		request, uploadPath, 1024*1024*100, "utf-8", new DefaultFileRenamePolicy());
 	
