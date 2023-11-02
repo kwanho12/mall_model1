@@ -64,31 +64,61 @@
 	int beginRow=(currentPage-1)*rowPerPage;
 
 	// moder 호출 코드(controller code)
+	// 문의사항 model값
 	ContactDao cd = new ContactDao();
-	ArrayList<Question> list = cd.selectQuestionList(beginRow, rowPerPage);
+	ArrayList<HashMap<String,Object>> list = cd.selectQuestionList(beginRow, rowPerPage);
+	
+	// 공지사항 model값
+	NoticeDao nd = new NoticeDao();
+	ArrayList<HashMap<String,Object>> list2 = nd.selectNoticeList();
 	//end controller code
-
+	
 		%>
 	<div class="container">
-	<table class="table table-hover table-striped">
+	<table class="table table-hover table-info">
 		<tr>
 			<th>No</th>
-			<th>Title</th>
+			<th>작성자</th>
+			<th>제목</th>
+			<th>작성일</th>
 		</tr>
 		<%
-			for(Question q : list){
+			for(HashMap<String,Object> notice : list2){
 		%>
 		<tr>
+			<td>공지</td>
 			<td>
-				<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=q.getQuestionNo()%>">
-					<%=q.getQuestionNo() %>
-				</a>
+					<%=notice.get("managerName") %>
+			</td>
+			<td>
+					<%=notice.get("noticeTitle") %>
+			</td>
+			<td>
+					<%=notice.get("createdate") %>
+			</td>
+		</tr>
+		<% 		
+			}
+		%>
+
+		<%
+			for(HashMap<String,Object> contact : list){
+		%>
+		<tr> 
+			<td>
+					<%=contact.get("questionNo") %>
 			</td>
 			
 			<td>
-				<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=q.getQuestionNo()%>">
-					<%=q.getQuestionTitle() %>
+					<%=contact.get("customerId") %>
+			</td>
+			<td>
+				<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=contact.get("questionNo") %>">
+				<%=contact.get("questionTitle") %>
 				</a>
+			</td>
+			<td>
+				<%=contact.get("createdate") %>
 			</td>
 		</tr>
 		<%

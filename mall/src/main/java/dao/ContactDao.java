@@ -8,8 +8,7 @@ import java.sql.*;
 public class ContactDao {
 	
 	//호출(controller) : contact.jsp - 문의사항(table:question) 의 데이터를 contact.jsp에 출력
-	public ArrayList<Question> selectQuestionList(int beginRow, int rowPerPage) throws Exception{
-		ArrayList<Question> list = new ArrayList<>();
+	public ArrayList<HashMap<String, Object>> selectQuestionList(int beginRow, int rowPerPage) throws Exception{
 		
 		// db핸들링(model)
 		Class.forName("org.mariadb.jdbc.Driver");		// DB Driver클래스 코드
@@ -22,21 +21,32 @@ public class ContactDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
 		
-		String sql = "SELECT question_no questionNo, question_title questionTitle FROM question LIMIT ?,?";
+		/*	문의사항리스트 : 문의사항번호 ,고객ID, 제목, 작성일
+		 * SELECT q.question_no questionNo, c.customer_id customerId, q.question_title questionTitle, q.createdate createdate
+				FROM question q INNER JOIN customer c
+				ON q.customer_no = c.customer_no;
+		 */
+		
+		String sql = "SELECT q.question_no questionNo, c.customer_id customerId, q.question_title questionTitle, q.createdate createdate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no LIMIT ?,?";
 		PreparedStatement stmt=conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
 		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
 		ResultSet rs = stmt.executeQuery();	//jdbc환경의 모델
-		list = new ArrayList<>();	//일반화된 모델값으로 변환
-		while(rs.next()){
-			Question q = new Question();
-			q.setQuestionNo(rs.getInt("questionNo"));
-			q.setQuestionTitle(rs.getString("questionTitle"));
-			list.add(q);
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		while(rs.next()) {
+			
+			HashMap<String, Object> c = new HashMap<>();
+			
+			c.put("questionNo", rs.getInt("questionNo"));
+			c.put("customerId", rs.getString("customerId"));
+			c.put("questionTitle", rs.getString("questionTitle"));
+			c.put("createdate", rs.getString("createdate"));
+			
+			list.add(c);
 		}
+		//end model code	
 		
-		//end model code	: model date -> ArrayList<Question> list
 		return list;
 
 	}
@@ -58,7 +68,7 @@ public class ContactDao {
 		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
 		
 		/*
-		 * 	문의사항 상세 정보 - 문의사항번호, 상품이름, 고객ID, 문의사항제목, 문의사항내용
+		 * 	문의사항 상세 정보 : 문의사항번호, 상품이름, 고객ID, 문의사항제목, 문의사항내용
 		 * SELECT q.question_no questionNo, g.goods_title goodsTitle, c.customer_id customerId, 
 		 * 		q.question_title questionTitle, q.question_content questionContent, q.createdate createdate,q.updatedate updatedate
 				FROM question q INNER JOIN customer c 
