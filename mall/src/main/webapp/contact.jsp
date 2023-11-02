@@ -64,8 +64,13 @@
 	int beginRow=(currentPage-1)*rowPerPage;
 
 	// moder 호출 코드(controller code)
+	// 문의사항 model값
 	ContactDao cd = new ContactDao();
 	ArrayList<HashMap<String,Object>> list = cd.selectQuestionList(beginRow, rowPerPage);
+	
+	// 공지사항 model값
+	NoticeDao nd = new NoticeDao();
+	ArrayList<HashMap<String,Object>> list2 = nd.selectNoticeList();
 	//end controller code
 	
 		%>
@@ -77,6 +82,25 @@
 			<th>제목</th>
 			<th>작성일</th>
 		</tr>
+		<%
+			for(HashMap<String,Object> notice : list2){
+		%>
+		<tr>
+			<td>공지</td>
+			<td>
+					<%=notice.get("managerName") %>
+			</td>
+			<td>
+					<%=notice.get("noticeTitle") %>
+			</td>
+			<td>
+					<%=notice.get("createdate") %>
+			</td>
+		</tr>
+		<% 		
+			}
+		%>
+
 		<%
 			for(HashMap<String,Object> contact : list){
 		%>
