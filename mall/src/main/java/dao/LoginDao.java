@@ -9,7 +9,7 @@ import vo.Customer;
 
 public class LoginDao {
 	
-	public ResultSet login(Customer customer, String customerId, String customerPw) throws Exception{
+	public ResultSet login(Customer customer) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
@@ -19,8 +19,8 @@ public class LoginDao {
 		
 		String sql = "SELECT customer_id customerId FROM customer WHERE customer_id=? AND customer_pw = PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, customerId);
-		stmt.setString(2, customerPw);
+		stmt.setString(1, customer.getCustomerId());
+		stmt.setString(2, customer.getCustomerPw());
 		System.out.println(stmt+" <--stmt");
 		ResultSet rs = stmt.executeQuery();
 		

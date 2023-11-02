@@ -13,6 +13,7 @@
 	String customerPhone = request.getParameter("customerPhone");
 
 	RegisterDao registerDao = new RegisterDao();
+	
 	Customer customer = new Customer();
 	CustomerDetail customerDetail = new CustomerDetail();
 	CustomerAddr customerAddr = new CustomerAddr();

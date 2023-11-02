@@ -2,5 +2,5 @@
     pageEncoding="UTF-8"%>
 <%
 	session.invalidate();
-	response.sendRedirect(request.getContextPath()+"/adminLogin.jsp");
+	response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
 %>

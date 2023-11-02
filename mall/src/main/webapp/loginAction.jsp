@@ -13,7 +13,7 @@
 	customer.setCustomerPw(customerPw);
 	
 	LoginDao loginDao = new LoginDao();
-	ResultSet rs = loginDao.login(customer, customerId, customerPw);
+	ResultSet rs = loginDao.login(customer);
 	
 	if(rs.next()) { // 로그인 성공
 		session.setAttribute("customerId", rs.getString("customerId"));

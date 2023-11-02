@@ -65,7 +65,7 @@ public class RegisterDao {
 			return;
 		}
 		
-		String sql4 = "INSERT INTO customer_pw_history(customer_no, customer_pw, createdate) VALUES(?, ?, now() )";
+		String sql4 = "INSERT INTO customer_pw_history(customer_no, customer_pw, createdate) VALUES(?, password(?), now() )";
 		PreparedStatement stmt4 = conn.prepareStatement(sql4);
 		stmt4.setInt(1, customerNo);
 		stmt4.setString(2, customer.getCustomerPw());

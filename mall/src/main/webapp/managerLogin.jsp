@@ -34,11 +34,6 @@
   <link rel="stylesheet" href="css/font.css">
 </head>
 <body>
-  <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
-  <!--================ End Header Menu Area =================-->
-  
-  
   
   <!--================Login Box Area =================-->
 	<section class="login_box_area section-margin">
@@ -52,16 +47,17 @@
 				<%	
 				}
 				%>
-				<form class="row login_form" action="<%=request.getContextPath()%>/adminLoginAction.jsp" id="contactForm" >
+				<form class="row login_form" action="<%=request.getContextPath()%>/managerLoginAction.jsp" id="contactForm" >
 					<div class="col-md-12 form-group">
-						<input type="text" class="form-control" id="adminId" name="adminId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
+						<input type="text" class="form-control" id="managerId" name="managerId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
 					</div>
 					<div class="col-md-12 form-group">
-						<input type="password" class="form-control" id="adminPw" name="adminPw" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
+						<input type="password" class="form-control" id="managerPw" name="managerPw" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
 					</div>
 				
 					<div class="col-md-12 form-group">
-						<button type="submit" class="button button-login w-100 mx-auto" style="margin:30px;">로그인</button>
+						<button type="submit" class="button button-login w-100 mx-auto" style="margin:20px;">로그인</button>
+						<a href="<%=request.getContextPath()%>/managerRegister.jsp" style="font-size:20px;">관리자 추가</a>
 					</div>
 				</form>
 			</div>	
