@@ -65,30 +65,36 @@
 
 	// moder 호출 코드(controller code)
 	ContactDao cd = new ContactDao();
-	ArrayList<Question> list = cd.selectQuestionList(beginRow, rowPerPage);
+	ArrayList<HashMap<String,Object>> list = cd.selectQuestionList(beginRow, rowPerPage);
 	//end controller code
-
+	
 		%>
 	<div class="container">
-	<table class="table table-hover table-striped">
+	<table class="table table-hover table-info">
 		<tr>
 			<th>No</th>
-			<th>Title</th>
+			<th>작성자</th>
+			<th>제목</th>
+			<th>작성일</th>
 		</tr>
 		<%
-			for(Question q : list){
+			for(HashMap<String,Object> contact : list){
 		%>
-		<tr>
+		<tr> 
 			<td>
-				<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=q.getQuestionNo()%>">
-					<%=q.getQuestionNo() %>
-				</a>
+					<%=contact.get("questionNo") %>
 			</td>
 			
 			<td>
-				<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=q.getQuestionNo()%>">
-					<%=q.getQuestionTitle() %>
+					<%=contact.get("customerId") %>
+			</td>
+			<td>
+				<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=contact.get("questionNo") %>">
+				<%=contact.get("questionTitle") %>
 				</a>
+			</td>
+			<td>
+				<%=contact.get("createdate") %>
 			</td>
 		</tr>
 		<%
