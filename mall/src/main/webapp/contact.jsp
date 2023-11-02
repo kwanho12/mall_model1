@@ -1,33 +1,40 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%@ page import="vo.*" %>
+<%@ page import="dao.*" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>고객센터</title>
-	<link rel="icon" href="img/Fevicon.png" type="image/png">
-  <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
-	<link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
+  	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+  	<title>Aroma Shop - Contact</title>	
+  	<link rel="icon" href="img/Fevicon.png" type="image/png">
+  	<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
+  	<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">	
+  	<link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
 	<link rel="stylesheet" href="vendors/linericon/style.css">
-  <link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
-  <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
-
-  <link rel="stylesheet" href="css/style.css">
+  	<link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
+  	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+  	<link rel="stylesheet" href="css/style.css">
   
-  <!--구글폰트 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/font.css">
+  	<!--구글폰트 -->
+  	<link rel="preconnect" href="https://fonts.googleapis.com">
+  	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
+  	<link rel="stylesheet" href="css/font.css">
+  
+  
+  	<!-- BootStrap5 -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>	
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/menu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
-
 
 	<!-- ================ start banner area ================= -->
 	<section class="blog-banner-area" id="contact">
@@ -47,11 +54,82 @@
 	</section>
 	<!-- ================ end banner area ================= -->
 
-	<!-- ================ contact section start ================= -->
+<%
+	//start controller code
+	int currentPage=1;
+	if(request.getParameter("currentPage") != null){
+		currentPage=Integer.parseInt(request.getParameter("currentPgage"));
+	}
+	int rowPerPage = 10;
+	int beginRow=(currentPage-1)*rowPerPage;
+
+	// moder 호출 코드(controller code)
+	ContactDao cd = new ContactDao();
+	ArrayList<Question> list = cd.selectQuestionList(beginRow, rowPerPage);
+	//end controller code
+
+		%>
+	<div class="container">
+	<table class="table table-hover table-striped">
+		<tr>
+			<th>No</th>
+			<th>Title</th>
+		</tr>
+		<%
+			for(Question q : list){
+		%>
+		<tr>
+			<td>
+				<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=q.getQuestionNo()%>">
+					<%=q.getQuestionNo() %>
+				</a>
+			</td>
+			
+			<td>
+				<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=q.getQuestionNo()%>">
+					<%=q.getQuestionTitle() %>
+				</a>
+			</td>
+		</tr>
+		<%
+			}
+		%>
+	</table>
+	</div>
+	<br>
+	<br>
+	
+
+	<!-- ================ contact section start ================= 
   <section class="section-margin--small">
     <div class="container">
-      
+      <div class="d-none d-sm-block mb-5 pb-4">
+        <div id="map" style="height: 420px;"></div>
+        <script>
+          function initMap() {
+            var uluru = {lat: -25.363, lng: 131.044};
+            var grayStyles = [
+              {
+                featureType: "all",
+                stylers: [
+                  { saturation: -90 },
+                  { lightness: 50 }
+                ]
+              },
+              {elementType: 'labels.text.fill', stylers: [{color: '#A3A3A3'}]}
+            ];
+            var map = new google.maps.Map(document.getElementById('map'), {
+              center: {lat: -31.197, lng: 150.744},
+              zoom: 9,
+              styles: grayStyles,
+              scrollwheel:  false
+            });
+          }
+          
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&callback=initMap"></script>
 
+      </div>
 
       <div class="row">
         <div class="col-md-4 col-lg-3 mb-4 mb-md-0">
@@ -105,7 +183,7 @@
       </div>
     </div>
   </section>
-	<!-- ================ contact section end ================= -->
+  ================ contact section end ================= -->
   
   
 
