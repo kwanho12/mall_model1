@@ -35,8 +35,8 @@
   <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/menu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
-
-	<!-- ================ start banner area ================= -->
+ 
+	<!-- ================ start banner area ================= 
 	<section class="blog-banner-area" id="contact">
 		<div class="container h-100">
 			<div class="blog-banner">
@@ -52,7 +52,7 @@
 			</div>
     </div>
 	</section>
-	<!-- ================ end banner area ================= -->
+	 ================ end banner area ================= -->
 
 <%
 	//start controller code

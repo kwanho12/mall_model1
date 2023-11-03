@@ -101,4 +101,130 @@ public class ContactDao {
 		return contactOne;
 		
 	}
+	
+	//호출(controller) : insertContactAction.jsp - 문의사항 추가
+		public int insertQuestion(Question question) throws Exception{
+			
+			// db핸들링(model)
+			Class.forName("org.mariadb.jdbc.Driver");		// DB Driver클래스 코드
+			System.out.println("드라이브 로딩 성공");	// DB 드라이브 로딩 확인 디버깅
+			// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+			String url = "jdbc:mariadb://localhost:3306/mall";		
+			String dbuser = "root";
+			String dbpw = "java1234";
+			//DB연결을 위한 Connection객체 생성, 연결
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+			
+			/*
+			 * 	문의사항 추가 : 문의사항번호, 상품번호, 고객번호, 문의사항제목, 문의사항내용, 작성일
+			 * INSERT INTO question(goods_no, customer_no, question_title, question_content, createdate, updatedate)
+					VALUE(?,?,?,?,NOW(),NOW());
+			 * 
+			 */
+			
+			String sql = "INSERT INTO question(goods_no, customer_no, question_title, question_content, createdate, updatedate) VALUE(?,?,?,?,NOW(),NOW())";
+			PreparedStatement stmt=conn.prepareStatement(sql);
+			stmt.setInt(1,question.getGoodsNo() );
+			stmt.setInt(2,question.getCustomerNo() );
+			stmt.setString(3,question.getQuestionTitle() );
+			stmt.setString(4,question.getQuestionContent() );
+			System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+			// insert에 성공하면 row에 1이 들어감
+			int row = stmt.executeUpdate();	//jdbc환경의 모델
+			System.out.println(row + "<--row"); //insert 성공확인 디버깅 
+			
+			//end model code	: model date -> ArrayList<Question> list
+			return row;
+			
+		}
+		
+		//호출(controller) : insertContactAction.jsp - customerNo 알아오기
+		public int askCustomerNo(String customerId) throws Exception{
+			
+			// db핸들링(model)
+			Class.forName("org.mariadb.jdbc.Driver");		// DB Driver클래스 코드
+			System.out.println("드라이브 로딩 성공");	// DB 드라이브 로딩 확인 디버깅
+			// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+			String url = "jdbc:mariadb://localhost:3306/mall";		
+			String dbuser = "root";
+			String dbpw = "java1234";
+			//DB연결을 위한 Connection객체 생성, 연결
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+			
+			/*
+			 * 	customerId를 입력받아 customerNo 출력
+			 * 	SELECT customer_No customerNo
+					FROM customer
+					WHERE customer_id = ?;
+			 */
+			
+			String sql = "SELECT customer_No customerNo FROM customer WHERE customer_id = ?";
+			PreparedStatement stmt=conn.prepareStatement(sql);
+			stmt.setString(1,customerId);
+			
+			System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+			// customerId 로 customerNo를 조회
+			
+			int customerNo=9;
+			
+			ResultSet rs = stmt.executeQuery();	//jdbc환경의 모델
+			if(rs.next()) {
+				customerNo = rs.getInt(1);
+			}else {
+				System.out.println("고객번호(customerNo) 가져오기 실패");
+			}
+			
+			//end model code	: model date -> ArrayList<Question> list
+			System.out.println(customerNo + "<--customerNo");	//customerNo 디버깅
+			
+			return customerNo;
+			
+		}
+		
+		//호출(controller) : insertContactAction.jsp - goodsNo 알아오기
+		public int askGoodsNo(String goodsTitle) throws Exception{
+			
+			// db핸들링(model)
+			Class.forName("org.mariadb.jdbc.Driver");		// DB Driver클래스 코드
+			System.out.println("드라이브 로딩 성공");	// DB 드라이브 로딩 확인 디버깅
+			// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+			String url = "jdbc:mariadb://localhost:3306/mall";		
+			String dbuser = "root";
+			String dbpw = "java1234";
+			//DB연결을 위한 Connection객체 생성, 연결
+			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+			System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+			
+			/*
+			 * 	goodsTitle를 입력받아 goodsNo 출력
+			 * 	SELECT goods_no goodsNo
+					FROM goods
+					WHERE goods_title = ?;
+			 */
+			
+			String sql = "SELECT goods_no goodsNo FROM goods WHERE goods_title = ?";
+			PreparedStatement stmt=conn.prepareStatement(sql);
+			stmt.setString(1,goodsTitle);
+			
+			System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+
+			
+			int goodsNo = 1;
+			
+			// goodsTitle 로 goodsNo를 조회
+			ResultSet rs = stmt.executeQuery();	//jdbc환경의 모델
+			if(rs.next()) {
+				goodsNo = rs.getInt(1);	
+			}else {
+				System.out.println("상품번호(goodsNo) 가져오기 실패");
+			}
+			System.out.println(goodsNo + "<--goodsNo");	//goodsNo 디버깅
+			return goodsNo;
+			
+		}
+				
+		
+		
 }
