@@ -1,16 +1,17 @@
-package dao;
+ package dao;
 
-import java.io.File;
+ 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class DeleteGoodsDao {
 	
-	public void deleteGoods(int goodsNo, HttpServletRequest request) throws Exception{
+	public String deleteGoods(int goodsNo, HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;
@@ -45,18 +46,20 @@ public class DeleteGoodsDao {
 			int row2 = stmt3.executeUpdate();
 			if(row2 == 1) {
 				conn.commit();
+				stmt3.close();
 			} else {
 				conn.rollback();
-				return;
+				response.sendRedirect(request.getContextPath()+"/managerGoodsList.jsp");
 			}
 		}
 		
-		// 파일삭제
-		// String path = request.getServletContext().getRealPath("/upload");
-		String path = "/Users/jkh/Desktop/DB/mall-gitRepository/mall/mall/src/main/webapp/upload";
-		File f = new File(path+"/"+filename);
-		if(f.exists()) {
-			f.delete();
-		}
+		conn.close();
+		stmt1.close();
+		rs.close();
+		stmt2.close();
+		
+		return filename;
+		
+		
 	}
 }

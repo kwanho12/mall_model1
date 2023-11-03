@@ -78,5 +78,10 @@ public class RegisterDao {
 		}
 		
 		conn.commit();
+		stmt1.close();
+		rs1.close();
+		stmt2.close();
+		stmt3.close();
+		stmt4.close();
 	}	
 }

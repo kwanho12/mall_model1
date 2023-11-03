@@ -36,7 +36,8 @@ public class GoodsListDao{
 		stmt.close();
 		rs.close();
 		
-		return beginRow;		
+		return beginRow;
+		
 	}
 	
 	public ArrayList<HashMap<String,Object>> selectGoodsList(int beginRow, int rowPerPage) throws Exception {

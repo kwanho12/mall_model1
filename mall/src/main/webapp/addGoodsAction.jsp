@@ -39,6 +39,6 @@
 	AddGoodsDao addGoodsDao = new AddGoodsDao();
 	addGoodsDao.addGoods(goodsTitle, goodsPrice, goodsMemo, contentType, filename, originName);
 	
-	response.sendRedirect(request.getContextPath()+"/goodsList.jsp");
+	response.sendRedirect(request.getContextPath()+"/managerGoodsList.jsp");
 	
 %>

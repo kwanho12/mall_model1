@@ -55,5 +55,8 @@ public class ManagerRegisterDao {
 		}
 		
 		conn.commit();
+		stmt1.close();
+		rs1.close();
+		stmt2.close();
 	}
 }

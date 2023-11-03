@@ -44,6 +44,10 @@ public class CustomerListDao {
 		
 		}
 		
+		conn.close();
+		stmt.close();
+		rs.close();
+		
 		return list;
 	}
 }

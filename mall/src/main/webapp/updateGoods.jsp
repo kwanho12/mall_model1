@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>상품 추가</title>
+  <title>상품 수정</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
   <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -42,21 +42,25 @@
 	<section class="login_box_area section-margin">
 		<div class="container">
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
-				<h3>상품 상세정보</h3>
-				
-				
-				<form class="row login_form" action="<%=request.getContextPath()%>/addGoodsAction.jsp">
+				<h3>상품 수정</h3>
+		
+				<form method="post" enctype="multipart/form-data" class="row login_form" action="<%=request.getContextPath()%>/updateGoodsAction.jsp?goodsNo=<%=g.getGoodsNo()%>">
+	
 					<div class="col-md-12 form-group">
 						<div>상품 번호 : <input type="text" value="<%=g.getGoodsNo()%>" readonly></div>
          			</div>
+         			
+					<div class="col-md-12 form-group">
+						<input type="file" name="goodsImg">
+         			</div>
 		            <div class="col-md-12 form-group">
-		            	<div>상품 이름 : <input type="text" value="<%=g.getGoodsTitle()%>" readonly></div>
+		            	<div>상품 이름 : <input type="text" value="<%=g.getGoodsTitle()%>" name="goodsTitle"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>상품 가격 : <input type="text" value="<%=g.getGoodsPrice()%>" readonly></div>
+		            	<div>상품 가격 : <input type="text" value="<%=g.getGoodsPrice()%>" name="goodsPrice"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>soldout : <input type="text" value="<%=g.getSoldout()%>" readonly></div>
+		            	<div>soldout : <input type="text" value="<%=g.getSoldout()%>" name="soldout"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
 		            	<div>createdate : <input type="text" value="<%=g.getCreatedate()%>" readonly></div>
@@ -65,12 +69,14 @@
 		            	<div>updatedate : <input type="text" value="<%=g.getUpdatedate()%>" readonly></div>
 		            </div>
         	        <div class="col-md-12 form-group">
-		            	<div>memo <textarea class="form-control" rows="7" name="goodsMemo" placeholder="<%=g.getGoodsMemo()%>" readonly></textarea></div>
+		            	<div>memo <textarea class="form-control" rows="7" name="goodsMemo"><%=g.getGoodsMemo()%></textarea></div>
 		            </div>
+		           
+					<div class="col-md-12 form-group">
+						<button type="submit" value="submit" class="button button-register w-100 mx-auto" style="margin:30px;">수정완료</button>
+					</div>
 				</form>
-				<div class="form-group container" style="width:400px;">
-						<button type="submit" onclick="location.href='<%=request.getContextPath()%>/updateGoods.jsp?goodsNo=<%=g.getGoodsNo()%>'" class="button button-register w-100 mx-auto" style="margin:30px;">수정하기</button>
-				</div>
+				
 				
 			</div>		
 		</div>

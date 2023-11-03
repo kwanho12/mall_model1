@@ -32,6 +32,11 @@ public class GoodsOneDao {
 			g.setCreatedate(rs.getString("createdate"));
 			g.setUpdatedate(rs.getString("updatedate"));
 		}
+		
+		conn.close();
+		stmt.close();
+		rs.close();
+		
 		return g;
 
 	}

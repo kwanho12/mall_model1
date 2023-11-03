@@ -24,6 +24,10 @@ public class LoginDao {
 		System.out.println(stmt+" <--stmt");
 		ResultSet rs = stmt.executeQuery();
 		
+		conn.close();
+		stmt.close();
+		rs.close();
+		
 		return rs;
 	}
 }
