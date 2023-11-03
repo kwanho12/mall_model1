@@ -52,7 +52,6 @@
 		   
 					<div class="col-md-12 form-group">
 						<button type="submit" value="submit" class="button button-register w-100 mx-auto" style="margin:30px;">추가하기</button>
-						<a href="<%=request.getContextPath()%>/customerList.jsp" style="font-size:20px">이전으로</a>
 					</div>
 				</form>
 			</div>		

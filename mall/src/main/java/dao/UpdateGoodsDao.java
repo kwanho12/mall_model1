@@ -9,8 +9,35 @@ import java.sql.ResultSet;
 import vo.Goods;
 
 public class UpdateGoodsDao {
+	
+	public String getOldFilename(int goodsNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw); // 기본값 자동 커밋
+		
+		// 수정 전 파일의 저장 이름 가져 오기(oldName)
+		String sql1 = "SELECT filename FROM goods_img WHERE goods_no = ?";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setInt(1, goodsNo);
+		ResultSet rs = stmt1.executeQuery();
+		String oldName = null;
+		if(rs.next()) {
+			oldName = rs.getString("filename");
+		}
+		
+		conn.close();
+		stmt1.close();
+		rs.close();
+		
+		return oldName;
+		
+	}
+	
 
-	public void updateGoods(Goods g, String updateName, String name, String contentType, String uploadPath) throws Exception {
+	public void updateGoods(Goods g, String updateName, String name, String contentType, String oldName, String uploadPath) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;
@@ -24,7 +51,7 @@ public class UpdateGoodsDao {
 		PreparedStatement stmt1 = conn.prepareStatement(sql1);
 		stmt1.setInt(1, g.getGoodsNo());
 		ResultSet rs = stmt1.executeQuery();
-		String oldName = null;
+		oldName = null;
 		if(rs.next()) {
 			oldName = rs.getString("filename");
 		}

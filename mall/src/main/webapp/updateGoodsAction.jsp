@@ -26,7 +26,8 @@
 		String contentType = req.getContentType("goodsImg");
 		
 		UpdateGoodsDao updateGoodsDao = new UpdateGoodsDao();
-		updateGoodsDao.updateGoods(g, updateName, name, contentType, uploadPath);
+		String oldName = updateGoodsDao.getOldFilename(g.getGoodsNo());
+		updateGoodsDao.updateGoods(g, updateName, name, contentType, oldName, uploadPath);
 		
 		response.sendRedirect(request.getContextPath()+"/goodsOne.jsp?goodsNo="+g.getGoodsNo());
 %>

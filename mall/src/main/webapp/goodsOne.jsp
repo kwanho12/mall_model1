@@ -1,3 +1,4 @@
+<%@page import="dao.UpdateGoodsDao"%>
 <%@page import="vo.Goods"%>
 <%@page import="dao.GoodsOneDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -32,6 +33,10 @@
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	GoodsOneDao goodsOneDao = new GoodsOneDao();
 	Goods g = goodsOneDao.goodsOne(goodsNo);
+	
+	// 이미지 파일 이름 가져 오기
+	UpdateGoodsDao updateGoodsDao = new UpdateGoodsDao();
+	String filename = updateGoodsDao.getOldFilename(goodsNo);
 %>
 
 	<!--================ Start Header Menu Area ===============-->
@@ -44,6 +49,7 @@
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
 				<h3>상품 상세정보</h3>
 				
+				<img class="card-img" src="<%=request.getContextPath()%>/upload/<%=filename%>">
 				
 				<form class="row login_form" action="<%=request.getContextPath()%>/addGoodsAction.jsp">
 					<div class="col-md-12 form-group">
