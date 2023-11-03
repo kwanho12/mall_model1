@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 public class GoodsListDao{
 	
-	public int goodsListPaging(int currentPage, int rowPerPage) throws Exception{
+	public int goodsListPaging() throws Exception{
 	
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;
@@ -26,18 +26,12 @@ public class GoodsListDao{
 		if(rs.next()) {
 			totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
 		}
-		int lastPage = totalRow / rowPerPage;
-		if(totalRow % rowPerPage != 0) {
-			lastPage = lastPage + 1;
-		}
-		int beginRow = (currentPage-1)*rowPerPage;
 		
 		conn.close();
 		stmt.close();
 		rs.close();
 		
-		return beginRow;
-		
+		return totalRow;
 	}
 	
 	public ArrayList<HashMap<String,Object>> selectGoodsList(int beginRow, int rowPerPage) throws Exception {

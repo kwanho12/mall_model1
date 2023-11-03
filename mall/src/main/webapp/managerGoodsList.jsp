@@ -36,14 +36,20 @@
 </head>
 <body>
 <%
-int currentPage = 1;
+	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	
-	int rowPerPage = 9;
+	int rowPerPage = 6;
+	
 	GoodsListDao goodsListDao = new GoodsListDao();
-	int beginRow = goodsListDao.goodsListPaging(currentPage, rowPerPage);
+	int totalRow = goodsListDao.goodsListPaging();
+	int lastPage = totalRow / rowPerPage;
+	if(totalRow % rowPerPage != 0) {
+		lastPage = lastPage + 1;
+	}
+	int beginRow = (currentPage-1)*rowPerPage;
 	
 	ArrayList<HashMap<String, Object>> list = goodsListDao.selectGoodsList(beginRow, rowPerPage);
 %>
@@ -51,22 +57,28 @@ int currentPage = 1;
   <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
 
-          <!-- Start Filter Bar -->
+          <!-- Start Paging Bar -->
           <div class="filter-bar d-flex flex-wrap align-items-center">
-            <div class="sorting">
-              <select>
-                <option value="1">Default sorting</option>
-                <option value="1">Default sorting</option>
-                <option value="1">Default sorting</option>
-              </select>
-            </div>
-            <div class="sorting mr-auto">
-              <select>
-                <option value="1">Show 12</option>
-                <option value="1">Show 12</option>
-                <option value="1">Show 12</option>
-              </select>
-            </div>
+          	<div class="sorting mr-auto">
+        
+          		<%
+          			if(currentPage > 1) {
+          		%>	
+          				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+          		<%
+          			}
+          		%>
+          		
+          		<%
+					if(currentPage < lastPage) {
+				%>
+						<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+				<%		
+					}
+				%>
+
+          	</div>
+      
             <div>
               <div class="input-group filter-bar-search">
                 <input type="text" placeholder="Search">
@@ -76,7 +88,7 @@ int currentPage = 1;
               </div>
             </div>
           </div>
-          <!-- End Filter Bar -->
+          <!-- End Paging Bar -->
    
           
           <!-- Start goods list -->
@@ -100,7 +112,7 @@ int currentPage = 1;
                   </div>
                   <div class="card-body">
                     <h4 class="card-product__title"><%=map.get("goodsTitle")%></h4>
-                    <p class="card-product__price"><%=map.get("goodsPrice")%></p>
+                    <p class="card-product__price"><%=map.get("goodsPrice")%> 원</p>
                   </div>
                 </div>
               </div>
