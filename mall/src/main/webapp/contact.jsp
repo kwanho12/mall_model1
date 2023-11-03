@@ -74,58 +74,69 @@
 	//end controller code
 	
 		%>
+		<br>
+		<br>
+		<br>
+		<br>
 	<div class="container">
-	<table class="table table-hover table-info">
-		<tr>
-			<th>No</th>
-			<th>작성자</th>
-			<th>제목</th>
-			<th>작성일</th>
-		</tr>
-		<%
-			for(HashMap<String,Object> notice : list2){
-		%>
-		<tr>
-			<td>공지</td>
-			<td>
-					<%=notice.get("managerName") %>
-			</td>
-			<td>
-					<a href="<%=request.getContextPath() %>/noticeOne.jsp?noticeNo=<%=notice.get("noticeNo") %>">
-					<%=notice.get("noticeTitle") %>
+		<a href="<%=request.getContextPath() %>/insertContactForm.jsp">글쓰기</a>
+	</div>
+	<div class="container">
+	<table class="table table-hover">
+		<thead class="table-dark">
+			<tr>
+				<th>No</th>
+				<th>작성자</th>
+				<th>제목</th>
+				<th>작성일</th>
+			</tr>
+		</thead>
+	
+			<%
+				for(HashMap<String,Object> notice : list2){
+			%>
+			<tr>
+				<td>공지</td>
+				<td>
+						<%=notice.get("managerName") %>
+				</td>
+				<td>
+						<a href="<%=request.getContextPath() %>/noticeOne.jsp?noticeNo=<%=notice.get("noticeNo") %>">
+						<%=notice.get("noticeTitle") %>
+						</a>
+				</td>
+				<td>
+						<%=notice.get("createdate") %>
+				</td>
+			</tr>
+			<% 		
+				} 
+			%>
+	
+			<%
+				for(HashMap<String,Object> contact : list){
+			%>
+			<tr> 
+				<td>
+						<%=contact.get("questionNo") %>
+				</td>
+				
+				<td>
+						<%=contact.get("customerId") %>
+				</td>
+				<td>
+					<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=contact.get("questionNo") %>">
+					<%=contact.get("questionTitle") %>
 					</a>
-			</td>
-			<td>
-					<%=notice.get("createdate") %>
-			</td>
-		</tr>
-		<% 		
-			}
-		%>
-
-		<%
-			for(HashMap<String,Object> contact : list){
-		%>
-		<tr> 
-			<td>
-					<%=contact.get("questionNo") %>
-			</td>
-			
-			<td>
-					<%=contact.get("customerId") %>
-			</td>
-			<td>
-				<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=contact.get("questionNo") %>">
-				<%=contact.get("questionTitle") %>
-				</a>
-			</td>
-			<td>
-				<%=contact.get("createdate") %>
-			</td>
-		</tr>
-		<%
-			}
-		%>
+				</td>
+				<td>
+					<%=contact.get("createdate") %>
+				</td>
+			</tr>
+			<%
+				}
+			%>
+	
 	</table>
 	</div>
 	<br>
