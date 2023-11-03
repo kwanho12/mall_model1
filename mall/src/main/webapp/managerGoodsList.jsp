@@ -1,6 +1,6 @@
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dao.ManagerGoodsListDao"%>
+<%@page import="dao.GoodsListDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -36,17 +36,16 @@
 </head>
 <body>
 <%
-	int currentPage = 1;
+int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	
 	int rowPerPage = 9;
-	ManagerGoodsListDao managerGoodsListDao = new ManagerGoodsListDao();
-	int beginRow = managerGoodsListDao.goodsListPaging(currentPage, rowPerPage);
+	GoodsListDao goodsListDao = new GoodsListDao();
+	int beginRow = goodsListDao.goodsListPaging(currentPage, rowPerPage);
 	
-	ArrayList<HashMap<String, Object>> list = managerGoodsListDao.selectGoodsList(beginRow, rowPerPage);
-
+	ArrayList<HashMap<String, Object>> list = goodsListDao.selectGoodsList(beginRow, rowPerPage);
 %>
   <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
@@ -91,8 +90,12 @@
                   <div class="card-product__img">
                     <img class="card-img" src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>">
                     <ul class="card-product__imgOverlay">
-                      <li><button><i class="ti-search"></i></button></li>
-                      <li><button><i class="fa-solid fa-x"></i></button></li>
+                      <li>
+                      	<button type="button" onclick="location.href='<%=request.getContextPath()%>/goodsOne.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-search"></i></button>
+                      </li>
+                      <li>
+						<button type="button" onclick="location.href='<%=request.getContextPath()%>/deleteGoodsAction.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="fa-solid fa-x"></i></button>
+					  </li>
                     </ul>
                   </div>
                   <div class="card-body">

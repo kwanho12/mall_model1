@@ -6,7 +6,7 @@ public class Goods {
 	private String goodsTitle;
 	private int goodsPrice;
 	private String soldout;
-	private String goodsMeno;
+	private String goodsMemo;
 	private String createdate;
 	private String updatedate;
 	
@@ -22,8 +22,8 @@ public class Goods {
 	public String getSoldout() {
 		return soldout;
 	}
-	public String getGoodsMeno() {
-		return goodsMeno;
+	public String getGoodsMemo() {
+		return goodsMemo;
 	}
 	public String getCreatedate() {
 		return createdate;
@@ -44,8 +44,8 @@ public class Goods {
 	public void setSoldout(String soldout) {
 		this.soldout = soldout;
 	}
-	public void setGoodsMeno(String goodsMeno) {
-		this.goodsMeno = goodsMeno;
+	public void setGoodsMemo(String goodsMemo) {
+		this.goodsMemo = goodsMemo;
 	}
 	public void setCreatedate(String createdate) {
 		this.createdate = createdate;

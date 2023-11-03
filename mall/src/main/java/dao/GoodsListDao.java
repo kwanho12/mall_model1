@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class ManagerGoodsListDao{
+public class GoodsListDao{
 	
 	public int goodsListPaging(int currentPage, int rowPerPage) throws Exception{
 	

@@ -20,7 +20,7 @@
 	                  aria-expanded="false">고객 목록</a>        
 				</li>
 				<li class="nav-item submenu dropdown">  
-					<a href="<%=request.getContextPath()%>/goodsList.jsp" class="nav-link" role="button" aria-haspopup="true"
+					<a href="<%=request.getContextPath()%>/managerGoodsList.jsp" class="nav-link" role="button" aria-haspopup="true"
 	                  aria-expanded="false">상품 목록</a>        
 				</li>
 				<li class="nav-item submenu dropdown">  
