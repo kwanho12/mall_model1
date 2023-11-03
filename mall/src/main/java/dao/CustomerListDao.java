@@ -24,7 +24,7 @@ public class CustomerListDao {
 		 * ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca 
 		 * ON ca.customer_no = c.customer_no
 		 * */
-		String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no";
+		String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
 		
@@ -35,6 +35,8 @@ public class CustomerListDao {
 			
 			c.put("customerNo", rs.getInt("customerNo"));
 			c.put("customerId", rs.getString("customerId"));
+			c.put("createdate", rs.getString("createdate"));
+			c.put("updatedate", rs.getString("updatedate"));
 			c.put("active", rs.getString("active"));
 			c.put("customerName", rs.getString("customerName"));
 			c.put("customerPhone", rs.getString("customerPhone"));

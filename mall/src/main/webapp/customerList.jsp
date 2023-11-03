@@ -35,33 +35,40 @@
 </head>
 <body>
 <%
-	CustomerListDao customerDao = new CustomerListDao();
-	ArrayList<HashMap<String, Object>> list = customerDao.customerList();
+	CustomerListDao customerListDao = new CustomerListDao();
+	ArrayList<HashMap<String, Object>> list = customerListDao.customerList();
 %>	
 	<!--================ Start Header Menu Area ===============-->
     <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
     <!--================ End Header Menu Area =================-->
 	
-	<div class="container">
+	<div class="container-fluid">
 		<h3>고객 DB</h3>
-		<table class="table table-dark table-striped table-hover
-		">
+		<table class="table table-hover table-bordered">
 			<colgroup>
+	            <col width=5%>
+	            <col width=8%>
+	            <col width=7%>
+	            <col width=37%>
 	            <col width=10%>
-	            <col width=15%>
-	            <col width=10%>
-	            <col width=45%>
+	            <col width=5%>
 	            <col width=10%>
 	            <col width=10%>
+	            <col width=4%>
+	            <col width=4%>
      	    </colgroup>
-			<thead>
+			<thead class="thead-dark">
 				<tr>
-					<th>고객번호</th>
+					<th scope="col">고객번호</th>
 					<th>ID</th>
 					<th>이름</th>
 					<th>주소</th>
 					<th>휴대폰 번호</th>
 					<th>활동 상태</th>
+					<th>createdate</th>
+					<th>updatedate</th>
+					<th>수정</th>
+					<th>삭제</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -75,6 +82,10 @@
 							<td><%=c.get("address")%></td>
 							<td><%=c.get("customerPhone")%></td>
 							<td><%=c.get("active")%></td>
+							<td><%=c.get("createdate")%></td>
+							<td><%=c.get("updatedate")%></td>
+							<td>수정</td>
+							<td><a href="<%=request.getContextPath()%>/deleteCustomerAction.jsp?customerNo=<%=c.get("customerNo")%>">삭제</a></td>				
 						</tr>
 				<%		
 					}
