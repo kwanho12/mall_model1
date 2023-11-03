@@ -22,8 +22,7 @@
 					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 	                  aria-expanded="false">상품</a>
 	                <ul class="dropdown-menu">
-	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/category.jsp">상품목록</a></li>
-	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/productDetail.jsp">상품상세</a></li>
+	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/goodsList.jsp">상품목록</a></li>
 	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/productCheckout.jsp">상품결제</a></li>
 	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/orderConfirmation.jsp">주문확인</a></li>
 	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/cart.jsp">장바구니</a></li>

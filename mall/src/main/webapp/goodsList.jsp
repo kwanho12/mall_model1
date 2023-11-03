@@ -54,7 +54,7 @@
 	ArrayList<HashMap<String, Object>> list = goodsListDao.selectGoodsList(beginRow, rowPerPage);
 %>
   <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
+  <jsp:include page="/inc/menu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
 
           <!-- Start Paging Bar -->
@@ -64,7 +64,7 @@
           		<%
           			if(currentPage > 1) {
           		%>	
-          				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+          				<a class="btn btn-light" href="<%=request.getContextPath()%>/goodsList.jsp?currentPage=<%=currentPage-1%>">이전</a>
           		<%
           			}
           		%>
@@ -72,7 +72,7 @@
           		<%
 					if(currentPage < lastPage) {
 				%>
-						<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+						<a class="btn btn-light" href="<%=request.getContextPath()%>/goodsList.jsp?currentPage=<%=currentPage+1%>">다음</a>
 				<%		
 					}
 				%>
@@ -103,11 +103,9 @@
                     <img class="card-img" src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>">
                     <ul class="card-product__imgOverlay">
                       <li>
-                      	<button type="button" onclick="location.href='<%=request.getContextPath()%>/managerGoodsOne.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-search"></i></button>
+                      	<button type="button" onclick="location.href='<%=request.getContextPath()%>/goodsOne.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-search"></i></button>
                       </li>
-                      <li>
-						<button type="button" onclick="location.href='<%=request.getContextPath()%>/deleteGoodsAction.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="fa-solid fa-x"></i></button>
-					  </li>
+                      <li><button><i class="ti-shopping-cart"></i></button></li>
                     </ul>
                   </div>
                   <div class="card-body">

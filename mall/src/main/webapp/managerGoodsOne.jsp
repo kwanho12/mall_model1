@@ -40,7 +40,7 @@
 %>
 
 	<!--================ Start Header Menu Area ===============-->
-  	<jsp:include page="/inc/menu.jsp"></jsp:include>
+  	<jsp:include page="/inc/adminMenu.jsp"></jsp:include>
   	<!--================ End Header Menu Area =================-->
   
   <!--================Login Box Area =================-->
@@ -52,6 +52,9 @@
 				<img class="card-img" src="<%=request.getContextPath()%>/upload/<%=filename%>">
 				
 				<form class="row login_form">
+					<div class="col-md-12 form-group">
+						<div>상품 번호 : <input type="text" value="<%=g.getGoodsNo()%>" readonly></div>
+         			</div>
 		            <div class="col-md-12 form-group">
 		            	<div>상품 이름 : <input type="text" value="<%=g.getGoodsTitle()%>" readonly></div>
 		            </div>
@@ -60,15 +63,19 @@
 		            </div>
 		            <div class="col-md-12 form-group">
 		            	<div>soldout : <input type="text" value="<%=g.getSoldout()%>" readonly></div>
-		            </div>      
+		            </div>
+		            <div class="col-md-12 form-group">
+		            	<div>createdate : <input type="text" value="<%=g.getCreatedate()%>" readonly></div>
+		            </div>
+		            <div class="col-md-12 form-group">
+		            	<div>updatedate : <input type="text" value="<%=g.getUpdatedate()%>" readonly></div>
+		            </div>
         	        <div class="col-md-12 form-group">
 		            	<div>상품 설명 <textarea class="form-control" rows="7" name="goodsMemo" placeholder="<%=g.getGoodsMemo()%>" readonly></textarea></div>
 		            </div>
 				</form>
 				<div class="form-group container" style="width:400px;">
-					<a href="<%=request.getContextPath()%>/goodsList.jsp" style="font-size:15px; margin:10px;" class="btn btn-light">이전으로</a>
-					<a href="<%=request.getContextPath()%>/goodsList.jsp" style="font-size:15px; margin:10px;" class="btn btn-light">장바구니에 추가</a>
-					<a href="<%=request.getContextPath()%>/goodsList.jsp" style="font-size:15px; margin:10px;" class="btn btn-light">구매하기</a>
+						<button type="submit" onclick="location.href='<%=request.getContextPath()%>/updateGoods.jsp?goodsNo=<%=g.getGoodsNo()%>'" class="button button-register w-100 mx-auto" style="margin:30px;">수정하기</button>
 				</div>
 				
 			</div>		

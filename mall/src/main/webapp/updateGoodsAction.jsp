@@ -29,5 +29,5 @@
 		String oldName = updateGoodsDao.getOldFilename(g.getGoodsNo());
 		updateGoodsDao.updateGoods(g, updateName, name, contentType, oldName, uploadPath);
 		
-		response.sendRedirect(request.getContextPath()+"/goodsOne.jsp?goodsNo="+g.getGoodsNo());
+		response.sendRedirect(request.getContextPath()+"/managerGoodsOne.jsp?goodsNo="+g.getGoodsNo());
 %>

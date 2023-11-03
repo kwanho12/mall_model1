@@ -46,26 +46,16 @@ public class UpdateGoodsDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw); // 기본값 자동 커밋
 		conn.setAutoCommit(false); // 수동 커밋(conn.commit()메서드를 코드에 호출 필요)
 		
-		// 수정 전 파일의 저장 이름 가져 오기(oldName)
-		String sql1 = "SELECT filename FROM goods_img WHERE goods_no = ?";
-		PreparedStatement stmt1 = conn.prepareStatement(sql1);
-		stmt1.setInt(1, g.getGoodsNo());
-		ResultSet rs = stmt1.executeQuery();
-		oldName = null;
-		if(rs.next()) {
-			oldName = rs.getString("filename");
-		}
-		
 		// 상품 테이블 수정
-		String sql2 = "UPDATE goods SET goods_title = ?, goods_price = ?, soldout = ?, goods_memo = ? WHERE goods_no = ?";
-		PreparedStatement stmt2 = conn.prepareStatement(sql2);
-		stmt2.setString(1, g.getGoodsTitle());
-		stmt2.setInt(2, g.getGoodsPrice());
-		stmt2.setString(3, g.getSoldout());
-		stmt2.setString(4, g.getGoodsMemo());
-		stmt2.setInt(5, g.getGoodsNo());
+		String sql1 = "UPDATE goods SET goods_title = ?, goods_price = ?, soldout = ?, goods_memo = ? WHERE goods_no = ?";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setString(1, g.getGoodsTitle());
+		stmt1.setInt(2, g.getGoodsPrice());
+		stmt1.setString(3, g.getSoldout());
+		stmt1.setString(4, g.getGoodsMemo());
+		stmt1.setInt(5, g.getGoodsNo());
 		
-		int row1 = stmt2.executeUpdate();
+		int row1 = stmt1.executeUpdate();
 		if(row1 != 1) { // 잘못된 수정 or 실패
 			conn.rollback();
 			return;
@@ -80,20 +70,20 @@ public class UpdateGoodsDao {
 			}
 			
 			// 이미지 테이블 수정
-			String sql3 = "UPDATE goods_img SET filename = ?, origin_name = ?, content_type = ?  WHERE goods_no = ?";
-			PreparedStatement stmt3 = conn.prepareStatement(sql3);
-			stmt3.setString(1, updateName);
-			stmt3.setString(2, name);
-			stmt3.setString(3, contentType);
-			stmt3.setInt(4, g.getGoodsNo());
-			int row2 = stmt3.executeUpdate();
+			String sql2= "UPDATE goods_img SET filename = ?, origin_name = ?, content_type = ?  WHERE goods_no = ?";
+			PreparedStatement stmt2 = conn.prepareStatement(sql2);
+			stmt2.setString(1, updateName);
+			stmt2.setString(2, name);
+			stmt2.setString(3, contentType);
+			stmt2.setInt(4, g.getGoodsNo());
+			int row2 = stmt2.executeUpdate();
 			if(row2 != 1) {
 				// 잘못된 수정 or 실패
 				conn.rollback();
 				return;
 				
 			}
-			stmt3.close();
+			stmt2.close();
 		}
 		
 		// 트랜젝션 처리
@@ -101,8 +91,7 @@ public class UpdateGoodsDao {
 		
 		conn.close();
 		stmt1.close();
-		stmt2.close();
-		rs.close();
+	
 	
 	}
 }

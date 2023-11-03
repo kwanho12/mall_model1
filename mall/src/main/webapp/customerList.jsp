@@ -47,19 +47,18 @@
 		<table class="table table-hover table-bordered">
 			<colgroup>
 	            <col width=5%>
-	            <col width=8%>
-	            <col width=7%>
+	            <col width=10%>
+	            <col width=9%>
 	            <col width=37%>
 	            <col width=10%>
 	            <col width=5%>
 	            <col width=10%>
 	            <col width=10%>
 	            <col width=4%>
-	            <col width=4%>
      	    </colgroup>
 			<thead class="thead-dark">
 				<tr>
-					<th scope="col">고객번호</th>
+					<th>고객번호</th>
 					<th>ID</th>
 					<th>이름</th>
 					<th>주소</th>
@@ -67,7 +66,6 @@
 					<th>활동 상태</th>
 					<th>createdate</th>
 					<th>updatedate</th>
-					<th>수정</th>
 					<th>삭제</th>
 				</tr>
 			</thead>
@@ -84,7 +82,6 @@
 							<td><%=c.get("active")%></td>
 							<td><%=c.get("createdate")%></td>
 							<td><%=c.get("updatedate")%></td>
-							<td>수정</td>
 							<td><a href="<%=request.getContextPath()%>/deleteCustomerAction.jsp?customerNo=<%=c.get("customerNo")%>">삭제</a></td>				
 						</tr>
 				<%		

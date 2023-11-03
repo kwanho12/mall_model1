@@ -16,6 +16,7 @@ public class AddGoodsDao {
 		String dbuser = "root";
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		conn.setAutoCommit(false);
 		
 		String sql1 = "INSERT INTO goods(goods_title, goods_price, soldout, goods_memo, createdate, updatedate) VALUES(?, ?, 'N', ?, NOW(), NOW())";
 		// 입력시 생성된 AutoIncrement값을 ResultSet 받아오는 옵션 매개값 Statement.RETURN_GENERATED_KEYS
@@ -31,6 +32,11 @@ public class AddGoodsDao {
 			goodsNo = rs.getInt(1);
 		}
 		
+		if(row1 != 1) {
+			conn.rollback();
+			return;
+		}
+		
 		String sql2 = "INSERT INTO goods_img(goods_no, filename, origin_name, content_type, createdate, updatedate) VALUES(?, ?, ?, ?, NOW(), NOW())";
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
 		stmt2.setInt(1, goodsNo); // 
@@ -38,6 +44,13 @@ public class AddGoodsDao {
 		stmt2.setString(3, originName); 
 		stmt2.setString(4, contentType); 
 		int row2 = stmt2.executeUpdate();
+		
+		if(row2 != 1) {
+			conn.rollback();
+			return;
+		}
+		
+		conn.commit();
 		
 		stmt1.close();
 		rs.close();
