@@ -25,7 +25,6 @@ public class RegisterDao {
 		PreparedStatement stmt1 = conn.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
 		stmt1.setString(1, customer.getCustomerId());
 		stmt1.setString(2, customer.getCustomerPw());
-		System.out.println(stmt1 + "<--- stmt1 insertTest()");
 		
 		stmt1.executeUpdate();
 		ResultSet rs1 = stmt1.getGeneratedKeys();

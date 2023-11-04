@@ -17,7 +17,7 @@ public class LoginDao {
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
-		String sql = "SELECT customer_id customerId FROM customer WHERE customer_id=? AND customer_pw = PASSWORD(?)";
+		String sql = "SELECT customer_no customerNo FROM customer WHERE customer_id=? AND customer_pw = PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
 		stmt.setString(2, customer.getCustomerPw());

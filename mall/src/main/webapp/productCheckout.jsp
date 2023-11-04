@@ -27,6 +27,12 @@
   <link rel="stylesheet" href="css/font.css">
 </head>
 <body>
+<%
+	//세션 적용(로그인하지 않은 사람은 접근하지 않게 하기 위함)
+	if(session.getAttribute("customerNo") == null) {
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
+	}
+%>
   <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/menu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->

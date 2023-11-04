@@ -9,7 +9,7 @@ public class Cart {
 	private String createdate;
 	private String updatedate;
 	
-	public int getCartNO() {
+	public int getCartNo() {
 		return cartNo;
 	}
 	public int getGoodsNo() {
@@ -28,8 +28,8 @@ public class Cart {
 		return updatedate;
 	}
 	
-	public void setCartNO(int cartNO) {
-		this.cartNo = cartNO;
+	public void setCartNo(int cartNo) {
+		this.cartNo = cartNo;
 	}
 	public void setGoodsNo(int goodsNo) {
 		this.goodsNo = goodsNo;

@@ -17,7 +17,7 @@ public class ManagerLoginDao {
 			String dbpw = "java1234";
 			Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 			
-			String sql = "SELECT manager_id managerId FROM manager WHERE manager_id=? AND manager_pw = PASSWORD(?)";
+			String sql = "SELECT manager_no managerNo FROM manager WHERE manager_id=? AND manager_pw = PASSWORD(?)";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1, manager.getManagerId());
 			stmt.setString(2, manager.getManagerPw());

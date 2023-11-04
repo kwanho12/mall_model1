@@ -16,7 +16,7 @@
 	ResultSet rs = loginDao.login(customer);
 	
 	if(rs.next()) { // 로그인 성공
-		session.setAttribute("customerId", rs.getString("customerId"));
+		session.setAttribute("customerNo", rs.getInt("customerNo"));
 		response.sendRedirect(request.getContextPath()+"/home.jsp");
 	} else { // 로그인 실패
 		String msg = URLEncoder.encode("아이디,비밀번호를 확인하세요."); // 한글 깨짐 방지

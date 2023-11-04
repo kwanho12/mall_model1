@@ -1,5 +1,10 @@
+<%@page import="dao.CartDao"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<% 
+	CartDao cartDao = new CartDao();
+	int cartCount = cartDao.getCartCount();
+%>
     
 <header class="header_area">
     <div class="main_menu">
@@ -44,12 +49,12 @@
 
             <ul class="nav-shop">
               <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
+              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle"><%=cartCount%></span></button> </li>
               <li class="nav-item"><a class="button button-header" href="#">장바구니에 담긴 상품 바로 구매</a></li>
             </ul>
             <ul>
             	<% 
-            	if(session.getAttribute("customerId") != null) {		
+            	if(session.getAttribute("customerNo") != null) {		
             	%>
             		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/logoutAction.jsp">로그아웃</a></li>
             	<% 	
@@ -62,7 +67,7 @@
             </ul>
             <ul>
             	<%
-            	if(session.getAttribute("customerId") == null) {
+            	if(session.getAttribute("customerNo") == null) {
             		
             	%>
             		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/register.jsp">회원가입</a></li>

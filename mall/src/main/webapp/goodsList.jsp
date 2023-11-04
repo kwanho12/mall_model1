@@ -105,7 +105,9 @@
                       <li>
                       	<button type="button" onclick="location.href='<%=request.getContextPath()%>/goodsOne.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-search"></i></button>
                       </li>
-                      <li><button><i class="ti-shopping-cart"></i></button></li>
+                      <li>
+                      	<button type="button" onclick="location.href='<%=request.getContextPath()%>/cartAction.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-shopping-cart"></i></button>
+                   	  </li>
                     </ul>
                   </div>
                   <div class="card-body">

@@ -67,7 +67,7 @@
 				</form>
 				<div class="form-group container" style="width:400px;">
 					<a href="<%=request.getContextPath()%>/goodsList.jsp" style="font-size:15px; margin:10px;" class="btn btn-light">이전으로</a>
-					<a href="<%=request.getContextPath()%>/goodsList.jsp" style="font-size:15px; margin:10px;" class="btn btn-light">장바구니에 추가</a>
+					<a href="<%=request.getContextPath()%>/cartAction.jsp?goodsNo=<%=goodsNo%>" style="font-size:15px; margin:10px;" class="btn btn-light">장바구니에 추가</a>
 					<a href="<%=request.getContextPath()%>/goodsList.jsp" style="font-size:15px; margin:10px;" class="btn btn-light">구매하기</a>
 				</div>
 				
