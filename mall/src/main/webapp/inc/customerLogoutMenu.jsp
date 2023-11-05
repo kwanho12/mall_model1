@@ -3,7 +3,7 @@
     pageEncoding="utf-8"%>
 <% 
 	CartDao cartDao = new CartDao();
-	int cartCount = cartDao.getCartCount();
+
 %>
     
 <header class="header_area">
@@ -50,14 +50,6 @@
               <li class="nav-item float-left">
               	<button type="button" onclick="location.href='<%=request.getContextPath()%>/cart.jsp'">       	
               	<i class="ti-shopping-cart"></i>
-              	
-              	<%
-              		if(session.getAttribute("customerNo") != null) {
-              	%>		
-              			<span class="nav-shop__circle"><%=cartCount%></span>
-              	<% 		   
-              		}
-              	%>
               	   		
               	</button>	 
               </li>

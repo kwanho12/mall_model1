@@ -122,7 +122,7 @@
                 </div>
               </div>
          <%
-         		System.out.println(map.get("filename") + " <-- filename");
+
          	}
          %>             
             </div>

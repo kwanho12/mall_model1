@@ -21,7 +21,6 @@ public class LoginDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, customer.getCustomerId());
 		stmt.setString(2, customer.getCustomerPw());
-		System.out.println(stmt+" <--stmt");
 		ResultSet rs = stmt.executeQuery();
 		
 		conn.close();

@@ -3,7 +3,8 @@
     pageEncoding="utf-8"%>
 <% 
 	CartDao cartDao = new CartDao();
-	int cartCount = cartDao.getCartCount();
+	int customerNo = (Integer) session.getAttribute("customerNo");
+	int cartCount = cartDao.getCartCount(customerNo);
 %>
     
 <header class="header_area">
@@ -71,29 +72,11 @@
               	%>
   
             </ul>
-            <ul>
-            	<% 
-            	if(session.getAttribute("customerNo") != null) {		
-            	%>
-            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/logoutAction.jsp">로그아웃</a></li>
-            	<% 	
-            	} else {
-            	%>
-            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">로그인</a></li>
-            	<% 	
-            	}
-            	%>
+            <ul>         	
+           		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/logoutAction.jsp">로그아웃</a></li>	
             </ul>
             <ul>
-            	<%
-            	if(session.getAttribute("customerNo") == null) {
-            		
-            	%>
-            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/register.jsp">회원가입</a></li>
-            	<%	
-            	}
-            	%>
-            	
+           		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/customerOne.jsp?customerNo=<%=customerNo%>">마이페이지</a></li>	
             </ul>
           
           </div>
