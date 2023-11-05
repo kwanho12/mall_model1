@@ -123,7 +123,7 @@
 	                              <td>
 	                                  <h5><%=goodsSum%> 원</h5>
 	                              </td>
-	                              <td><a href="<%=request.getContextPath()%>/deleteCartAction.jsp">삭제</a></td>                            
+	                              <td><a href="<%=request.getContextPath()%>/deleteCartAction.jsp?cartNo=<%=map.get("cartNo")%>">삭제</a></td>                            
 	                          </tr>
 	                      
 	                      <%

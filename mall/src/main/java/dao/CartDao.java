@@ -27,7 +27,6 @@ public class CartDao {
 		stmt.setInt(2, c.getCustomerNo());
 		
 		int row = stmt.executeUpdate();
-		System.out.println(row);
 		if(row != 1) {
 			conn.rollback();
 			return;
@@ -152,6 +151,20 @@ public class CartDao {
 		}
 		
 		conn.close();
+	}
+	
+	public void deleteCart(int cartNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "DELETE FROM cart WHERE cart_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, cartNo);
+		stmt.executeUpdate();
 	}
 	
 	

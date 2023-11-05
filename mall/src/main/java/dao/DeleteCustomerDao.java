@@ -15,6 +15,7 @@ public class DeleteCustomerDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
+		// customer_detail 테이블 데이터 삭제 
 		String sql1 = "DELETE FROM customer_detail WHERE customer_no = ?";
 		PreparedStatement stmt1 = conn.prepareStatement(sql1);
 		stmt1.setInt(1, customerNo);
@@ -25,6 +26,7 @@ public class DeleteCustomerDao {
 			return;
 		}
 		
+		// customer_addr 테이블 데이터 삭제
 		String sql2 = "DELETE FROM customer_addr WHERE customer_no = ?";
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
 		stmt2.setInt(1, customerNo);
@@ -35,6 +37,7 @@ public class DeleteCustomerDao {
 			return;
 		}
 		
+		// customer_pw_history 테이블 데이터 삭제
 		String sql3 = "DELETE FROM customer_pw_history WHERE customer_no = ?";
 		PreparedStatement stmt3 = conn.prepareStatement(sql3);
 		stmt3.setInt(1, customerNo);
@@ -45,12 +48,27 @@ public class DeleteCustomerDao {
 			return;
 		}
 		
-		String sql4 = "DELETE FROM customer WHERE customer_no = ?";
+		// cart 테이블 데이터 삭제
+		String sql4 = "DELETE FROM cart WHERE customer_no = ?";
 		PreparedStatement stmt4 = conn.prepareStatement(sql4);
 		stmt4.setInt(1, customerNo);
 		int row4 = stmt4.executeUpdate();
 		
-		if(row4 != 1) {
+		CartDao cartDao = new CartDao();
+		int cartCount = cartDao.getCartCount(customerNo);
+		
+		if(row4 != cartCount) {
+			conn.rollback();
+			return;
+		}
+		
+		// customer 테이블 데이터 삭제
+		String sql5 = "DELETE FROM customer WHERE customer_no = ?";
+		PreparedStatement stmt5 = conn.prepareStatement(sql5);
+		stmt5.setInt(1, customerNo);
+		int row5 = stmt5.executeUpdate();
+		
+		if(row5 != 1) {
 			conn.rollback();
 			return;
 		}
@@ -60,8 +78,9 @@ public class DeleteCustomerDao {
 		conn.close();
 		stmt1.close();
 		stmt2.close();
-		
+		stmt3.close();
 		stmt4.close();
+		stmt5.close();
 
 	}
 }

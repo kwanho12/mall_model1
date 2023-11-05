@@ -26,7 +26,6 @@
 	                  aria-expanded="false">상품</a>
 	                <ul class="dropdown-menu">
 	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/goodsList.jsp">상품목록</a></li>
-	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/productCheckout.jsp">상품결제</a></li>
 	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/orderConfirmation.jsp">주문확인</a></li>
 	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/cart.jsp">장바구니</a></li>
 	                </ul>
@@ -64,28 +63,10 @@
   
             </ul>
             <ul>
-            	<% 
-            	if(session.getAttribute("customerNo") != null) {		
-            	%>
-            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/logoutAction.jsp">로그아웃</a></li>
-            	<% 	
-            	} else {
-            	%>
-            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">로그인</a></li>
-            	<% 	
-            	}
-            	%>
+           		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">로그인</a></li>
             </ul>
             <ul>
-            	<%
-            	if(session.getAttribute("customerNo") == null) {
-            		
-            	%>
-            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/register.jsp">회원가입</a></li>
-            	<%	
-            	}
-            	%>
-            	
+           		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/register.jsp">회원가입</a></li>
             </ul>
           
           </div>

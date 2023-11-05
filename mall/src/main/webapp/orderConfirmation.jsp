@@ -37,28 +37,11 @@
   <jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
   
-	<!-- ================ start banner area ================= -->	
-	<section class="blog-banner-area" id="category">
-		<div class="container h-100">
-			<div class="blog-banner">
-				<div class="text-center">
-					<h1>Order Confirmation</h1>
-					<nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Shop Category</li>
-            </ol>
-          </nav>
-				</div>
-			</div>
-    </div>
-	</section>
-	<!-- ================ end banner area ================= -->
   
   <!--================Order Details Area =================-->
   <section class="order_details section-margin--small">
     <div class="container">
-      <p class="text-center billing-alert">Thank you. Your order has been received.</p>
+      <p class="text-center billing-alert">주문 완료되었습니다. 이용해 주셔서 감사합니다.</p>
       <div class="row mb-5">
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
           <div class="confirmation-card">

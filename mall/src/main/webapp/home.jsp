@@ -60,45 +60,15 @@
         </div>
       </div>
     </section>
-    <!--================ Hero banner start =================-->
+    <!--================ Hero banner end =================-->
+ 
 
-    <!--================ Hero Carousel start =================-->
-    <section class="section-margin mt-0">
-      <div class="owl-carousel owl-theme hero-carousel">
-        <div class="hero-carousel__slide">
-          <img src="img/home/hero-slide1.png" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
-            <h3>Wireless Headphone</h3>
-            <p>Accessories Item</p>
-          </a>
-        </div>
-        <div class="hero-carousel__slide">
-          <img src="img/home/hero-slide2.png" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
-            <h3>Wireless Headphone</h3>
-            <p>Accessories Item</p>
-          </a>
-        </div>
-        <div class="hero-carousel__slide">
-          <img src="img/home/hero-slide3.png" alt="" class="img-fluid">
-          <a href="#" class="hero-carousel__slideOverlay">
-            <h3>Wireless Headphone</h3>
-            <p>Accessories Item</p>
-          </a>
-        </div>
-      </div>
-    </section>
-    <!--================ Hero Carousel end =================-->
-
-
-
-
-    <!-- ================ Best Selling item  carousel ================= --> 
+    <!-- ================ Best Selling item  carousel start ================= --> 
     <section class="section-margin calc-60px">
       <div class="container">
         <div class="section-intro pb-60px">
-          <p>Popular Item in the market</p>
-          <h2>Best <span class="section-intro__style">Sellers</span></h2>
+          <p>잘 팔려요.</p>
+          <h2>베스트 <span class="section-intro__style">셀러</span></h2>
         </div>
         <div class="owl-carousel owl-theme" id="bestSellerCarousel">
           <div class="card text-center card-product">
@@ -231,7 +201,7 @@
         </div>
       </div>
     </section>
-    <!-- ================ Best Selling item  carousel end ================= --> 
+    <!-- ================ Best Selling item carousel end ================= --> 
 
   </main>
 

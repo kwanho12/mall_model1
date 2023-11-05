@@ -33,7 +33,17 @@
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
+  <%
+  	if(session.getAttribute("customerNo") != null) {
+  %>
+  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
+  <% 	
+  	} else {
+  %>
+  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
+  <% 	
+  	}
+  %>
   <!--================ End Header Menu Area =================-->
 
 	<!-- ================ start banner area ================= -->
