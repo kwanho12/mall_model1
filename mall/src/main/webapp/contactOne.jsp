@@ -71,6 +71,7 @@
 		<tr><th>번호</th><td><%=cdOne.get("questionNo") %></td></tr>
 		<tr><th>제목</th><td><%=cdOne.get("questionTitle") %></td></tr>
 		<tr><th>작성자</th><td><%=cdOne.get("customerId") %></td></tr>
+		<!-- <tr><th>상품명</th><td><%=cdOne.get("goodsTitle") %></td></tr> -->
 		<tr><th>내용</th><td><%=cdOne.get("questionContent") %></td></tr>
 		<tr><th>작성일</th><td><%=cdOne.get("createdate") %></td></tr>
 		

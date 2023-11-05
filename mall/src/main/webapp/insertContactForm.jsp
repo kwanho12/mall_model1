@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+	// 로그인 후 접근가능
+	if(session.getAttribute("customerId") == null) { // 세션에 customerId를 만든적이 없다
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
+		return;
+	}
+	//String msg = request.getParameter("msg");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,14 +62,19 @@
 
 	<div class="container">
 	
-	<form action="/action_page.php">
+	<form action="<%=request.getContextPath()%>/insertContactAction.jsp" method="post">
+			<input type="hidden" name="customerId" value="<%=session.getAttribute("customerId")%>">
   		<div class="mb-3 mt-3">
-    		<label for="email" class="form-label">제목</label>
+    		<label for="title" class="form-label">제목</label>
     			<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요." name="contactTitle">
+  		</div>
+  		<div class="mb-3 mt-3">
+    		<label for="goodsName" class="form-label">상품명</label>
+    			<input type="text" class="form-control" id="goodsTitle" placeholder="상품명을 입력하세요." name="goodsTitle">
   		</div>
   		<div class="mb-3">
     		<label for="comment">문의</label>
-				<textarea class="form-control" rows="5" id="contactComent" name="contectComent"></textarea>
+				<textarea class="form-control" rows="5" id="contactContent" name="contactContent"></textarea>
   		</div>
   		<div class="form-check mb-3">	
 			<label class="form-check-label">
