@@ -1,3 +1,6 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.CartDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -27,13 +30,23 @@
 </head>
 <body>
 <%
+	int customerNo = 0;
 	//세션 적용(로그인하지 않은 사람은 접근하지 않게 하기 위함)
 	if(session.getAttribute("customerNo") == null) {
 		response.sendRedirect(request.getContextPath()+"/login.jsp");
+	} else {
+		customerNo = (Integer) session.getAttribute("customerNo");
 	}
+	
+	// String uploadPath = request.getServletContext().getRealPath("/upload");
+	String uploadPath = "/Users/jkh/Desktop/DB/mall-gitRepository/mall/mall/src/main/webapp/upload";
+
+	CartDao cartDao = new CartDao();
+	ArrayList<HashMap<String, Object>> list = cartDao.cartList(customerNo);
+
 %>
   <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/menu.jsp"></jsp:include>
+  <jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
 
 
@@ -52,23 +65,30 @@
                           </tr>
                       </thead>
                       <tbody>
-                          <tr>
+                      
+                      <!--cartList 시작 -->
+                      <%
+                      	for(HashMap<String, Object> map : list) {
+                      %>
+                      
+                      		<tr>
                               <td>
                                   <div class="media">
                                       <div class="d-flex">
-                                          <img src="img/cart/cart1.png" alt="">
+                                          <img src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>" class="img-fluid" style="width:100px; height:100px" alt="">
                                       </div>
                                       <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
+                                          <p><%=map.get("goodsTitle")%></p>
                                       </div>
                                   </div>
                               </td>
+                              
                               <td>
-                                  <h5>$360.00</h5>
+                                  <h5><%=map.get("goodsPrice")%> 원</h5>
                               </td>
                               <td>
                                   <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
+                                      <input type="text" name="qty" id="sst" maxlength="12" value="<%=map.get("quantity")%>" title="Quantity:"
                                           class="input-text qty">
                                       <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
                                           class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
@@ -76,66 +96,19 @@
                                           class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
                                   </div>
                               </td>
+                              
                               <td>
                                   <h5>$720.00</h5>
-                              </td>
+                              </td>                           
                           </tr>
-                          <tr>
-                              <td>
-                                  <div class="media">
-                                      <div class="d-flex">
-                                          <img src="img/cart/cart2.png" alt="">
-                                      </div>
-                                      <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$360.00</h5>
-                              </td>
-                              <td>
-                                  <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$720.00</h5>
-                              </td>
-                          </tr>
-                          <tr>
-                              <td>
-                                  <div class="media">
-                                      <div class="d-flex">
-                                          <img src="img/cart/cart3.png" alt="">
-                                      </div>
-                                      <div class="media-body">
-                                          <p>Minimalistic shop for multipurpose use</p>
-                                      </div>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$360.00</h5>
-                              </td>
-                              <td>
-                                  <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="1" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
-                                  </div>
-                              </td>
-                              <td>
-                                  <h5>$720.00</h5>
-                              </td>
-                          </tr>
+                      
+                      <%
+                      	}
+                      %>
+                      <!--cartList 끝 -->
+                          
+                          
+                          
                           <tr class="bottom_button">
                               <td>
                                   <a class="button" href="#">Update Cart</a>
@@ -198,7 +171,7 @@
                               </td>
                               <td>
                                   <div class="checkout_btn_inner d-flex align-items-center justify-content-end">
-                                      <a class="gray_btn" href="#">계속 쇼핑하기</a>
+                                      <a class="gray_btn" href="<%=request.getContextPath()%>/goodsList.jsp">계속 쇼핑하기</a>
                                       <a class="primary-btn ml-2" href="#">결제하기</a>
                                   </div>
                               </td>

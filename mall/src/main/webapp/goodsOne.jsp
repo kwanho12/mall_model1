@@ -40,8 +40,18 @@
 %>
 
 	<!--================ Start Header Menu Area ===============-->
-  	<jsp:include page="/inc/menu.jsp"></jsp:include>
-  	<!--================ End Header Menu Area =================-->
+	  <%
+	  	if(session.getAttribute("customerNo") != null) {
+	  %>
+	  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
+	  <% 	
+	  	} else {
+	  %>
+	  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
+	  <% 	
+	  	}
+	  %>
+  <!--================ End Header Menu Area =================-->
   
   <!--================Login Box Area =================-->
 	<section class="login_box_area section-margin">

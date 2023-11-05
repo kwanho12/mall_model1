@@ -35,7 +35,7 @@
 </head>
 <body>
 <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/menu.jsp"></jsp:include>
+  <jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
   	<!-- ================ start banner area ================= -->
 	<section class="blog-banner-area" id="contact">

@@ -54,7 +54,17 @@
 	ArrayList<HashMap<String, Object>> list = goodsListDao.selectGoodsList(beginRow, rowPerPage);
 %>
   <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/menu.jsp"></jsp:include>
+  <%
+  	if(session.getAttribute("customerNo") != null) {
+  %>
+  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
+  <% 	
+  	} else {
+  %>
+  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
+  <% 	
+  	}
+  %>
   <!--================ End Header Menu Area =================-->
 
           <!-- Start Paging Bar -->
@@ -100,7 +110,7 @@
          		<div class="col-md-6 col-lg-4">
                 <div class="card text-center card-product">
                   <div class="card-product__img">
-                    <img class="card-img" src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>">
+                    <img class="card-img" src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>" style="width:380px; height:380px;">
                     <ul class="card-product__imgOverlay">
                       <li>
                       	<button type="button" onclick="location.href='<%=request.getContextPath()%>/goodsOne.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-search"></i></button>
@@ -117,7 +127,7 @@
                 </div>
               </div>
          <%
-         		System.out.println(map.get("filename") + " <-- filename");
+         		
          	}
          %>             
             </div>

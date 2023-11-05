@@ -25,7 +25,17 @@
 <body>
 
   <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/menu.jsp"></jsp:include>
+  <%
+  	if(session.getAttribute("customerNo") != null) {
+  %>
+  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
+  <% 	
+  	} else {
+  %>
+  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
+  <% 	
+  	}
+  %>
   <!--================ End Header Menu Area =================-->
 
   <main class="site-main">
@@ -44,7 +54,7 @@
               <div style="font-size: 32px;">쇼핑의 즐거움</div>
               <div style="font-size: 50px; font-weight:bold;">프리미엄 제품 판매</div>
               <p>저희 회사는 최고의 품질을 자랑합니다.</p>
-              <a class="button button-hero" href="<%=request.getContextPath()%>/category.jsp">상품 둘러보기</a>
+              <a class="button button-hero" href="<%=request.getContextPath()%>/goodsList.jsp">상품 둘러보기</a>
             </div>
           </div>
         </div>

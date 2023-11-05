@@ -20,8 +20,6 @@
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
             
-              	<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/home.jsp">홈으로</a></li>
-              
               	<li class="nav-item submenu dropdown">
               
 					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -49,8 +47,29 @@
 
             <ul class="nav-shop">
               <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle"><%=cartCount%></span></button> </li>
-              <li class="nav-item"><a class="button button-header" href="#">장바구니에 담긴 상품 바로 구매</a></li>
+              <li class="nav-item float-left">
+              	<button type="button" onclick="location.href='<%=request.getContextPath()%>/cart.jsp'">       	
+              	<i class="ti-shopping-cart"></i>
+              	
+              	<%
+              		if(session.getAttribute("customerNo") != null) {
+              	%>		
+              			<span class="nav-shop__circle"><%=cartCount%></span>
+              	<% 		   
+              		}
+              	%>
+              	   		
+              	</button>	 
+              </li>
+              
+             	<%
+              		if(session.getAttribute("customerNo") != null) {
+              	%>		
+              			<li class="nav-item"><a class="button button-header" href="#">장바구니에 담긴 상품 바로 구매</a></li>
+              	<% 		   
+              		}
+              	%>
+  
             </ul>
             <ul>
             	<% 

@@ -105,7 +105,7 @@
          		<div class="col-md-6 col-lg-4">
                 <div class="card text-center card-product">
                   <div class="card-product__img">
-                    <img class="card-img" src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>">
+                    <img class="card-img" src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>" style="width:380px; height:380px;">
                     <ul class="card-product__imgOverlay">
                       <li>
                       	<button type="button" onclick="location.href='<%=request.getContextPath()%>/managerGoodsOne.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-search"></i></button>
