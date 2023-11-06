@@ -1,5 +1,5 @@
+<%@page import="dao.GoodsDao"%>
 <%@page import="java.io.File"%>
-<%@page import="dao.DeleteGoodsDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -7,9 +7,8 @@
 
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	
-	DeleteGoodsDao deleteGoodsDao = new DeleteGoodsDao();
-	String filename = deleteGoodsDao.deleteGoods(goodsNo, request, response);
-	
+	GoodsDao goodsDao = new GoodsDao();
+	String filename = goodsDao.deleteGoods(goodsNo, request, response);
 	
 	// 파일삭제
 	// String path = request.getServletContext().getRealPath("/upload");

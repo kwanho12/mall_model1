@@ -1,7 +1,7 @@
+<%@page import="dao.GoodsDao"%>
 <%@page import="vo.Goods"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
 <%@page import="com.oreilly.servlet.MultipartRequest"%>
-<%@page import="dao.UpdateGoodsDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
@@ -25,9 +25,9 @@
 		// 수정 후 파일의 content-type
 		String contentType = req.getContentType("goodsImg");
 		
-		UpdateGoodsDao updateGoodsDao = new UpdateGoodsDao();
-		String oldName = updateGoodsDao.getOldFilename(g.getGoodsNo());
-		updateGoodsDao.updateGoods(g, updateName, name, contentType, oldName, uploadPath);
+		GoodsDao goodsDao = new GoodsDao();
+		String oldName = goodsDao.getOldFilename(g.getGoodsNo());
+		goodsDao.updateGoods(g, updateName, name, contentType, oldName, uploadPath);
 		
 		response.sendRedirect(request.getContextPath()+"/managerGoodsOne.jsp?goodsNo="+g.getGoodsNo());
 %>

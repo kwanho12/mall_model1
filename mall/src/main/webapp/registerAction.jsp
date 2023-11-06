@@ -1,7 +1,7 @@
+<%@page import="dao.CustomerDao"%>
 <%@page import="vo.CustomerAddr"%>
 <%@page import="vo.CustomerDetail"%>
 <%@page import="vo.Customer"%>
-<%@page import="dao.RegisterDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
 	String address = request.getParameter("address");
 	String customerPhone = request.getParameter("customerPhone");
 
-	RegisterDao registerDao = new RegisterDao();
+	CustomerDao customerDao = new CustomerDao();
 	
 	Customer customer = new Customer();
 	CustomerDetail customerDetail = new CustomerDetail();
@@ -24,7 +24,7 @@
 	customerDetail.setCustomerPhone(customerPhone);
 	customerAddr.setAddress(address);
 	
-	registerDao.register(customer, customerDetail, customerAddr);
+	customerDao.customerRegister(customer, customerDetail, customerAddr);
 	
 	response.sendRedirect(request.getContextPath()+"/home.jsp");
 %>

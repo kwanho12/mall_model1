@@ -1,6 +1,6 @@
+<%@page import="dao.CustomerDao"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="dao.LoginDao"%>
 <%@page import="vo.Customer"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -12,8 +12,8 @@
 	customer.setCustomerId(customerId);
 	customer.setCustomerPw(customerPw);
 	
-	LoginDao loginDao = new LoginDao();
-	ResultSet rs = loginDao.login(customer);
+	CustomerDao customerDao = new CustomerDao();
+	ResultSet rs = customerDao.customerLogin(customer);
 	
 	if(rs.next()) { // 로그인 성공
 		session.setAttribute("customerNo", rs.getInt("customerNo"));

@@ -1,6 +1,5 @@
-<%@page import="dao.UpdateGoodsDao"%>
+<%@page import="dao.GoodsDao"%>
 <%@page import="vo.Goods"%>
-<%@page import="dao.GoodsOneDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -36,12 +35,11 @@
 	}
 
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
-	GoodsOneDao goodsOneDao = new GoodsOneDao();
-	Goods g = goodsOneDao.goodsOne(goodsNo);
+	GoodsDao goodsDao = new GoodsDao();
+	Goods g = goodsDao.goodsOne(goodsNo);
 	
 	// 이미지 파일 이름 가져 오기
-	UpdateGoodsDao updateGoodsDao = new UpdateGoodsDao();
-	String filename = updateGoodsDao.getOldFilename(goodsNo);
+	String filename = goodsDao.getOldFilename(goodsNo);
 %>
 
 	<!--================ Start Header Menu Area ===============-->

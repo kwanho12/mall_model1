@@ -1,4 +1,4 @@
-<%@page import="dao.CustomerListDao"%>
+<%@page import="dao.CustomerDao"%>
 <%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import ="java.sql.Connection" %>
@@ -40,8 +40,8 @@
 		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
 	}	
 
-	CustomerListDao customerListDao = new CustomerListDao();
-	ArrayList<HashMap<String, Object>> list = customerListDao.customerList();
+	CustomerDao customerDao = new CustomerDao();
+	ArrayList<HashMap<String, Object>> list = customerDao.customerList();
 %>	
 	<!--================ Start Header Menu Area ===============-->
     <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
@@ -51,12 +51,12 @@
 		<h3>고객 DB</h3>
 		<table class="table table-hover table-bordered">
 			<colgroup>
-	            <col width=5%>
+	            <col width=8%>
 	            <col width=10%>
 	            <col width=9%>
-	            <col width=37%>
+	            <col width=31%>
 	            <col width=10%>
-	            <col width=5%>
+	            <col width=8%>
 	            <col width=10%>
 	            <col width=10%>
 	            <col width=4%>

@@ -1,4 +1,4 @@
-<%@page import="dao.AddGoodsDao"%>
+<%@page import="dao.GoodsDao"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.io.File"%>
 <%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
@@ -36,8 +36,8 @@
 	int goodsPrice = Integer.parseInt(req.getParameter("goodsPrice"));
 	String goodsMemo = req.getParameter("goodsMemo");
 	
-	AddGoodsDao addGoodsDao = new AddGoodsDao();
-	addGoodsDao.addGoods(goodsTitle, goodsPrice, goodsMemo, contentType, filename, originName);
+	GoodsDao goodsDao = new GoodsDao();
+	goodsDao.addGoods(goodsTitle, goodsPrice, goodsMemo, contentType, filename, originName);
 	
 	response.sendRedirect(request.getContextPath()+"/managerGoodsList.jsp");
 	

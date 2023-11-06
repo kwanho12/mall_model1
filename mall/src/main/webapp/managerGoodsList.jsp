@@ -1,6 +1,6 @@
+<%@page import="dao.GoodsDao"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dao.GoodsListDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -48,15 +48,15 @@
 	
 	int rowPerPage = 6;
 	
-	GoodsListDao goodsListDao = new GoodsListDao();
-	int totalRow = goodsListDao.goodsListPaging();
+	GoodsDao goodsDao = new GoodsDao();
+	int totalRow = goodsDao.goodsListPaging();
 	int lastPage = totalRow / rowPerPage;
 	if(totalRow % rowPerPage != 0) {
 		lastPage = lastPage + 1;
 	}
 	int beginRow = (currentPage-1)*rowPerPage;
 	
-	ArrayList<HashMap<String, Object>> list = goodsListDao.selectGoodsList(beginRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> list = goodsDao.selectGoodsList(beginRow, rowPerPage);
 %>
   <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/adminMenu.jsp"></jsp:include>

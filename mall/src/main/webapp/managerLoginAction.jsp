@@ -1,4 +1,4 @@
-<%@page import="dao.ManagerLoginDao"%>
+<%@page import="dao.ManagerDao"%>
 <%@page import="vo.Manager"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="java.sql.ResultSet"%>
@@ -12,8 +12,8 @@
 	manager.setManagerId(managerId);
 	manager.setManagerPw(managerPw);
 	
-	ManagerLoginDao managerLoginDao = new ManagerLoginDao();
-	ResultSet rs = managerLoginDao.login(manager);
+	ManagerDao managerDao = new ManagerDao();
+	ResultSet rs = managerDao.managerLogin(manager);
 	
 	if(rs.next()) { // 로그인 성공
 		session.setAttribute("managerNo", rs.getString("managerNo"));

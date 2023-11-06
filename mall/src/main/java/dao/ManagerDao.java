@@ -6,14 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import vo.Customer;
-import vo.CustomerAddr;
-import vo.CustomerDetail;
 import vo.Manager;
 import vo.ManagerPwHistory;
 
-public class ManagerRegisterDao {
-	public void register(Manager manager, ManagerPwHistory managerPwHistory) throws Exception{ 
+public class ManagerDao {
+	
+	public void managerRegister(Manager manager, ManagerPwHistory managerPwHistory) throws Exception{ 
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
@@ -58,5 +56,27 @@ public class ManagerRegisterDao {
 		stmt1.close();
 		rs1.close();
 		stmt2.close();
+	}
+	
+	public ResultSet managerLogin(Manager manager) throws Exception{
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT manager_no managerNo FROM manager WHERE manager_id=? AND manager_pw = PASSWORD(?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, manager.getManagerId());
+		stmt.setString(2, manager.getManagerPw());
+		System.out.println(stmt+" <--stmt");
+		ResultSet rs = stmt.executeQuery();
+		
+		conn.close();
+		stmt.close();
+		rs.close();
+		
+		return rs;
 	}
 }
