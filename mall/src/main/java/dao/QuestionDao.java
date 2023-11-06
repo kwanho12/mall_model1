@@ -21,13 +21,16 @@ public class QuestionDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
 		
-		/*	문의사항리스트 : 문의사항번호 ,고객ID, 제목, 작성일
-		 * SELECT q.question_no questionNo, c.customer_id customerId, q.question_title questionTitle, q.createdate createdate
+		/*	문의사항리스트 : 문의사항번호, 고객ID, 상품이름, 문의사항제목, 문의사항내용, 작성일, 수정일
+			SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate
 				FROM question q INNER JOIN customer c
-				ON q.customer_no = c.customer_no;
+				ON q.customer_no = c.customer_no
+				INNER JOIN goods g
+				ON g.goods_no = q.goods_no
+				ORDER BY q.createdate desc;
 		 */
 		
-		String sql = "SELECT q.question_no questionNo, c.customer_id customerId, q.question_title questionTitle, q.createdate createdate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no LIMIT ?,?";
+		String sql = "SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no INNER JOIN goods g ON g.goods_no = q.goods_no ORDER BY q.createdate desc LIMIT ?,?";
 		PreparedStatement stmt=conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
@@ -40,8 +43,11 @@ public class QuestionDao {
 			
 			c.put("questionNo", rs.getInt("questionNo"));
 			c.put("customerId", rs.getString("customerId"));
+			c.put("goodsTitle", rs.getString("goodsTitle"));
 			c.put("questionTitle", rs.getString("questionTitle"));
+			c.put("questionContent", rs.getString("questionContent"));
 			c.put("createdate", rs.getString("createdate"));
+			c.put("updatedate", rs.getString("updatedate"));
 			
 			list.add(c);
 		}
