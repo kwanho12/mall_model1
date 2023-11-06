@@ -1,9 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-<%@ page import="vo.*" %>
-<%@ page import="dao.*" %>
-<%@ page import="java.util.*" %>
+    
+<%
+	// 로그인 후 접근가능
+	if(session.getAttribute("customerNo") == null) { // 세션에 customerNo를 만든적이 없다
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
+		return;
+	}
+	//String msg = request.getParameter("msg");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +41,8 @@
   <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
-  	<!-- ================ start banner area ================= -->
+
+	<!-- ================ start banner area ================= -->
 	<section class="blog-banner-area" id="contact">
 		<div class="container h-100">
 			<div class="blog-banner">
@@ -52,35 +59,32 @@
     </div>
 	</section>
 	<!-- ================ end banner area ================= -->
-<%
-	// contact.jsp에서 넘어온 파라미터
-  	int questionNo = Integer.parseInt(request.getParameter("questionNo"));
-  	System.out.println(questionNo + "<-- questionNo");	// questionNo 디버깅
-  	
-	// moder 호출 코드(controller code)
-	ContactDao cd = new ContactDao();
-	ArrayList<HashMap<String, Object>> list = cd.selectQuestionOne(questionNo);
-	//end controller code
-%>
+
 	<div class="container">
-	<table class="table">
+	
+	<form action="<%=request.getContextPath()%>/insertQuestionAction.jsp" method="post">
+			<input type="hidden" name="customerId" value="<%=session.getAttribute("customerId")%>">
+  		<div class="mb-3 mt-3">
+    		<label for="title" class="form-label">제목</label>
+    			<input type="text" class="form-control" id="questiontitle" placeholder="제목을 입력하세요." name="questionTitle">
+  		</div>
+  		<div class="mb-3 mt-3">
+    		<label for="goodsName" class="form-label">상품명</label>
+    			<input type="text" class="form-control" id="goodsTitle" placeholder="상품명을 입력하세요." name="goodsTitle">
+  		</div>
+  		<div class="mb-3">
+    		<label for="comment">문의</label>
+				<textarea class="form-control" rows="5" id="questionContent" name="questionContent"></textarea>
+  		</div>
+  		<div class="form-check mb-3">	
+			<label class="form-check-label">
+      			<input class="form-check-input" type="checkbox" name="private"> 비밀글</label>
+  		</div>
 
-		<%
-			for(HashMap<String, Object> cdOne : list){
-		%>
-		<tr><th>번호</th><td><%=cdOne.get("questionNo") %></td></tr>
-		<tr><th>제목</th><td><%=cdOne.get("questionTitle") %></td></tr>
-		<tr><th>작성자</th><td><%=cdOne.get("customerId") %></td></tr>
-		<!-- <tr><th>상품명</th><td><%=cdOne.get("goodsTitle") %></td></tr> -->
-		<tr><th>내용</th><td><%=cdOne.get("questionContent") %></td></tr>
-		<tr><th>작성일</th><td><%=cdOne.get("createdate") %></td></tr>
-		
-		<%
-			}
-		%>
-	</table>
+  		<button type="submit" class="btn btn-primary">등록</button>
+	</form>
 	</div>
-
-
+	<br>
+	<br>
 </body>
 </html>

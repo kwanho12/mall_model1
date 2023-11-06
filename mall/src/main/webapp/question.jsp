@@ -75,7 +75,7 @@
 
 	// moder 호출 코드(controller code)
 	// 문의사항 model값
-	ContactDao cd = new ContactDao();
+	QuestionDao cd = new QuestionDao();
 	ArrayList<HashMap<String,Object>> list = cd.selectQuestionList(beginRow, rowPerPage);
 	
 	// 공지사항 model값
@@ -89,7 +89,7 @@
 		<br>
 		<br>
 	<div class="container">
-		<a href="<%=request.getContextPath() %>/insertContactForm.jsp">글쓰기</a>
+		<a href="<%=request.getContextPath() %>/insertQuestionForm.jsp">글쓰기</a>
 	</div>
 	<div class="container">
 	<table class="table table-hover">
@@ -124,23 +124,23 @@
 			%>
 	
 			<%
-				for(HashMap<String,Object> contact : list){
+				for(HashMap<String,Object> question : list){
 			%>
 			<tr> 
 				<td>
-						<%=contact.get("questionNo") %>
+						<%=question.get("questionNo") %>
 				</td>
 				
 				<td>
-						<%=contact.get("customerId") %>
+						<%=question.get("customerId") %>
 				</td>
 				<td>
-					<a href="<%=request.getContextPath()%>/contactOne.jsp?questionNo=<%=contact.get("questionNo") %>">
-					<%=contact.get("questionTitle") %>
+					<a href="<%=request.getContextPath()%>/questionOne.jsp?questionNo=<%=question.get("questionNo") %>">
+					<%=question.get("questionTitle") %>
 					</a>
 				</td>
 				<td>
-					<%=contact.get("createdate") %>
+					<%=question.get("createdate") %>
 				</td>
 			</tr>
 			<%

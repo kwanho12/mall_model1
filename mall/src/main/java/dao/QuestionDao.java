@@ -5,7 +5,7 @@ import java.sql.*;
 
 //DB	: mall
 //sql	: crud
-public class ContactDao {
+public class QuestionDao {
 	
 	//호출(controller) : contact.jsp - 문의사항(table:question) 의 데이터를 contact.jsp에 출력
 	public ArrayList<HashMap<String, Object>> selectQuestionList(int beginRow, int rowPerPage) throws Exception{
@@ -21,13 +21,16 @@ public class ContactDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
 		
-		/*	문의사항리스트 : 문의사항번호 ,고객ID, 제목, 작성일
-		 * SELECT q.question_no questionNo, c.customer_id customerId, q.question_title questionTitle, q.createdate createdate
+		/*	문의사항리스트 : 문의사항번호, 고객ID, 상품이름, 문의사항제목, 문의사항내용, 작성일, 수정일
+			SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate
 				FROM question q INNER JOIN customer c
-				ON q.customer_no = c.customer_no;
+				ON q.customer_no = c.customer_no
+				INNER JOIN goods g
+				ON g.goods_no = q.goods_no
+				ORDER BY q.createdate desc;
 		 */
 		
-		String sql = "SELECT q.question_no questionNo, c.customer_id customerId, q.question_title questionTitle, q.createdate createdate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no LIMIT ?,?";
+		String sql = "SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no INNER JOIN goods g ON g.goods_no = q.goods_no ORDER BY q.createdate desc LIMIT ?,?";
 		PreparedStatement stmt=conn.prepareStatement(sql);
 		stmt.setInt(1, beginRow);
 		stmt.setInt(2, rowPerPage);
@@ -40,8 +43,11 @@ public class ContactDao {
 			
 			c.put("questionNo", rs.getInt("questionNo"));
 			c.put("customerId", rs.getString("customerId"));
+			c.put("goodsTitle", rs.getString("goodsTitle"));
 			c.put("questionTitle", rs.getString("questionTitle"));
+			c.put("questionContent", rs.getString("questionContent"));
 			c.put("createdate", rs.getString("createdate"));
+			c.put("updatedate", rs.getString("updatedate"));
 			
 			list.add(c);
 		}
@@ -139,6 +145,7 @@ public class ContactDao {
 			
 		}
 		
+		//session 변경으로 사용X
 		//호출(controller) : insertContactAction.jsp - customerNo 알아오기
 		public int askCustomerNo(String customerId) throws Exception{
 			
@@ -167,7 +174,7 @@ public class ContactDao {
 			System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
 			// customerId 로 customerNo를 조회
 			
-			int customerNo=9;
+			int customerNo=0;
 			
 			ResultSet rs = stmt.executeQuery();	//jdbc환경의 모델
 			if(rs.next()) {
@@ -182,9 +189,12 @@ public class ContactDao {
 			return customerNo;
 			
 		}
+
 		
 		//호출(controller) : insertContactAction.jsp - goodsNo 알아오기
 		public int askGoodsNo(String goodsTitle) throws Exception{
+			
+			System.out.println(goodsTitle + "<-- 넘어온 goodsTitle");
 			
 			// db핸들링(model)
 			Class.forName("org.mariadb.jdbc.Driver");		// DB Driver클래스 코드
@@ -211,7 +221,7 @@ public class ContactDao {
 			System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
 
 			
-			int goodsNo = 1;
+			int goodsNo = 0;
 			
 			// goodsTitle 로 goodsNo를 조회
 			ResultSet rs = stmt.executeQuery();	//jdbc환경의 모델
