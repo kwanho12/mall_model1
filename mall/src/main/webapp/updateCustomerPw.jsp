@@ -59,19 +59,14 @@
 	<section class="login_box_area section-margin">
 		<div class="container">
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
-				<h3>비밀번호 변경하기</h3>
-				
-			<% 
-				for(HashMap<String,Object> map : list) {
-			%>				
-				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerOne.jsp">
+				<h3>비밀번호 변경하기</h3>	
+				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerPwAction.jsp">
 		            <div class="col-md-12 form-group">
 		            	<div>원래 비밀번호 : <input type="password" name="oldPw"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
 		            	<div>변경할 비밀번호 : <input type="password" name="newPw"></div>
-		            </div>
-		            
+		            </div> 
 		            <%
 		            	if(request.getParameter("msg") != null) {
 		            %>
@@ -80,16 +75,11 @@
 			            </div>            
 		            <%
 		            	}
-		            %>
-		            
+		            %>     
 		            <div class="form-group container" style="width:400px;">
-						<button type="button" style="font-size:15px; margin:7px;" class="btn btn-light" onclick="location.href='updateCustomerPw.jsp'">비밀번호 변경</button>					
+						<button style="font-size:15px; margin:7px;" class="btn btn-light">변경하기</button>					
 					</div>
 				</form>
-			<%
-				}
-			%>
-				
 			</div>		
 		</div>
 	</section>

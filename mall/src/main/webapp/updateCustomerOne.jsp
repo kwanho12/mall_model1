@@ -71,12 +71,6 @@
 		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>현재 비밀번호 : <input type="password" name="oldPw"></div>
-		            </div>
-		            <div class="col-md-12 form-group">
-		            	<div>수정할 비밀번호 : <input type="password" name="newPw"></div>
-		            </div>
-		            <div class="col-md-12 form-group">
 		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone"></div>
 		            </div>      
         	        <div class="col-md-12 form-group">

@@ -8,6 +8,4 @@
 	
 	CustomerDao customerDao = new CustomerDao();
 	customerDao.updateCustomerPw(customerNo, oldPw, newPw, request, response);
-	
-	response.sendRedirect(request.getContextPath()+"/updateCustomerPw.jsp");
 %>

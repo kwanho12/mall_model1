@@ -272,7 +272,7 @@ public class CustomerDao {
 		return list;
 	}
 	
-	public void updateCustomerOne(int customerNo, String customerName, String customerPhone, String address, String customerPw, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void updateCustomerOne(int customerNo, String customerName, String customerPhone, String address) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
@@ -280,8 +280,6 @@ public class CustomerDao {
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
-		
-		
 		
 		// customer_detail 테이블 데이터 수정
 		String sql1 = "UPDATE customer_detail SET customer_name = ?, customer_phone = ? WHERE customer_no = ? ";
@@ -315,8 +313,6 @@ public class CustomerDao {
 		stmt1.close();
 		stmt2.close();
 		
-		response.sendRedirect(request.getContextPath()+"/updateCustomerOne.jsp");
-
 	}
 	
 	public void updateCustomerPw(int customerNo, String oldPw, String newPw, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -327,32 +323,25 @@ public class CustomerDao {
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
+			
+		// 입력한 비밀번호가 원래 비밀번호와 일치하는지 대조하고 customer 테이블 데이터 수정(비밀번호 수정)
+		String sql = "UPDATE customer SET customer_pw = password(?) WHERE customer_no = ? AND customer_pw = password(?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, newPw);
+		stmt.setInt(2, customerNo);
+		stmt.setString(3, oldPw);
+	
+		int row = stmt.executeUpdate();
 		
-		// 입력한 비밀번호가 원래 비밀번호와 일치하는지 대조
-		String sql0 = "SELECT customer_pw FROM CUSTOMER WHERE customer_no = ? AND customer_pw = password(?)";
-		PreparedStatement stmt0 = conn.prepareStatement(sql0);
-		stmt0.setInt(1, customerNo);
-		stmt0.setString(2, oldPw);
-		
-		ResultSet rs = stmt0.executeQuery();
-		if(!rs.next()) {
+		if(row != 1) {
 			conn.rollback();
 			String msg = "check your password";
 			response.sendRedirect(request.getContextPath()+"/updateCustomerPw.jsp?msg="+msg);
 			return;
 		}
 		
-		// customer 테이블 데이터 수정(비밀번호 수정)
-		String sql3 = "UPDATE customer SET customer_pw = password(?) WHERE customer_no = ? ";
-		PreparedStatement stmt3 = conn.prepareStatement(sql3);
-		stmt3.setString(1, newPw);
-		stmt3.setInt(2, customerNo);
+		conn.commit();
 		
-		int row3 = stmt3.executeUpdate();
-		
-		if(row3 != 1) {
-			conn.rollback();
-			return;
-		}
+		response.sendRedirect(request.getContextPath()+"/customerOne.jsp?customerNo="+customerNo);
 	}
 }
