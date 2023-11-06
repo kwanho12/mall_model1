@@ -287,7 +287,6 @@ public class GoodsDao {
 		
 		conn.close();
 		stmt1.close();
-	
-	
+
 	}
 }

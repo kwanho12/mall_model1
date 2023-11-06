@@ -11,7 +11,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>마이페이지</title>
+  <title>비밀번호 변경</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
   <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -37,6 +37,8 @@
 	CustomerDao customerDao = new CustomerDao();
 	ArrayList<HashMap<String,Object>> list = customerDao.customerOne(customerNo);
 	
+	String msg = request.getParameter("msg");
+	
 %>
 
 	<!--================ Start Header Menu Area ===============-->
@@ -57,27 +59,30 @@
 	<section class="login_box_area section-margin">
 		<div class="container">
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
-				<h3>마이페이지</h3>
+				<h3>비밀번호 변경하기</h3>
 				
 			<% 
 				for(HashMap<String,Object> map : list) {
 			%>				
 				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerOne.jsp">
 		            <div class="col-md-12 form-group">
-		            	<div>ID : <input type="text" value="<%=map.get("customerId")%>" name="customerId" readonly></div>
+		            	<div>원래 비밀번호 : <input type="password" name="oldPw"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName" readonly></div>
+		            	<div>변경할 비밀번호 : <input type="password" name="newPw"></div>
 		            </div>
-		            <div class="col-md-12 form-group">
-		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone" readonly></div>
-		            </div>      
-        	        <div class="col-md-12 form-group">
-		            	<div>주소 : <input type="text" value="<%=map.get("address")%>" name="address" readonly></div>
-		            </div> 
+		            
+		            <%
+		            	if(request.getParameter("msg") != null) {
+		            %>
+	            		<div class="col-md-12 form-group">
+		            		<div><%=msg%></div>
+			            </div>            
+		            <%
+		            	}
+		            %>
 		            
 		            <div class="form-group container" style="width:400px;">
-						<button style="font-size:15px; margin:10px;" class="btn btn-light">수정하기</button>
 						<button type="button" style="font-size:15px; margin:7px;" class="btn btn-light" onclick="location.href='updateCustomerPw.jsp'">비밀번호 변경</button>					
 					</div>
 				</form>

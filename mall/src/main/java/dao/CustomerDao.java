@@ -8,6 +8,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.catalina.util.URLEncoder;
+
 import vo.Customer;
 import vo.CustomerAddr;
 import vo.CustomerDetail;
@@ -227,5 +232,127 @@ public class CustomerDao {
 		rs.close();
 		
 		return rs;
+	}
+	
+	public ArrayList<HashMap<String,Object>> customerOne(int customerNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		/*
+		 * SELECT c.customer_id customerId, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address address 
+		 * FROM customer c INNER JOIN customer_detail cd 
+		 * ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca 
+		 * ON ca.customer_no = c.customer_no WHERE c.customer_no = ?
+		 * */
+		String sql = "SELECT c.customer_id customerId, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no WHERE c.customer_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		ResultSet rs = stmt.executeQuery();
+		
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		if(rs.next()) {
+			
+			HashMap<String, Object> map = new HashMap<>();
+			
+			map.put("customerId",rs.getString("customerId"));
+			map.put("customerName", rs.getString("customerName"));
+			map.put("customerPhone", rs.getString("customerPhone"));
+			map.put("address", rs.getString("address"));
+			
+			list.add(map);
+		}
+		
+		conn.close();
+		stmt.close();
+		
+		return list;
+	}
+	
+	public void updateCustomerOne(int customerNo, String customerName, String customerPhone, String address, String customerPw, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		conn.setAutoCommit(false);
+		
+		
+		
+		// customer_detail 테이블 데이터 수정
+		String sql1 = "UPDATE customer_detail SET customer_name = ?, customer_phone = ? WHERE customer_no = ? ";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setString(1, customerName);
+		stmt1.setString(2, customerPhone);
+		stmt1.setInt(3, customerNo);
+		
+		int row1 = stmt1.executeUpdate();
+		
+		if(row1 != 1) {
+			conn.rollback();
+			return;
+		}
+		
+		// customer_addr 테이블 데이터 수정
+		String sql2 = "UPDATE customer_addr SET address = ? WHERE customer_no = ? ";
+		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		stmt2.setString(1, address);
+		stmt2.setInt(2, customerNo);
+		
+		int row2 = stmt2.executeUpdate();
+		
+		if(row2 != 1) {
+			conn.rollback();
+			return;
+		}
+
+		conn.commit();
+		
+		stmt1.close();
+		stmt2.close();
+		
+		response.sendRedirect(request.getContextPath()+"/updateCustomerOne.jsp");
+
+	}
+	
+	public void updateCustomerPw(int customerNo, String oldPw, String newPw, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		conn.setAutoCommit(false);
+		
+		// 입력한 비밀번호가 원래 비밀번호와 일치하는지 대조
+		String sql0 = "SELECT customer_pw FROM CUSTOMER WHERE customer_no = ? AND customer_pw = password(?)";
+		PreparedStatement stmt0 = conn.prepareStatement(sql0);
+		stmt0.setInt(1, customerNo);
+		stmt0.setString(2, oldPw);
+		
+		ResultSet rs = stmt0.executeQuery();
+		if(!rs.next()) {
+			conn.rollback();
+			String msg = "check your password";
+			response.sendRedirect(request.getContextPath()+"/updateCustomerPw.jsp?msg="+msg);
+			return;
+		}
+		
+		// customer 테이블 데이터 수정(비밀번호 수정)
+		String sql3 = "UPDATE customer SET customer_pw = password(?) WHERE customer_no = ? ";
+		PreparedStatement stmt3 = conn.prepareStatement(sql3);
+		stmt3.setString(1, newPw);
+		stmt3.setInt(2, customerNo);
+		
+		int row3 = stmt3.executeUpdate();
+		
+		if(row3 != 1) {
+			conn.rollback();
+			return;
+		}
 	}
 }

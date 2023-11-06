@@ -37,6 +37,7 @@
 	CustomerDao customerDao = new CustomerDao();
 	ArrayList<HashMap<String,Object>> list = customerDao.customerOne(customerNo);
 	
+	String msg = request.getParameter("msg");
 %>
 
 	<!--================ Start Header Menu Area ===============-->
@@ -62,24 +63,28 @@
 			<% 
 				for(HashMap<String,Object> map : list) {
 			%>				
-				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerOne.jsp">
+				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerOneAction.jsp">
 		            <div class="col-md-12 form-group">
-		            	<div>ID : <input type="text" value="<%=map.get("customerId")%>" name="customerId" readonly></div>
+		            	<div>ID : <input type="text" value="<%=map.get("customerId")%>" readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName" readonly></div>
+		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone" readonly></div>
+		            	<div>현재 비밀번호 : <input type="password" name="oldPw"></div>
+		            </div>
+		            <div class="col-md-12 form-group">
+		            	<div>수정할 비밀번호 : <input type="password" name="newPw"></div>
+		            </div>
+		            <div class="col-md-12 form-group">
+		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone"></div>
 		            </div>      
         	        <div class="col-md-12 form-group">
-		            	<div>주소 : <input type="text" value="<%=map.get("address")%>" name="address" readonly></div>
-		            </div> 
-		            
+		            	<div>주소 : <input type="text" value="<%=map.get("address")%>" name="address"></div>
+		            </div>       
 		            <div class="form-group container" style="width:400px;">
-						<button style="font-size:15px; margin:10px;" class="btn btn-light">수정하기</button>
-						<button type="button" style="font-size:15px; margin:7px;" class="btn btn-light" onclick="location.href='updateCustomerPw.jsp'">비밀번호 변경</button>					
-					</div>
+						<button style="font-size:15px; margin:10px;" class="btn btn-light">수정완료</button>
+					</div>         
 				</form>
 			<%
 				}
