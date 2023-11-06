@@ -139,6 +139,7 @@ public class ContactDao {
 			
 		}
 		
+		//session 변경으로 사용X
 		//호출(controller) : insertContactAction.jsp - customerNo 알아오기
 		public int askCustomerNo(String customerId) throws Exception{
 			
@@ -167,7 +168,7 @@ public class ContactDao {
 			System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
 			// customerId 로 customerNo를 조회
 			
-			int customerNo=9;
+			int customerNo=0;
 			
 			ResultSet rs = stmt.executeQuery();	//jdbc환경의 모델
 			if(rs.next()) {
@@ -182,9 +183,12 @@ public class ContactDao {
 			return customerNo;
 			
 		}
+
 		
 		//호출(controller) : insertContactAction.jsp - goodsNo 알아오기
 		public int askGoodsNo(String goodsTitle) throws Exception{
+			
+			System.out.println(goodsTitle + "<-- 넘어온 goodsTitle");
 			
 			// db핸들링(model)
 			Class.forName("org.mariadb.jdbc.Driver");		// DB Driver클래스 코드
@@ -211,7 +215,7 @@ public class ContactDao {
 			System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
 
 			
-			int goodsNo = 1;
+			int goodsNo = 0;
 			
 			// goodsTitle 로 goodsNo를 조회
 			ResultSet rs = stmt.executeQuery();	//jdbc환경의 모델

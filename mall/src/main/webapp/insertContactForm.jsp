@@ -3,7 +3,7 @@
     
 <%
 	// 로그인 후 접근가능
-	if(session.getAttribute("customerId") == null) { // 세션에 customerId를 만든적이 없다
+	if(session.getAttribute("customerNo") == null) { // 세션에 customerNo를 만든적이 없다
 		response.sendRedirect(request.getContextPath()+"/login.jsp");
 		return;
 	}
