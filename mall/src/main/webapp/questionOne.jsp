@@ -10,7 +10,7 @@
   	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-  	<title>Aroma Shop - Contact</title>	
+  	<title>문의사항 상세보기</title>	
   	<link rel="icon" href="img/Fevicon.png" type="image/png">
   	<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   	<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">	
@@ -53,32 +53,53 @@
 	</section>
 	<!-- ================ end banner area ================= -->
 <%
+	
+
 	// contact.jsp에서 넘어온 파라미터
   	int questionNo = Integer.parseInt(request.getParameter("questionNo"));
   	System.out.println(questionNo + "<-- questionNo");	// questionNo 디버깅
   	
 	// moder 호출 코드(controller code)
-	QuestionDao cd = new QuestionDao();
-	ArrayList<HashMap<String, Object>> list = cd.selectQuestionOne(questionNo);
+	QuestionDao qDao = new QuestionDao();
+	ArrayList<HashMap<String, Object>> list = qDao.selectQuestionOne(questionNo);
+	
 	//end controller code
 %>
 	<div class="container">
 	<table class="table">
 
-		<%
-			for(HashMap<String, Object> cdOne : list){
-		%>
-		<tr><th>번호</th><td><%=cdOne.get("questionNo") %></td></tr>
-		<tr><th>제목</th><td><%=cdOne.get("questionTitle") %></td></tr>
-		<tr><th>작성자</th><td><%=cdOne.get("customerId") %></td></tr>
-		<!-- <tr><th>상품명</th><td><%=cdOne.get("goodsTitle") %></td></tr> -->
-		<tr><th>내용</th><td><%=cdOne.get("questionContent") %></td></tr>
-		<tr><th>작성일</th><td><%=cdOne.get("createdate") %></td></tr>
+<%
+	for(HashMap<String, Object> qOne : list){
+%>
+		<tr><th>번호</th><td><%=qOne.get("questionNo") %></td></tr>
+		<tr><th>제목</th><td><%=qOne.get("questionTitle") %></td></tr>
+		<tr><th>작성자</th><td><%=qOne.get("customerId") %></td></tr>
+		<tr><th>상품명</th><td><%=qOne.get("goodsTitle") %></td></tr>
+		<tr><th>내용</th><td><%=qOne.get("questionContent") %></td></tr>
+		<tr><th>작성일</th><td><%=qOne.get("createdate") %></td></tr>
 		
-		<%
-			}
-		%>
+<%
+		}
+%>
 	</table>
+	</div>
+	<div class="container">
+<% 
+
+	// 로그인 한 customerNo 와 문의사항 작성자의 customerNo가 같으면 수정, 삭제 가능
+	System.out.println((int)session.getAttribute("customerNo") + "<-- 로그인된 고객번호");
+	System.out.println(qDao.askCustomerNo(questionNo) + "<-- 작성자 고객번호");
+	
+	if((int)session.getAttribute("customerNo") == qDao.askCustomerNo(questionNo)) {
+%>
+		<a href="<%=request.getContextPath() %>/questionUpdateForm.jsp?questionNo=<%=questionNo%>">수정</a>
+		<a href="<%=request.getContextPath() %>/questionDeleteAction.jsp?questionNo=<%=questionNo%>">삭제</a>
+
+<%
+		}	
+
+%>
+
 	</div>
 
 
