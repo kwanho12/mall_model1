@@ -8,7 +8,7 @@
 	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
 	
 	GoodsDao goodsDao = new GoodsDao();
-	String filename = goodsDao.deleteGoods(goodsNo, request, response);
+	String filename = goodsDao.deleteGoods(goodsNo);
 	
 	// 파일삭제
 	// String path = request.getServletContext().getRealPath("/upload");

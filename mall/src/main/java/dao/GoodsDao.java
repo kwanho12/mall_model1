@@ -27,6 +27,7 @@ public class GoodsDao {
 		conn.setAutoCommit(false);
 		
 		String sql1 = "INSERT INTO goods(goods_title, goods_price, soldout, goods_memo, createdate, updatedate) VALUES(?, ?, 'N', ?, NOW(), NOW())";
+		
 		// 입력시 생성된 AutoIncrement값을 ResultSet 받아오는 옵션 매개값 Statement.RETURN_GENERATED_KEYS
 		PreparedStatement stmt1 = conn.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
 		stmt1.setString(1, goodsTitle);
@@ -155,7 +156,7 @@ public class GoodsDao {
 
 	}
 	
-	public String deleteGoods(int goodsNo, HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public String deleteGoods(int goodsNo) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;
@@ -180,28 +181,39 @@ public class GoodsDao {
 		stmt2.setInt(1, goodsNo);
 		
 		int row1 = stmt2.executeUpdate();
-		if(row1 == 1) {
-			
-			// goods_img 테이블의 데이터가 제거 완료되면 goods 테이블의 데이터 제거
-			String sql3 = "DELETE FROM goods WHERE goods_no = ?";
-			PreparedStatement stmt3 = conn.prepareStatement(sql3);
-			stmt3.setInt(1, goodsNo);
-			
-			int row2 = stmt3.executeUpdate();
-			if(row2 == 1) {
-				conn.commit();
-				stmt3.close();
-			} else {
-				conn.rollback();
-				response.sendRedirect(request.getContextPath()+"/managerGoodsList.jsp");
-			}
+		if(row1 != 1) {
+			conn.rollback();
+			return "";
 		}
+		
+		// cart 테이블의 데이터 제거
+		String sql3= "DELETE FROM cart WHERE goods_no = ?";
+		PreparedStatement stmt3 = conn.prepareStatement(sql3);
+		stmt3.setInt(1, goodsNo);
+		int row2 = stmt3.executeUpdate();
+		// 카트는 삭제되는 행의 값이 없을 수도 있으므로 rollback 처리를 하지 않는다.
+		
+		
+		// goods_img 테이블의 데이터가 제거 완료되면 goods 테이블의 데이터 제거
+		String sql4 = "DELETE FROM goods WHERE goods_no = ?";
+		PreparedStatement stmt4 = conn.prepareStatement(sql4);
+		stmt4.setInt(1, goodsNo);
+		
+		int row3 = stmt4.executeUpdate();
+		if(row3 != 1) {
+			conn.rollback();
+			return "";		
+		} 
+
+		conn.commit();
 		
 		conn.close();
 		stmt1.close();
 		rs.close();
 		stmt2.close();
-		
+		stmt3.close();
+		stmt4.close();
+			
 		return filename;
 		
 	}

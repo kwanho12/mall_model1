@@ -32,7 +32,14 @@
 </head>
 <body>
 <%
-	int customerNo = (Integer) session.getAttribute("customerNo");
+	//세션 적용(로그인하지 않은 사람은 접근하지 않게 하기 위함)
+	int customerNo = 0;
+	if(session.getAttribute("customerNo") == null) {
+		response.sendRedirect(request.getContextPath()+"/login.jsp");
+		return;
+	} else {
+		customerNo = (Integer) session.getAttribute("customerNo");
+	}	
 
 	CustomerDao customerDao = new CustomerDao();
 	ArrayList<HashMap<String,Object>> list = customerDao.customerOne(customerNo);
