@@ -41,7 +41,7 @@
 	              </ul>
 				</li>
 			
-              <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/contact.jsp">고객센터</a></li>
+              <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/question.jsp">고객센터</a></li>
             </ul>
 
             <ul class="nav-shop">

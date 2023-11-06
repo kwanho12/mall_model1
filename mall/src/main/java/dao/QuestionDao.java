@@ -5,7 +5,7 @@ import java.sql.*;
 
 //DB	: mall
 //sql	: crud
-public class ContactDao {
+public class QuestionDao {
 	
 	//호출(controller) : contact.jsp - 문의사항(table:question) 의 데이터를 contact.jsp에 출력
 	public ArrayList<HashMap<String, Object>> selectQuestionList(int beginRow, int rowPerPage) throws Exception{

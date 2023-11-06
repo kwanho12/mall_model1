@@ -62,11 +62,11 @@
 
 	<div class="container">
 	
-	<form action="<%=request.getContextPath()%>/insertContactAction.jsp" method="post">
+	<form action="<%=request.getContextPath()%>/insertQuestionAction.jsp" method="post">
 			<input type="hidden" name="customerId" value="<%=session.getAttribute("customerId")%>">
   		<div class="mb-3 mt-3">
     		<label for="title" class="form-label">제목</label>
-    			<input type="text" class="form-control" id="title" placeholder="제목을 입력하세요." name="contactTitle">
+    			<input type="text" class="form-control" id="questiontitle" placeholder="제목을 입력하세요." name="questionTitle">
   		</div>
   		<div class="mb-3 mt-3">
     		<label for="goodsName" class="form-label">상품명</label>
@@ -74,7 +74,7 @@
   		</div>
   		<div class="mb-3">
     		<label for="comment">문의</label>
-				<textarea class="form-control" rows="5" id="contactContent" name="contactContent"></textarea>
+				<textarea class="form-control" rows="5" id="questionContent" name="questionContent"></textarea>
   		</div>
   		<div class="form-check mb-3">	
 			<label class="form-check-label">

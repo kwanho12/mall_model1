@@ -58,7 +58,7 @@
   	System.out.println(questionNo + "<-- questionNo");	// questionNo 디버깅
   	
 	// moder 호출 코드(controller code)
-	ContactDao cd = new ContactDao();
+	QuestionDao cd = new QuestionDao();
 	ArrayList<HashMap<String, Object>> list = cd.selectQuestionOne(questionNo);
 	//end controller code
 %>

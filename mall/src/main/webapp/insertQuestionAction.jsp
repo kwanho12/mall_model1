@@ -7,20 +7,20 @@
 	request.setCharacterEncoding("UTF-8");
 	
 	int customerNo = (int)session.getAttribute("customerNo");
-	String contactTitle = request.getParameter("contactTitle");
+	String questionTitle = request.getParameter("questionTitle");
 	String goodsTitle = request.getParameter("goodsTitle");
-	String contactContent = request.getParameter("contactContent");
+	String questionContent = request.getParameter("questionContent");
 	
 	// 문의사항 내용 디버깅
 	System.out.println(customerNo+"<--customerNo");
-	System.out.println(contactTitle+"<--contactTitle");
+	System.out.println(questionTitle+"<--questionTitle");
 	System.out.println(goodsTitle+"<--goodsTitle");
-	System.out.println(contactContent+"<--contactContent");
+	System.out.println(questionContent+"<--questionContent");
 	
 	//문의사항내용을 넣을 Question 객체 생성
 	Question question = new Question();
 	//ContactDao 호출을 위한 객체 생성
-	ContactDao contactDao = new ContactDao();
+	QuestionDao QuestionDao = new QuestionDao();
 	
 	/*
 	//session변경으로 사용X
@@ -29,17 +29,18 @@
 	*/
 	
 	//goodsTitle로 goodsNo를 알아냄
-	int goodsNo = contactDao.askGoodsNo(goodsTitle);
+	int goodsNo = QuestionDao.askGoodsNo(goodsTitle);
+
 	
 	//넘어온 값을 question객체에 담아줌
 	question.setCustomerNo(customerNo);
 	question.setGoodsNo(goodsNo);
-	question.setQuestionTitle(contactTitle);
-	question.setQuestionContent(contactContent);
+	question.setQuestionTitle(questionTitle);
+	question.setQuestionContent(questionContent);
 
 	// insertQuestion 호출
-	contactDao.insertQuestion(question);
+	QuestionDao.insertQuestion(question);
 	
 	// 공지사항및문의사항으로 리다이렉션
-	response.sendRedirect(request.getContextPath()+"/contact.jsp");
+	response.sendRedirect(request.getContextPath()+"/question.jsp");
 %>
