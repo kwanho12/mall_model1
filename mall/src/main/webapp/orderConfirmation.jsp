@@ -1,3 +1,6 @@
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="dao.OrdersDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -35,6 +38,11 @@
 	} else {
 		customerNo = (Integer) session.getAttribute("customerNo");
 	}
+	
+	OrdersDao ordersDao = new OrdersDao();
+	ArrayList<HashMap<String, Object>> list = ordersDao.orderList(customerNo);
+	
+	int subtotal = 0;
 %>
   <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
@@ -88,39 +96,31 @@
               </tr>
             </thead>
             <tbody>
+            
+            <%
+            for(HashMap<String, Object> map : list) {
+            %>
+            
               <tr>
                 <td>
-                  <p>Pixelstore fresh Blackberry</p>
+                  <p><%=map.get("goodsTitle")%></p>
                 </td>
                 <td>
-                  <h5>x 02</h5>
+                  <h5><%=map.get("quantity")%> 개</h5>
                 </td>
                 <td>
-                  <p>$720.00</p>
+                  <p><%=map.get("totalPrice")%> 원</p>
                 </td>
               </tr>
-              <tr>
-                <td>
-                  <p>Pixelstore fresh Blackberry</p>
-                </td>
-                <td>
-                  <h5>x 02</h5>
-                </td>
-                <td>
-                  <p>$720.00</p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>Pixelstore fresh Blackberry</p>
-                </td>
-                <td>
-                  <h5>x 02</h5>
-                </td>
-                <td>
-                  <p>$720.00</p>
-                </td>
-              </tr>
+              
+             <%
+             // 배송비를 제외한 총합 
+             subtotal += (Integer) map.get("totalPrice");
+            }
+             %> 
+
+             
+              
               <tr>
                 <td>
                   <h4>Subtotal</h4>
@@ -129,7 +129,7 @@
                   <h5></h5>
                 </td>
                 <td>
-                  <p>$2160.00</p>
+                  <p><%=subtotal%> 원</p>
                 </td>
               </tr>
               <tr>
@@ -140,7 +140,7 @@
                   <h5></h5>
                 </td>
                 <td>
-                  <p>Flat rate: $50.00</p>
+                  <p>2500 원</p>
                 </td>
               </tr>
               <tr>
@@ -151,7 +151,7 @@
                   <h5></h5>
                 </td>
                 <td>
-                  <h4>$2210.00</h4>
+                  <h4><%=subtotal + 2500%> 원</h4>
                 </td>
               </tr>
             </tbody>

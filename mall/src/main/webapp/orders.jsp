@@ -173,7 +173,7 @@
 	                                  <h5>합계</h5>
 	                              </td>
 	                              <td>
-	                                  <h5><span id="totalSum"><%=totalSum + 2500%></span> 원</h5>
+	                                  <h5><span id="totalSum"><%=totalSum%></span> 원</h5>
 	                              </td>
 	                          </tr>
 	                          <tr class="shipping_area">
@@ -194,17 +194,17 @@
 	                              	  	
 	                              	  </div>
 	                                  <div>
+	                                  
+	                                  <div>
+                                  	  	<input type="radio" id="select" name="ship" value="10000" checked>
+                               			<label for="select">선택하기</label>
+                                  	  </div>
 	                           
                                   	  <div>
-                                  	  	<input type="radio" id="parcel" name="ship" value="2500" checked>
+                                  	  	<input type="radio" id="parcel" name="ship" value="2500">
                                			<label for="parcel">택배 : 2500원</label>	
                                   	  </div>
-                                  		
-                                  	  <div>
-                                  	  	<input type="radio" id="quick" name="ship" value="10000">
-                               			<label for="quick">퀵 : 10000원</label>
-                                  	  </div>
-                                  
+                                  		                               
 	                                  </div>
 	                              </td>
 	                          </tr>
@@ -215,7 +215,7 @@
 	                              <td>
 	                                  <div class="checkout_btn_inner d-flex align-items-center justify-content-end">
 	                                      <a class="gray_btn" href="<%=request.getContextPath()%>/goodsList.jsp">계속 쇼핑하기</a>
-	                                      <button class="primary-btn ml-2">결제하기</button>
+	                                      <button class="primary-btn ml-2" id="checkout">결제하기</button>
 	                                  </div>
 	                              </td>
 	                          </tr>
@@ -230,12 +230,17 @@
   <!--================End Cart Area =================-->
   
 	<script>
-		// 배송 방법에 따라 다른 결제 금액
+		// 배송비 선택시 화면에 추가된 금액이 보이게 하기
 		$('#parcel').click(function(){
 			$('#totalSum').text(<%=totalSum + 2500%>);
 		});
-		$('#quick').click(function(){
-			$('#totalSum').text(<%=totalSum + 10000%>);
+		
+		$('#checkout').click(function(){
+			
+			if( $('#select').is(':checked') ) {
+				alert('배송 방법을 선택해주세요.')
+			}
+			
 		});
 		
 	</script>	

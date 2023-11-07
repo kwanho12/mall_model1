@@ -45,14 +45,9 @@ public class OrdersDao {
 			
 			
 			int totalPrice = (Integer) map.get("goodsPrice") * (Integer) map.get("quantity");
-			
-			// 성공
-			// System.out.println(totalPrice);
-			
-
-			
+						
 			/*
-			 * INSERT INTO orders(goods_no goodsNo, customer_no customerNo, customer_addr_no customerAddrNo, quantity, total_price totalPrice, orders_state ordersState, createdate, updatedate) 
+			 * INSERT INTO orders(goods_no, customer_no, customer_addr_no, quantity, total_price, orders_state, createdate, updatedate) 
 			 * VALUES(?, ?, ?, ?, ?, '주문완료', NOW(), NOW())
 			 * */
 			String sql = "INSERT INTO orders(goods_no, customer_no, customer_addr_no, quantity, total_price, orders_state, createdate, updatedate) VALUES(?, ?, ?, ?, ?, '주문완료', NOW(), NOW())";
@@ -67,7 +62,37 @@ public class OrdersDao {
 			if(row != 1) {
 				return;
 			} 			
-		}
+		}		
+	}
+	
+	public ArrayList<HashMap<String, Object>> orderList(int customerNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		/*
+		 * SELECT g.goods_title goodsTitle, o.quantity quantity, o.total_price totalPrice 
+		 * FROM goods g INNER JOIN orders o 
+		 * ON g.goods_no = o.goods_no WHERE o.customer_no = ?
+		 * */
+		String sql = "SELECT g.goods_title goodsTitle, o.quantity quantity, o.total_price totalPrice FROM goods g INNER JOIN orders o ON g.goods_no = o.goods_no WHERE o.customer_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		
+		ResultSet rs = stmt.executeQuery();
+		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
+		while(rs.next()) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("goodsTitle", rs.getString("goodsTitle"));
+			map.put("quantity", rs.getInt("quantity"));
+			map.put("totalPrice", rs.getInt("totalPrice"));
 
+			list.add(map);
+		}
+		
+		return list;
 	}
 }
