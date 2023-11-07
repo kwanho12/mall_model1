@@ -255,7 +255,7 @@ public class GoodsDao {
 		conn.setAutoCommit(false); // 수동 커밋(conn.commit()메서드를 코드에 호출 필요)
 		
 		// 상품 테이블 수정
-		String sql1 = "UPDATE goods SET goods_title = ?, goods_price = ?, soldout = ?, goods_memo = ? WHERE goods_no = ?";
+		String sql1 = "UPDATE goods SET goods_title = ?, goods_price = ?, soldout = ?, goods_memo = ?, updatedate = NOW() WHERE goods_no = ?";
 		PreparedStatement stmt1 = conn.prepareStatement(sql1);
 		stmt1.setString(1, g.getGoodsTitle());
 		stmt1.setInt(2, g.getGoodsPrice());

@@ -150,7 +150,7 @@ public class CustomerDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
-		String sql1 = "INSERT INTO customer(customer_id, customer_pw, createdate, updatedate, active) VALUES(?, password(?), now(), now(), 'Y')";
+		String sql1 = "INSERT INTO customer(customer_id, customer_pw, createdate, updatedate, active) VALUES(?, password(?), NOW(), NOW(), 'Y')";
 		PreparedStatement stmt1 = conn.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
 		stmt1.setString(1, customer.getCustomerId());
 		stmt1.setString(2, customer.getCustomerPw());
@@ -282,7 +282,7 @@ public class CustomerDao {
 		conn.setAutoCommit(false);
 		
 		// customer_detail 테이블 데이터 수정
-		String sql1 = "UPDATE customer_detail SET customer_name = ?, customer_phone = ? WHERE customer_no = ? ";
+		String sql1 = "UPDATE customer_detail SET customer_name = ?, customer_phone = ?, updatedate = NOW() WHERE customer_no = ? ";
 		PreparedStatement stmt1 = conn.prepareStatement(sql1);
 		stmt1.setString(1, customerName);
 		stmt1.setString(2, customerPhone);
@@ -296,7 +296,7 @@ public class CustomerDao {
 		}
 		
 		// customer_addr 테이블 데이터 수정
-		String sql2 = "UPDATE customer_addr SET address = ? WHERE customer_no = ? ";
+		String sql2 = "UPDATE customer_addr SET address = ?, updatedate = NOW() WHERE customer_no = ? ";
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
 		stmt2.setString(1, address);
 		stmt2.setInt(2, customerNo);
@@ -325,7 +325,7 @@ public class CustomerDao {
 		conn.setAutoCommit(false);
 			
 		// 입력한 비밀번호가 원래 비밀번호와 일치하는지 대조하고 customer 테이블 데이터 수정(비밀번호 수정)
-		String sql = "UPDATE customer SET customer_pw = password(?) WHERE customer_no = ? AND customer_pw = password(?)";
+		String sql = "UPDATE customer SET customer_pw = password(?), updatedate = NOW() WHERE customer_no = ? AND customer_pw = password(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, newPw);
 		stmt.setInt(2, customerNo);

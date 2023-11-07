@@ -140,7 +140,7 @@ public class CartDao {
 			// input의 이름을 cartNo로 설정했기 때문에 각각의 cartNo 에 대한 quantity를 가져 옴
 			int updateQuantity = Integer.parseInt(request.getParameter(cartNoToString)); 
 			
-			String sql = "UPDATE cart SET quantity = ? WHERE cart_no = ?";
+			String sql = "UPDATE cart SET quantity = ?, updatedate = now() WHERE cart_no = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, updateQuantity);
 			stmt.setInt(2, cartNo);
