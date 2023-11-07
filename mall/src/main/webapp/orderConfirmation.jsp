@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>주문확인</title>
+  <title>주문 확인</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
   <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -48,7 +48,7 @@
    			<p class="billing-alert">주문 완료되었습니다. 이용해 주셔서 감사합니다.</p>
    		</div>
       
-      
+      <!---------------------
       <div class="row mb-5">
       
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
@@ -56,15 +56,15 @@
             <h3 class="billing-title">주문 정보</h3>
             <table class="order-rable">
               <tr>
-                <td>Order number</td>
+                <td>주문 번호</td>
                 <td>: 60235</td>
               </tr>
               <tr>
-                <td>Date</td>
+                <td>주문 날짜, 시간</td>
                 <td>: Oct 03, 2017</td>
               </tr>
               <tr>
-                <td>Total</td>
+                <td>합계</td>
                 <td>: USD 2210</td>
               </tr>
             </table>
@@ -72,17 +72,19 @@
         </div>
         
       </div>
+       ----------------------->
+      
       
       
       <div class="order_details_table">
-        <h2>상세 정보</h2>
+        <h2>주문 정보</h2>
         <div class="table-responsive">
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Product</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
+                <th scope="col">상품</th>
+                <th scope="col">수량</th>
+                <th scope="col">합계</th>
               </tr>
             </thead>
             <tbody>
@@ -132,7 +134,7 @@
               </tr>
               <tr>
                 <td>
-                  <h4>Shipping</h4>
+                  <h4>배송료</h4>
                 </td>
                 <td>
                   <h5></h5>

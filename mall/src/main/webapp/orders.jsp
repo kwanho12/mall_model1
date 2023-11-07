@@ -196,12 +196,12 @@
 	                                  <div>
 	                           
                                   	  <div>
-                                  	  	<input type="radio" id="parcel" name="ship">
+                                  	  	<input type="radio" id="parcel" name="ship" value="2500">
                                			<label for="parcel">택배 : 2500원</label>	
                                   	  </div>
                                   		
                                   	  <div>
-                                  	  	<input type="radio" id="quick" name="ship">
+                                  	  	<input type="radio" id="quick" name="ship" value="10000">
                                			<label for="quick">퀵 : 10000원</label>
                                   	  </div>
                                   
