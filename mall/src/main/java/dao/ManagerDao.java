@@ -20,7 +20,7 @@ public class ManagerDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
-		String sql1 = "INSERT INTO manager(manager_id, manager_pw, manager_name, createdate, updatedate, active) VALUES(?, password(?), ?, now(), now(), 'Y')";
+		String sql1 = "INSERT INTO manager(manager_id, manager_pw, manager_name, createdate, updatedate, active) VALUES(?, password(?), ?, NOW(), NOW(), 'Y')";
 		PreparedStatement stmt1 = conn.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
 		stmt1.setString(1, manager.getManagerId());
 		stmt1.setString(2, manager.getManagerPw());
@@ -40,7 +40,7 @@ public class ManagerDao {
 			return;
 		}
 				
-		String sql2 = "INSERT INTO manager_pw_history(manager_no, manager_pw, createdate) VALUES(?, password(?), now() )";
+		String sql2 = "INSERT INTO manager_pw_history(manager_no, manager_pw, createdate) VALUES(?, password(?), NOW() )";
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
 		stmt2.setInt(1, managerNo);
 		stmt2.setString(2, manager.getManagerPw());

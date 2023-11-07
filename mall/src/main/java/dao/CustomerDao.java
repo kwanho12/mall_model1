@@ -168,7 +168,7 @@ public class CustomerDao {
 			return;
 		}
 		
-		String sql2 = "INSERT INTO customer_detail(customer_no, customer_name, customer_phone, createdate, updatedate) VALUES(?, ?, ?, now(), now() )";
+		String sql2 = "INSERT INTO customer_detail(customer_no, customer_name, customer_phone, createdate, updatedate) VALUES(?, ?, ?, NOW(), NOW() )";
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
 		stmt2.setInt(1, customerNo);
 		stmt2.setString(2, customerDetail.getCustomerName());
@@ -181,7 +181,7 @@ public class CustomerDao {
 			return;
 		}
 		
-		String sql3 = "INSERT INTO customer_addr(customer_no, address, createdate, updatedate) VALUES(?, ?, now(), now() )";
+		String sql3 = "INSERT INTO customer_addr(customer_no, address, createdate, updatedate) VALUES(?, ?, NOW(), NOW() )";
 		PreparedStatement stmt3 = conn.prepareStatement(sql3);
 		stmt3.setInt(1, customerNo);
 		stmt3.setString(2, customerAddr.getAddress());
@@ -193,7 +193,7 @@ public class CustomerDao {
 			return;
 		}
 		
-		String sql4 = "INSERT INTO customer_pw_history(customer_no, customer_pw, createdate) VALUES(?, password(?), now() )";
+		String sql4 = "INSERT INTO customer_pw_history(customer_no, customer_pw, createdate) VALUES(?, password(?), NOW() )";
 		PreparedStatement stmt4 = conn.prepareStatement(sql4);
 		stmt4.setInt(1, customerNo);
 		stmt4.setString(2, customer.getCustomerPw());
@@ -324,19 +324,31 @@ public class CustomerDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 			
-		// 입력한 비밀번호가 원래 비밀번호와 일치하는지 대조하고 customer 테이블 데이터 수정(비밀번호 수정)
-		String sql = "UPDATE customer SET customer_pw = password(?), updatedate = NOW() WHERE customer_no = ? AND customer_pw = password(?)";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, newPw);
-		stmt.setInt(2, customerNo);
-		stmt.setString(3, oldPw);
+		// 입력한 비밀번호가 원래 비밀번호와 일치하는지 대조하고 일치한다면 customer 테이블 데이터 수정(비밀번호 수정)
+		String sql1 = "UPDATE customer SET customer_pw = password(?), updatedate = NOW() WHERE customer_no = ? AND customer_pw = password(?)";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setString(1, newPw);
+		stmt1.setInt(2, customerNo);
+		stmt1.setString(3, oldPw);
 	
-		int row = stmt.executeUpdate();
+		int row1 = stmt1.executeUpdate();
 		
-		if(row != 1) {
+		if(row1 != 1) {
 			conn.rollback();
 			String msg = "check your password";
 			response.sendRedirect(request.getContextPath()+"/updateCustomerPw.jsp?msg="+msg);
+			return;
+		}
+		
+		// 비밀번호를 수정하고 customer_pw_history 테이블에 비밀번호 변경 내역 추가
+		String sql2 = "INSERT INTO customer_pw_history(customer_no, customer_pw, createdate) VALUES(?, PASSWORD(?), NOW())";
+		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		stmt2.setInt(1, customerNo);
+		stmt2.setString(2, newPw);
+		int row2 = stmt2.executeUpdate();
+		
+		if(row2 != 1) {
+			conn.rollback();
 			return;
 		}
 		
