@@ -51,7 +51,12 @@ public class QuestionDao {
 			
 			list.add(q);
 		}
-		//end model code	
+		//end model code
+		
+		//DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
 		
 		return list;
 
@@ -103,6 +108,12 @@ public class QuestionDao {
 			list.add(qOne);
 
 		}
+		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
+		
 		return list;
 		
 	}
@@ -137,6 +148,10 @@ public class QuestionDao {
 		// insert에 성공하면 row에 1이 들어감
 		int row = stmt.executeUpdate();	
 		System.out.println(row + "<--row"); //insert 성공확인 디버깅 
+		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
 		
 		return row;
 			
@@ -182,6 +197,12 @@ public class QuestionDao {
 			System.out.println("상품번호(goodsNo) 가져오기 실패");
 		}
 		System.out.println(goodsNo + "<--goodsNo");	//goodsNo 디버깅
+		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
+		
 		return goodsNo;
 		
 			}
@@ -227,12 +248,18 @@ public class QuestionDao {
 			System.out.println("고객번호(customerNo) 가져오기 실패");
 		}
 		System.out.println(customerNo + "<--customerNo");	//goodsNo 디버깅
+		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
+		
 		return customerNo;
 		
 	}
 	
 	
-	//호출(controller) : questionOne.jsp - customerNo 알아오기
+	//호출(controller) : questionOne.jsp
 	public void deleteQuestion(int questionNo) throws Exception{
 		
 		System.out.println(questionNo + "<-- 삭제할 questionNo");
@@ -265,6 +292,52 @@ public class QuestionDao {
 		}else {
 			System.out.println("문의사항 삭제실패");
 		}
+		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+			
+	}
+	
+		
+	//호출(controller) : questionOne.jsp 
+	public void updateQuestion(int questionNo, String questionContent) throws Exception{
+		
+		// db핸들링(model)
+		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
+		System.out.println("드라이브 로딩 성공");		// DB 드라이브 로딩 확인 디버깅
+		// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+		String url = "jdbc:mariadb://localhost:3306/mall";		
+		String dbuser = "root";
+		String dbpw = "java1234";
+		//DB연결을 위한 Connection객체 생성, 연결
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		
+		/*
+			questionNo를 입력받아 업데이트
+			UPDATE question SET question_content = ?, updatedate=NOW()
+				WHERE question_no = ?;
+			
+		 */
+		
+		String sql = "UPDATE question SET question_content = ?, updatedate=NOW() WHERE question_no = ?;";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		stmt.setString(1, questionContent);
+		stmt.setInt(2, questionNo);
+		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+
+		int row = stmt.executeUpdate();	
+		
+		if(row == 1) {
+			System.out.println("문의사항 수정성공");
+		}else {
+			System.out.println("문의사항 수정실패");
+		}
+		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
 			
 	}
 	

@@ -27,11 +27,7 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
-  
-  
-  	<!-- BootStrap5 -->
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>	
+  	
 </head>
 <body>
 <!--================ Start Header Menu Area ===============-->
@@ -71,7 +67,7 @@
 		<%
 			for(HashMap<String, Object> noOne : list){
 		%>
-		<tr><th>번호</th><td><%=noOne.get("noticeNo") %></td></tr>
+		<!--<tr><th>번호</th><td><%=noOne.get("noticeNo") %></td></tr>-->
 		<tr><th>제목</th><td><%=noOne.get("noticeTitle") %></td></tr>
 		<tr><th>관리자</th><td><%=noOne.get("managerName") %></td></tr>
 		<tr><th>내용</th><td><%=noOne.get("noticeContent") %></td></tr>

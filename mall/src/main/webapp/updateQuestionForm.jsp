@@ -1,13 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ page import="dao.*" %>
+<%@ page import="vo.*" %>
+<%@ page import="java.util.*" %>
 <%
-	// 로그인 후 접근가능
+	//로그인 후 접근가능
 	if(session.getAttribute("customerNo") == null) { // 세션에 customerNo를 만든적이 없다
 		response.sendRedirect(request.getContextPath()+"/login.jsp");
 		return;
 	}
-	//String msg = request.getParameter("msg");
+	
+	int questionNo = Integer.parseInt(request.getParameter("questionNo"));
+	QuestionDao questionDao = new QuestionDao();
+	ArrayList<HashMap<String, Object>> list = questionDao.selectQuestionOne(questionNo);
+	
+	//ArrayList<HashMap<String, Object>> 값 가져와서 변수에 저장
+	String goodsTitle = list.get(0).get("goodsTitle").toString();
+	String questionTitle = list.get(0).get("questionTitle").toString();
+	String questionContent = list.get(0).get("questionContent").toString();
 
 %>
 <!DOCTYPE html>
@@ -16,7 +26,7 @@
   	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-  	<title>문의사항 추가</title>	
+  	<title>문의사항 수정</title>	
   	<link rel="icon" href="img/Fevicon.png" type="image/png">
   	<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   	<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">	
@@ -35,7 +45,17 @@
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
+ <%
+  	if(session.getAttribute("customerNo") != null) {
+  %>
+  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
+  <% 	
+  	} else {
+  %>
+  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
+  <% 	
+  	}
+  %>
   <!--================ End Header Menu Area =================-->
 
 	<!-- ================ start banner area ================= -->
@@ -58,19 +78,20 @@
 
 	<div class="container">
 	
-	<form action="<%=request.getContextPath()%>/insertQuestionAction.jsp" method="post">
-			<input type="hidden" name="customerId" value="<%=session.getAttribute("customerId")%>">
+	<form action="<%=request.getContextPath()%>/updateQuestionAction.jsp" method="post">
+			<input type="hidden" name="customerNo" value="<%=session.getAttribute("customerNo")%>">
+			<input type="hidden" name="questionNo" value="<%=questionNo%>">
   		<div class="mb-3 mt-3">
     		<label for="title" class="form-label">제목</label>
-    			<input type="text" class="form-control" id="questiontitle" placeholder="제목을 입력하세요." name="questionTitle">
+    			<input type="text" class="form-control" id="questiontitle" name="questionTitle" value="<%=questionTitle%>" readonly="readonly">
   		</div>
   		<div class="mb-3 mt-3">
     		<label for="goodsName" class="form-label">상품명</label>
-    			<input type="text" class="form-control" id="goodsTitle" placeholder="상품명을 입력하세요." name="goodsTitle">
+    			<input type="text" class="form-control" id="goodsTitle" name="goodsTitle" value="<%=goodsTitle%>" readonly="readonly">
   		</div>
   		<div class="mb-3">
     		<label for="comment">문의</label>
-				<textarea class="form-control" rows="5" id="questionContent" name="questionContent"></textarea>
+				<textarea class="form-control" rows="5" id="questionContent" name="questionContent" ><%=questionContent%></textarea>
   		</div>
   		<div class="form-check mb-3">	
 			<label class="form-check-label">
