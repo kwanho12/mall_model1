@@ -29,6 +29,14 @@
 					<a href="<%=request.getContextPath()%>/addGoods.jsp" class="nav-link" role="button" aria-haspopup="true"
 	                  aria-expanded="false">상품 추가</a>        
 				</li>
+				<li class="nav-item submenu dropdown">  
+					<a href="<%=request.getContextPath()%>/managerQuestion.jsp" class="nav-link" role="button" aria-haspopup="true"
+	                  aria-expanded="false">문의 사항</a>        
+				</li>
+				<li class="nav-item submenu dropdown">  
+					<a href="<%=request.getContextPath()%>/managerNotice.jsp" class="nav-link" role="button" aria-haspopup="true"
+	                  aria-expanded="false">공지 사항</a>        
+				</li>
 				
             </ul>
 
