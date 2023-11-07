@@ -42,6 +42,11 @@ public class NoticeDao {
 		}
 		//end model code	
 		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
+		
 		return list;		
 	}
 	
@@ -88,6 +93,11 @@ public class NoticeDao {
 				}	
 			
 			//end model code	
+			
+			// DB자원 반납
+			conn.close();
+			stmt.close();
+			rs.close();
 			
 			return noticeOne;		
 		}
