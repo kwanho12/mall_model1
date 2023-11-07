@@ -79,17 +79,17 @@
 			<% 
 				for(HashMap<String,Object> map : one) {
 			%>				
-				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerOneAction.jsp">
+				<div class="row login_form">
 		            <div class="col-md-12 form-group">
-		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName" readonly></div>
+		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone" readonly></div>
+		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" readonly></div>
 		            </div>      
         	        <div class="col-md-12 form-group">
-		            	<div>주소 : <textarea rows="2" cols="50" style="resize:none; border:none; text-align:center;" name="address" readonly><%=map.get("address")%></textarea></div>
-		            </div>       			         
-				</form>
+		            	<div>주소 : <textarea rows="2" cols="50" style="resize:none; border:none; text-align:center;" readonly><%=map.get("address")%></textarea></div>
+		            </div> 
+		        </div>          			         
 			<%
 				}
 			%>		
@@ -104,8 +104,8 @@
       	<h5 style="margin:20px;">상품 정보</h5>
           <div class="cart_inner">
               <div class="table-responsive">
-              	<form action="updateCartAction.jsp">
-              	
+
+              	<form action="<%=request.getContextPath()%>/ordersAction.jsp">
                   <table class="table">
                   	  <colgroup>
 			            <col width=40%>
@@ -173,7 +173,7 @@
 	                                  <h5>합계</h5>
 	                              </td>
 	                              <td>
-	                                  <h5><span id="totalSum"><%=totalSum%></span> 원</h5>
+	                                  <h5><span id="totalSum"><%=totalSum + 2500%></span> 원</h5>
 	                              </td>
 	                          </tr>
 	                          <tr class="shipping_area">
@@ -196,7 +196,7 @@
 	                                  <div>
 	                           
                                   	  <div>
-                                  	  	<input type="radio" id="parcel" name="ship" value="2500">
+                                  	  	<input type="radio" id="parcel" name="ship" value="2500" checked>
                                			<label for="parcel">택배 : 2500원</label>	
                                   	  </div>
                                   		
@@ -215,14 +215,14 @@
 	                              <td>
 	                                  <div class="checkout_btn_inner d-flex align-items-center justify-content-end">
 	                                      <a class="gray_btn" href="<%=request.getContextPath()%>/goodsList.jsp">계속 쇼핑하기</a>
-	                                      <a class="primary-btn ml-2" href="<%=request.getContextPath()%>/order.jsp">결제하기</a>
+	                                      <button class="primary-btn ml-2">결제하기</button>
 	                                  </div>
 	                              </td>
 	                          </tr>
 	                      </tbody>
 	                  </table>
-	                  
                   </form>
+                  
               </div>
           </div>
       </div>
