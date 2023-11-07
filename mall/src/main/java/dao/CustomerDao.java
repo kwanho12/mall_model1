@@ -1,5 +1,6 @@
 package dao;
 
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,7 +12,6 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.catalina.util.URLEncoder;
 
 import vo.Customer;
 import vo.CustomerAddr;
@@ -323,6 +323,21 @@ public class CustomerDao {
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
+		
+		// 변경할 비밀번호가 이전에 사용했던 비밀번호와 다른지 검사
+		// 같다면 비밀번호 변경 화면으로 redirect해서 메시지 출력
+		String sql0 = "SELECT customer_pw customerPw FROM customer_pw_history WHERE customer_no = ? AND customer_pw = PASSWORD(?)";
+		PreparedStatement stmt0 = conn.prepareStatement(sql0);
+		stmt0.setInt(1, customerNo);
+		stmt0.setString(2, newPw);
+		ResultSet rs = stmt0.executeQuery();
+		if(rs.next()) { // 변경할 비밀번호가 이전에 사용했던 비밀번호와 같다면
+			conn.rollback();
+			String msg = URLEncoder.encode("변경할 비밀번호가 이전의 비밀번호와 같습니다. 다른 비밀번호를 입력해주세요.");
+			response.sendRedirect(request.getContextPath()+"/updateCustomerPw.jsp?msg="+msg);
+			return;
+		}
+		
 			
 		// 입력한 비밀번호가 원래 비밀번호와 일치하는지 대조하고 일치한다면 customer 테이블 데이터 수정(비밀번호 수정)
 		String sql1 = "UPDATE customer SET customer_pw = password(?), updatedate = NOW() WHERE customer_no = ? AND customer_pw = password(?)";
@@ -335,7 +350,7 @@ public class CustomerDao {
 		
 		if(row1 != 1) {
 			conn.rollback();
-			String msg = "check your password";
+			String msg = URLEncoder.encode("비밀번호를 확인하세요.");
 			response.sendRedirect(request.getContextPath()+"/updateCustomerPw.jsp?msg="+msg);
 			return;
 		}
