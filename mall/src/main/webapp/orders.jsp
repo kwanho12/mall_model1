@@ -1,6 +1,9 @@
+<%@page import="dao.CartDao"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="dao.CartDao"%>
+<%@page import="dao.CustomerDao"%>
+<%@page import="dao.GoodsDao"%>
+<%@page import="vo.Goods"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -9,7 +12,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>장바구니</title>
+  <title>주문</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
   <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -27,9 +30,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/font.css">
-  <style>
   
-  </style>
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 <%
@@ -41,35 +44,74 @@
 	} else {
 		customerNo = (Integer) session.getAttribute("customerNo");
 	}
-	
-	// String uploadPath = request.getServletContext().getRealPath("/upload");
-	String uploadPath = "/Users/jkh/Desktop/DB/mall-gitRepository/mall/mall/src/main/webapp/upload";
 
+	CustomerDao customerDao = new CustomerDao();
 	CartDao cartDao = new CartDao();
-	ArrayList<HashMap<String, Object>> list = cartDao.cartList(customerNo);
+	ArrayList<HashMap<String,Object>> one = customerDao.customerOne(customerNo);
+	ArrayList<HashMap<String, Object>> cartList = cartDao.cartList(customerNo);
 	
-	int totalSum = 0; // 장바구니에 담긴 상품들의 가격의 총합
-
+	String msg = request.getParameter("msg");
+	
+	int totalSum = 0;
 %>
-  <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
+
+	<!--================ Start Header Menu Area ===============-->
+	  <%
+	  	if(session.getAttribute("customerNo") != null) {
+	  %>
+	  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
+	  <% 	
+	  	} else {
+	  %>
+	  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
+	  <% 	
+	  	}
+	  %>
   <!--================ End Header Menu Area =================-->
-
-
-  <!--================Cart Area =================-->
-  <section class="cart_area">
+  
+  <!--================Order Information Area =================-->
+	<section class="login_box_area section-margin">
+		<div class="container">
+			
+			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
+				<h4 style="margin-bottom:40px;">배송 정보</h4>
+				
+			<% 
+				for(HashMap<String,Object> map : one) {
+			%>				
+				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerOneAction.jsp">
+		            <div class="col-md-12 form-group">
+		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName" readonly></div>
+		            </div>
+		            <div class="col-md-12 form-group">
+		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone" readonly></div>
+		            </div>      
+        	        <div class="col-md-12 form-group">
+		            	<div>주소 : <textarea rows="2" cols="50" style="resize:none; border:none; text-align:center;" name="address" readonly><%=map.get("address")%></textarea></div>
+		            </div>       			         
+				</form>
+			<%
+				}
+			%>		
+			</div>
+		</div>
+	</section>
+	<!--================End Order Information Area =================-->
+	
+	  <!--================Cart Area =================-->
+  <section>
       <div class="container">
+      	<h5 style="margin:20px;">상품 정보</h5>
           <div class="cart_inner">
               <div class="table-responsive">
               	<form action="updateCartAction.jsp">
               	
                   <table class="table">
                   	  <colgroup>
+			            <col width=40%>
+			            <col width=21%>
+			            <col width=21%>
 			            <col width=30%>
-			            <col width=18%>
-			            <col width=18%>
-			            <col width=18%>
-			            <col width=25%>
      	  			  </colgroup>
                       <thead>
                           <tr>
@@ -77,14 +119,13 @@
                               <th scope="col">가격</th>
                               <th scope="col">수량</th>
                               <th scope="col">합계</th>
-                              <th scope="col">장바구니에서 제거</th>
                           </tr>
                       </thead>
                       <tbody>
 	                      
 	                      <!--cartList 시작 -->
 	                      <%
-	                      	for(HashMap<String, Object> map : list) {
+	                      	for(HashMap<String, Object> map : cartList) {
 	                      		
 	                      		int goodsPrice = (Integer) map.get("goodsPrice");
 	                      		int quantity = (Integer) map.get("quantity");
@@ -111,19 +152,13 @@
 	                              </td>
 	                              <td>
 	                                  <div class="product_count">
-	                                      <input type="text" name="<%=map.get("cartNo")%>" id="<%=map.get("cartNo")%>" maxlength="12" value="<%=map.get("quantity")%>" title="Quantity:"
-	                                          class="input-text qty">
-	                                      <button onclick="var result = document.getElementById('<%=map.get("cartNo")%>'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-	                                          class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
-	                                      <button onclick="var result = document.getElementById('<%=map.get("cartNo")%>'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-	                                          class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+	                                  	  <div><%=map.get("quantity")%> 개</div>
 	                                  </div>
 	                              </td>
 	                              
 	                              <td>
 	                                  <h5><%=goodsSum%> 원</h5>
 	                              </td>
-	                              <td><a href="<%=request.getContextPath()%>/deleteCartAction.jsp?cartNo=<%=map.get("cartNo")%>">삭제</a></td>                            
 	                          </tr>
 	                      
 	                      <%
@@ -131,40 +166,56 @@
 	                      %>
 	                      <!--cartList 끝 -->
 	                          
-	                          
-	                          
-	                          <tr class="bottom_button">
-	                              <td>
-	                              	  <button class="button">Update Cart</button>
-								  </td>
-	                              <td></td>
-	                              <td></td>
-	                              <td></td>
-	                              <td></td>
-	                          </tr>
-	                          
-	            
 	                          <tr>
 	                          	  <td></td>
-	                              <td></td>
 	                              <td></td>
 	                              <td>
 	                                  <h5>합계</h5>
 	                              </td>
 	                              <td>
-	                                  <h5><%=totalSum%> 원</h5>
+	                                  <h5><span id="totalSum"><%=totalSum%></span> 원</h5>
 	                              </td>
 	                          </tr>
-	                            
+	                          <tr class="shipping_area">
+	                          	  
+	                              <td class="d-none d-md-block">
+	
+	                              </td>
+	       
+	                              <td>
+	
+	                              </td>
+	                              <td>
+	                                  <h5>배송</h5>
+	                              </td>
+	                              <td>
+	                              
+	                              	  <div>
+	                              	  	
+	                              	  </div>
+	                                  <div>
+	                           
+                                  	  <div>
+                                  	  	<input type="radio" id="parcel" name="ship">
+                               			<label for="parcel">택배 : 2500원</label>	
+                                  	  </div>
+                                  		
+                                  	  <div>
+                                  	  	<input type="radio" id="quick" name="ship">
+                               			<label for="quick">퀵 : 10000원</label>
+                                  	  </div>
+                                  
+	                                  </div>
+	                              </td>
+	                          </tr>
 	                          <tr class="out_button_area">
 	                              <td class="d-none-l"></td>
-	                              <td></td>
 	                              <td></td>
 	                              <td></td>
 	                              <td>
 	                                  <div class="checkout_btn_inner d-flex align-items-center justify-content-end">
 	                                      <a class="gray_btn" href="<%=request.getContextPath()%>/goodsList.jsp">계속 쇼핑하기</a>
-	                                      <a class="primary-btn ml-2" href="<%=request.getContextPath()%>/orders.jsp">주문하기</a>
+	                                      <a class="primary-btn ml-2" href="<%=request.getContextPath()%>/order.jsp">결제하기</a>
 	                                  </div>
 	                              </td>
 	                          </tr>
@@ -177,6 +228,20 @@
       </div>
   </section>
   <!--================End Cart Area =================-->
+  
+	<script>
+		// 배송 방법에 따라 다른 결제 금액
+		$('#parcel').click(function(){
+			$('#totalSum').text(<%=totalSum + 2500%>);
+		});
+		$('#quick').click(function(){
+			$('#totalSum').text(<%=totalSum + 10000%>);
+		});
+		
+	</script>	
+	
+	
+	
 
 
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>

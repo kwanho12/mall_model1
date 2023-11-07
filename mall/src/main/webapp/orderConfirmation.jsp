@@ -42,13 +42,18 @@
   
   
   <!--================Order Details Area =================-->
-  <section class="order_details section-margin--small">
-    <div class="container">
-      <p class="text-center billing-alert">주문 완료되었습니다. 이용해 주셔서 감사합니다.</p>
+  <section class="order_details">
+    <div class="container" style="margin-bottom:50px;">
+   		<div style="margin-top : 50px;">
+   			<p class="billing-alert">주문 완료되었습니다. 이용해 주셔서 감사합니다.</p>
+   		</div>
+      
+      
       <div class="row mb-5">
+      
         <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
           <div class="confirmation-card">
-            <h3 class="billing-title">Order Info</h3>
+            <h3 class="billing-title">주문 정보</h3>
             <table class="order-rable">
               <tr>
                 <td>Order number</td>
@@ -62,62 +67,15 @@
                 <td>Total</td>
                 <td>: USD 2210</td>
               </tr>
-              <tr>
-                <td>Payment method</td>
-                <td>: Check payments</td>
-              </tr>
             </table>
           </div>
         </div>
-        <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
-          <div class="confirmation-card">
-            <h3 class="billing-title">Billing Address</h3>
-            <table class="order-rable">
-              <tr>
-                <td>Street</td>
-                <td>: 56/8 panthapath</td>
-              </tr>
-              <tr>
-                <td>City</td>
-                <td>: Dhaka</td>
-              </tr>
-              <tr>
-                <td>Country</td>
-                <td>: Bangladesh</td>
-              </tr>
-              <tr>
-                <td>Postcode</td>
-                <td>: 1205</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4 mb-4 mb-xl-0">
-          <div class="confirmation-card">
-            <h3 class="billing-title">Shipping Address</h3>
-            <table class="order-rable">
-              <tr>
-                <td>Street</td>
-                <td>: 56/8 panthapath</td>
-              </tr>
-              <tr>
-                <td>City</td>
-                <td>: Dhaka</td>
-              </tr>
-              <tr>
-                <td>Country</td>
-                <td>: Bangladesh</td>
-              </tr>
-              <tr>
-                <td>Postcode</td>
-                <td>: 1205</td>
-              </tr>
-            </table>
-          </div>
-        </div>
+        
       </div>
+      
+      
       <div class="order_details_table">
-        <h2>Order Details</h2>
+        <h2>상세 정보</h2>
         <div class="table-responsive">
           <table class="table">
             <thead>

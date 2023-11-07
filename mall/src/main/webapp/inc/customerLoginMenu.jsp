@@ -19,7 +19,8 @@
             <span class="icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+          
+            <ul class="nav navbar-nav menu_nav mr-auto" style="margin-left:20px;">
             
               	<li class="nav-item submenu dropdown">
               
@@ -31,15 +32,6 @@
 	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/cart.jsp">장바구니</a></li>
 	                </ul>
 	                
-				</li>
-				
-	            <li class="nav-item submenu dropdown">
-	              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-	                aria-expanded="false">Blog</a>
-	              <ul class="dropdown-menu">
-	                <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/blog.jsp">Blog</a></li>
-	                <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/singleBlog.jsp">Blog Details</a></li>
-	              </ul>
 				</li>
 			
               <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/question.jsp">고객센터</a></li>
@@ -65,7 +57,7 @@
              	<%
               		if(session.getAttribute("customerNo") != null) {
               	%>		
-              			<li class="nav-item"><a class="button button-header" href="#">장바구니에 담긴 상품 바로 구매</a></li>
+              			<li class="nav-item"><a class="button button-header" href="<%=request.getContextPath()%>/orders.jsp">장바구니에 담긴 상품 바로 구매</a></li>
               	<% 		   
               		}
               	%>

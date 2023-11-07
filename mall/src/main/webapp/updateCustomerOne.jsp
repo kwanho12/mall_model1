@@ -81,7 +81,7 @@
 		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone"></div>
 		            </div>      
         	        <div class="col-md-12 form-group">
-		            	<div>주소 : <input type="text" value="<%=map.get("address")%>" name="address"></div>
+		            	<div>주소 : <textarea rows="2" cols="50" style="resize:none;" name="address"><%=map.get("address")%></textarea></div>
 		            </div>       
 		            <div class="form-group container" style="width:400px;">
 						<button style="font-size:15px; margin:10px;" class="btn btn-light">수정완료</button>

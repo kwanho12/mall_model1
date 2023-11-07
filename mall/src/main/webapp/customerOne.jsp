@@ -80,7 +80,7 @@
 		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone" readonly></div>
 		            </div>      
         	        <div class="col-md-12 form-group">
-		            	<div>주소 : <input type="text" value="<%=map.get("address")%>" name="address" readonly></div>
+		            	<div>주소 : <textarea rows="2" cols="50" style="resize:none; border:none; text-align:center;" name="address" readonly><%=map.get("address")%></textarea></div>
 		            </div> 
 		            
 		            <div class="form-group container" style="width:400px;">
@@ -92,7 +92,8 @@
 				}
 			%>
 				
-			</div>		
+			</div>
+					
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->
