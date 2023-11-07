@@ -3,8 +3,6 @@ import java.util.*;
 import vo.*;
 import java.sql.*;
 
-//DB	: mall
-//sql	: crud
 public class QuestionDao {
 	
 	//호출(controller) : question.jsp - 문의사항(table:question) 의 데이터를 contact.jsp에 출력
@@ -321,7 +319,7 @@ public class QuestionDao {
 			
 		 */
 		
-		String sql = "UPDATE question SET question_content = ?, updatedate=NOW() WHERE question_no = ?;";
+		String sql = "UPDATE question SET question_content = ?, updatedate=NOW() WHERE question_no = ?";
 		PreparedStatement stmt=conn.prepareStatement(sql);
 		stmt.setString(1, questionContent);
 		stmt.setInt(2, questionNo);

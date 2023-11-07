@@ -21,13 +21,7 @@
 	Question question = new Question();
 	//ContactDao 호출을 위한 객체 생성
 	QuestionDao QuestionDao = new QuestionDao();
-	
-	/*
-	//session변경으로 사용X
-	//customerId로 customerNo를 알아냄
-	int customerNo = contactDao.askCustomerNo("customerId");
-	*/
-	
+		
 	//goodsTitle로 goodsNo를 알아냄
 	int goodsNo = QuestionDao.askGoodsNo(goodsTitle);
 

@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import = "dao.*" %>
-<%@ page import = "java.util.*" %>
+<%@ page import="dao.*" %>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>매니져 문의사항 관리</title>
-	<meta charset="UTF-8">
+<title>Insert title here</title>
+<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-  	<title>고객 목록</title>
+  	<title>공지관리</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
   	<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   	<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -23,15 +23,10 @@
   	<link rel="stylesheet" href="css/style.css">
   
   	<!--구글폰트 -->
-  	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   	<link rel="stylesheet" href="css/font.css">
-  
-   <style>
-      th { background-color: ; }
-    </style>
-    
 </head>
 <body>
 <% 
@@ -40,18 +35,19 @@
 		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
 	}
 
-	int questionNo = Integer.parseInt(request.getParameter("questionNo"));
-	System.out.println(questionNo + "<--상세보기할 문의사항 번호");	//디버깅
+	int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+	System.out.println(noticeNo + "<--관리할 공지 번호");	//디버깅
 	
-	QuestionDao questionDao = new QuestionDao();
-	ArrayList<HashMap<String,Object>> list = questionDao.selectQuestionOne(questionNo);
-
+	NoticeDao noticeDao = new NoticeDao();
+	
+	ArrayList<HashMap<String,Object>> list = noticeDao.selectNoticeOne(noticeNo);
+	
 %>
 <!--================ Start Header Menu Area ===============-->
 	<jsp:include page="/inc/adminMenu.jsp"></jsp:include>
 <!--================ End Header Menu Area =================-->
 <div class="container">
-	<h3>문의사항 관리</h3>
+	<h3>공지 관리</h3>
 	<br>
 	<table class="table table-hover table-bordered">
 		<colgroup>
@@ -59,19 +55,16 @@
             <col width=80%>
  	    </colgroup>
 		<tr>
-			<th>게시물번호</th><td><%=list.get(0).get("questionNo") %></td>
+			<th>공지번호</th><td><%=list.get(0).get("noticeNo") %></td>
 		</tr>
 		<tr>
-			<th>고객ID</th><td><%=list.get(0).get("customerId") %></td>
+			<th>담당매니져</th><td><%=list.get(0).get("managerName") %></td>
 		</tr>
 		<tr>
-			<th>상품</th><td><%=list.get(0).get("goodsTitle") %></td>
+			<th>제목</th><td><%=list.get(0).get("noticeTitle") %></td>
 		</tr>
 		<tr>
-			<th>게시물 제목</th><td><%=list.get(0).get("questionTitle") %></td>
-		</tr>
-		<tr>
-			<th>게시물 내용</th><td><%=list.get(0).get("questionContent") %></td>
+			<th>내용</th><td><%=list.get(0).get("noticeContent") %></td>
 		</tr>
 		<tr>
 			<th>작성일</th><td><%=list.get(0).get("createdate") %></td>
@@ -82,8 +75,9 @@
 	</table>	
 </div>
 <div class="container">
-	<a href="<%=request.getContextPath() %>/managerInsertQuestionComentForm.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-primary" >답글</a>
-	<a href="<%=request.getContextPath() %>/managerDeleteQuestionAction.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-primary">삭제</a>
+	<a href="<%=request.getContextPath() %>/managerUpdateNoticeForm.jsp?noticeNo=<%=list.get(0).get("noticeNo") %>" class="btn btn-primary">수정</a>
+	<a href="<%=request.getContextPath() %>/managerDeleteNoticeAction.jsp?noticeNo=<%=list.get(0).get("noticeNo") %>" class="btn btn-primary">삭제</a>
 </div>
+
 </body>
 </html>
