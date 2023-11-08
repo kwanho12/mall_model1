@@ -317,7 +317,7 @@ public class GoodsDao {
 		 * WHERE g.goods_title LIKE CONCAT('%','?','%') 
 		 * ORDER BY g.goods_no DESC LIMIT ?, ?
 		 * */
-		String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_title LIKE CONCAT('%','?','%') ORDER BY g.goods_no DESC LIMIT ?, ?";
+		String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_title LIKE CONCAT('%',?,'%') ORDER BY g.goods_no DESC LIMIT ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, search);
 		stmt.setInt(2, beginRow);

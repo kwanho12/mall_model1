@@ -51,7 +51,10 @@
 	}
 	int beginRow = (currentPage-1)*rowPerPage;
 	
-	ArrayList<HashMap<String, Object>> list = goodsDao.selectGoodsList(beginRow, rowPerPage);
+	String search = request.getParameter("search");
+	
+	// 검색창에서 검색한 단어에 대해 필터링한 결과값
+	ArrayList<HashMap<String, Object>> list = goodsDao.searchGoodsList(search, beginRow, rowPerPage);
 %>
   <!--================ Start Header Menu Area ===============-->
   <%
