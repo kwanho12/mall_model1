@@ -1,11 +1,7 @@
-<%@page import="dao.CartDao"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-<% 
-	CartDao cartDao = new CartDao();
 
-%>
-    
+  
 <header class="header_area">
     <div class="main_menu">
       <nav class="navbar navbar-expand-lg navbar-light">
@@ -19,29 +15,20 @@
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav mr-auto" style="margin-left:20px;">
-            
-              	<li class="nav-item submenu dropdown">
+           
+           	 <li class="nav-item submenu dropdown">
               
-					<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
 	                  aria-expanded="false">상품</a>
-	                <ul class="dropdown-menu">
-	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/goodsList.jsp">상품목록</a></li>
-	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/orderConfirmation.jsp">주문확인</a></li>
-	                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/cart.jsp">장바구니</a></li>
-	                </ul>
+                <ul class="dropdown-menu">
+                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/goodsList.jsp">상품목록</a></li>
+                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/orderConfirmation.jsp">주문확인</a></li>
+                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/cart.jsp">장바구니</a></li>
+                </ul>
 	                
-				</li>
-			<!---------------------------------- 
-			<li class="nav-item submenu dropdown">
-	              <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-	                aria-expanded="false">Blog</a>
-	              <ul class="dropdown-menu">
-	                <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/blog.jsp">Blog</a></li>
-	                <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/singleBlog.jsp">Blog Details</a></li>
-	              </ul>
-				</li>
-			 ----------------------------------->		
-              <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/question.jsp">고객센터</a></li>
+			 </li>
+            	 
+             <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/question.jsp">고객센터</a></li>
             </ul>
 
             <ul class="nav-shop">
@@ -52,15 +39,6 @@
               	   		
               	</button>	 
               </li>
-              
-             	<%
-              		if(session.getAttribute("customerNo") != null) {
-              	%>		
-              			<li class="nav-item"><a class="button button-header" href="#">장바구니에 담긴 상품 바로 구매</a></li>
-              	<% 		   
-              		}
-              	%>
-  
             </ul>
             <ul>
            		<li class="nav-item active"><a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">로그인</a></li>

@@ -24,6 +24,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/font.css">
+  <style>
+  	body {overflow : hidden;}
+  </style>
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
@@ -32,7 +35,7 @@
   
   
   <!--================Login Box Area =================-->
-	<section class="login_box_area section-margin">
+	<section class="login_box_area">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">

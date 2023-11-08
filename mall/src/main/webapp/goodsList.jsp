@@ -88,15 +88,19 @@
 				%>
 
           	</div>
-      
-            <div>
-              <div class="input-group filter-bar-search">
-                <input type="text" placeholder="Search">
-                <div class="input-group-append">
-                  <button type="button"><i class="ti-search"></i></button>
-                </div>
-              </div>
-            </div>
+      		
+      		<form action="<%=request.getContextPath()%>/goodsSearchAction.jsp">
+      			<div>
+	              <div class="input-group filter-bar-search">
+	                <input type="text" placeholder="검색" name="search">
+	                <div class="input-group-append">
+	                  <button><i class="ti-search"></i></button>
+	              	</div>
+              	  </div>
+            	</div>
+      		</form>
+            
+            
           </div>
           <!-- End Paging Bar -->
    
