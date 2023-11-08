@@ -27,6 +27,10 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   	<link rel="stylesheet" href="css/font.css">
+  	
+  	 <style>
+      th { background-color: black; color: white;" }
+    </style>
 </head>
 <body>
 <% 
@@ -83,7 +87,9 @@
 	<div class="container">
 		<label for="comment">답변내용</label>
 			<textarea class="form-control" rows="5" name="questionComment"></textarea>
+		<div class="text-right">
 		<button type="submit" class="btn btn-dark">답변등록</button>
+		</div>
 	</div>
 	
 </form>

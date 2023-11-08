@@ -24,7 +24,7 @@
   
   	<!--구글폰트 -->
   	<link rel="preconnect" href="https://fonts.googleapis.com">
-  	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  	<link rel="preconnect" href="https://fonts.gstatic.com" >
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
   	
@@ -32,24 +32,15 @@
 <body>
 <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
-  <!--================ End Header Menu Area =================-->
-  	<!-- ================ start banner area ================= -->
-	<section class="blog-banner-area" id="contact">
-		<div class="container h-100">
-			<div class="blog-banner">
-				<div class="text-center">
-					<h1>QnA</h1>
-					<nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">notice</a></li>
-              <li class="breadcrumb-item active" aria-current="page">QnA</li>
-            </ol>
-          </nav>
-				</div>
-			</div>
-    	</div>
-	</section>
-	<!-- ================ end banner area ================= -->
+<!--================ End Header Menu Area =================-->
+<!-- ================ start banner area ================= -->
+	<br>
+	<div class="container">
+		<div class="text-center">
+			<h1>Notice</h1>
+		</div>
+    </div>
+<!-- ================ end banner area ================= -->
 <%
 	// request.getParameter로 넘어온 값 저장
 	int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
@@ -60,25 +51,42 @@
 	ArrayList<HashMap<String,Object>> list = noticeDao.selectNoticeOne(noticeNo);
 
 %>
+	<br>
 
 	<div class="container">
 		<table class="table">
+		<colgroup>
+		        <col width=10%>
+		        <col width=40%>
+		        <col width=10%>
+		        <col width=15%>
+		        <col width=10%>
+		        <col width=15%>
+	     </colgroup>
 
 		<%
 			for(HashMap<String, Object> noOne : list){
 		%>
-		<!--<tr><th>번호</th><td><%=noOne.get("noticeNo") %></td></tr>-->
-		<tr><th>제목</th><td><%=noOne.get("noticeTitle") %></td></tr>
-		<tr><th>관리자</th><td><%=noOne.get("managerName") %></td></tr>
-		<tr><th>내용</th><td><%=noOne.get("noticeContent") %></td></tr>
-		<tr><th>작성일</th><td><%=noOne.get("createdate") %></td></tr>
-		<tr><th>수정일</th><td><%=noOne.get("updatedate") %></td></tr>
-		
+		<tr><th>제목</th><td><%=noOne.get("noticeTitle") %></td>
+		<th>관리자</th><td>매니져(<%=noOne.get("managerName") %>)</td>
+		<th>작성일</th><td><%=noOne.get("createdate") %></td>	
+		<tr><th>내용</th><td colspan="5"><%=noOne.get("noticeContent") %></td></tr>
+
 		<%
 			}
 		%>
 		</table>
 	</div>
-
+	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+  	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
+  	<script src="vendors/skrollr.min.js"></script>
+  	<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+  	<script src="vendors/nice-select/jquery.nice-select.min.js"></script>
+  	<script src="vendors/jquery.form.js"></script>
+  	<script src="vendors/jquery.validate.min.js"></script>
+  	<script src="vendors/contact.js"></script>
+  	<script src="vendors/jquery.ajaxchimp.min.js"></script>
+  	<script src="vendors/mail-script.js"></script>
+  	<script src="js/main.js"></script>
 </body>
 </html>

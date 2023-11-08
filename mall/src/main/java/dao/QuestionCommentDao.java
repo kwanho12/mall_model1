@@ -142,7 +142,7 @@ public class QuestionCommentDao {
 	}
 	
 	//호출(controller) : managerDeleteQuestionCommentAction.jsp
-	public int managerDeleteQuestionComment(int commentNo, int questionNo) throws Exception{
+	public int deleteQuestionComment(int commentNo, int questionNo) throws Exception{
 		
 		System.out.println(commentNo + "<-- 삭제할 commentNo");
 		
@@ -180,6 +180,47 @@ public class QuestionCommentDao {
 		stmt.close();
 		
 		return questionNo;
+	}
+	
+	//호출(controller) : managerUpdateQuestionCommentAction.jsp -> 관리자가 답글 수정
+	public void updateQuestionComment(int commentNo, String commentContent) throws Exception{
+		
+		// db핸들링(model)
+		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
+		System.out.println("드라이브 로딩 성공");		// DB 드라이브 로딩 확인 디버깅
+		// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+		String url = "jdbc:mariadb://localhost:3306/mall";		
+		String dbuser = "root";
+		String dbpw = "java1234";
+		//DB연결을 위한 Connection객체 생성, 연결
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		
+		/*
+			questionNo를 입력받아 업데이트
+			UPDATE question_comment SET comment = ?, updatedate=NOW()
+				WHERE question_comment_no = ?;
+			
+		 */
+		
+		String sql = "UPDATE question_comment SET comment = ?, updatedate=NOW() WHERE question_comment_no = ?";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		stmt.setString(1, commentContent);
+		stmt.setInt(2, commentNo);
+		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+	
+		int row = stmt.executeUpdate();	
+		
+		if(row == 1) {
+			System.out.println("문의사항 답변 수정성공");
+		}else {
+			System.out.println("문의사항 답변 수정실패");
+		}
+		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+			
 	}
 	
 	

@@ -10,7 +10,7 @@
 	
 	QuestionCommentDao questionCommentDao = new QuestionCommentDao();
 	
-	questionCommentDao.managerDeleteQuestionComment(commentNo,questionNo);
+	questionCommentDao.deleteQuestionComment(commentNo,questionNo);
 
 	// response.sendRedirect(request.getContextPath()+"/managerQuestionOne.jsp?questionNo=questionNo");
 	response.sendRedirect(request.getContextPath()+"/managerQuestion.jsp");

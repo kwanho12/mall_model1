@@ -29,7 +29,7 @@
   	<link rel="stylesheet" href="css/font.css">
   
    <style>
-      th { background-color: ; }
+      th { background-color: black; color: white;" }
     </style>
     
 </head>
@@ -63,7 +63,7 @@
 	<br>
 	<table class="table table-hover table-bordered">
 		<colgroup>
-            <col width=20% style="background-color: black; color: white;">
+            <col width=20%>
             <col width=80%>
  	    </colgroup>
 		<tr>
@@ -98,7 +98,7 @@
 	<br>
 	<table class="table table-hover table-bordered">
 		<colgroup>
-            <col width=20% style="background-color: black; color: white;">
+            <col width=20%>
             <col width=80%>
  	    </colgroup>
 		<tr>
@@ -124,19 +124,19 @@
 <%
 	if(comment == 0){
 %>
-<div class="container">
-	<a href="<%=request.getContextPath() %>/managerInsertQuestionCommentForm.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-primary" >답글 추가</a>
-	<a href="<%=request.getContextPath() %>/managerDeleteQuestionAction.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-primary">문의 사항 삭제</a>
+<div class="container text-right">
+	<a href="<%=request.getContextPath() %>/managerInsertQuestionCommentForm.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-dark" >답글 추가</a>
+	<a href="<%=request.getContextPath() %>/managerDeleteQuestionAction.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-dark">문의 사항 삭제</a>
 </div>
 <%
 	}
 	if(comment == 1){	
 %>
-<div class="container">
-	<a href="<%=request.getContextPath() %>/managerUpdateQuestionCommentForm.jsp?commentNo=<%=list2.get(0).get("commentNo")%>&&questionNo=<%=questionNo%> " class="btn btn-primary" >
+<div class="container text-right">
+	<a href="<%=request.getContextPath() %>/managerUpdateQuestionCommentForm.jsp?commentNo=<%=list2.get(0).get("commentNo")%>&&questionNo=<%=questionNo%> " class="btn btn-dark" >
 		답글 수정
 	</a>
-	<a href="<%=request.getContextPath() %>/managerDeleteQuestionCommentAction.jsp?commentNo=<%=list2.get(0).get("commentNo")%>&&questionNo=<%=questionNo%>" class="btn btn-primary">
+	<a href="<%=request.getContextPath() %>/managerDeleteQuestionCommentAction.jsp?commentNo=<%=list2.get(0).get("commentNo")%>&&questionNo=<%=questionNo%>" class="btn btn-dark">
 		답글 삭제
 	</a>
 </div>

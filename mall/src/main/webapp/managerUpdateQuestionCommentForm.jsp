@@ -57,14 +57,16 @@
 		<input type="hidden" name="questionNo" value="<%=questionNo%>">
 		<input type="hidden" name="commentNo" value="<%=commentNo%>">
 <div class="mb-3 mt-3">
-	<label for="title" class="form-label">답변번호</label>
-	<input type="text" class="form-control" id="commentNo" name="commentNo" value="<%=commentNo%>" readonly="readonly">
+	<label for="title" class="form-label">문의사항번호</label>
+	<input type="text" class="form-control" id="commentNo" name="commentNo" value="<%=questionNo%>" readonly="readonly">
 </div>
 <div class="mb-3">
 	<label for="comment">답변 내용</label>
 		<textarea class="form-control" rows="5" id="commentContent" name="commentContent" ><%=commentContent%></textarea>
 </div>
-	<button type="submit" class="btn btn-primary">수정</button>
+<div class="text-right">
+	<button type="submit" class="btn btn-dark">수정</button>
+</div>
 </form>
 </div>
 </body>
