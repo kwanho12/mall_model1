@@ -36,7 +36,10 @@
 </head>
 <body>
 <%
-	String search = request.getParameter("search");
+	// 세션 적용(로그인하지 않은 사람은 접근하지 않게 하기 위함)
+	if(session.getAttribute("managerNo") == null) {
+		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
+	}	
 
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
@@ -46,28 +49,19 @@
 	int rowPerPage = 6;
 	
 	GoodsDao goodsDao = new GoodsDao();
-	int totalRow = goodsDao.searchGoodsListPaging(search);
+	int totalRow = goodsDao.goodsListPaging();
 	int lastPage = totalRow / rowPerPage;
 	if(totalRow % rowPerPage != 0) {
 		lastPage = lastPage + 1;
 	}
 	int beginRow = (currentPage-1)*rowPerPage;
 	
-	// 검색창에서 검색한 단어에 대해 필터링한 결과값
+	String search = request.getParameter("search");
+	
 	ArrayList<HashMap<String, Object>> list = goodsDao.searchGoodsList(search, beginRow, rowPerPage);
 %>
   <!--================ Start Header Menu Area ===============-->
-  <%
-  	if(session.getAttribute("customerNo") != null) {
-  %>
-  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
-  <% 	
-  	} else {
-  %>
-  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
-  <% 	
-  	}
-  %>
+  <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
 
           <!-- Start Paging Bar -->
@@ -77,7 +71,7 @@
           		<%
           			if(currentPage > 1) {
           		%>	
-          				<a class="btn btn-light" href="<%=request.getContextPath()%>/goodsSearchList.jsp?currentPage=<%=currentPage-1%>&search=<%=search%>">이전</a>
+          				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsList.jsp?currentPage=<%=currentPage-1%>">이전</a>
           		<%
           			}
           		%>
@@ -85,14 +79,14 @@
           		<%
 					if(currentPage < lastPage) {
 				%>
-						<a class="btn btn-light" href="<%=request.getContextPath()%>/goodsSearchList.jsp?currentPage=<%=currentPage+1%>&search=<%=search%>">다음</a>
+						<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsList.jsp?currentPage=<%=currentPage+1%>">다음</a>
 				<%		
 					}
 				%>
 
           	</div>
-      		
-      		<form action="<%=request.getContextPath()%>/goodsSearchList.jsp">
+      
+            <form action="<%=request.getContextPath()%>/managerGoodsSearchList.jsp">
       			<div>
 	              <div class="input-group filter-bar-search">
 	                <input type="text" placeholder="검색" name="search">
@@ -102,9 +96,8 @@
               	  </div>
             	</div>
       		</form>
-            
-            
-          </div>
+      		
+      		</div>
           <!-- End Paging Bar -->
    
           
@@ -120,11 +113,11 @@
                     <img class="card-img" src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>" style="width:380px; height:380px;">
                     <ul class="card-product__imgOverlay">
                       <li>
-                      	<button type="button" onclick="location.href='<%=request.getContextPath()%>/goodsOne.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-search"></i></button>
+                      	<button type="button" onclick="location.href='<%=request.getContextPath()%>/managerGoodsOne.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-search"></i></button>
                       </li>
                       <li>
-                      	<button type="button" onclick="location.href='<%=request.getContextPath()%>/cartAction.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-shopping-cart"></i></button>
-                   	  </li>
+						<button type="button" onclick="location.href='<%=request.getContextPath()%>/deleteGoodsAction.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="fa-solid fa-x"></i></button>
+					  </li>
                     </ul>
                   </div>
                   <div class="card-body">
@@ -134,7 +127,7 @@
                 </div>
               </div>
          <%
-         		
+
          	}
          %>             
             </div>

@@ -25,7 +25,6 @@ public class ManagerDao {
 		stmt1.setString(1, manager.getManagerId());
 		stmt1.setString(2, manager.getManagerPw());
 		stmt1.setString(3, manager.getManagerName());
-		System.out.println(stmt1 + "<--- stmt1 insertTest()");
 		
 		stmt1.executeUpdate();
 		ResultSet rs1 = stmt1.getGeneratedKeys();
@@ -44,7 +43,6 @@ public class ManagerDao {
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
 		stmt2.setInt(1, managerNo);
 		stmt2.setString(2, manager.getManagerPw());
-		System.out.println(stmt2 + "<--- stmt2 insertTest()");
 		
 		int row2 = stmt2.executeUpdate();
 		if(row2 != 1) {
@@ -70,7 +68,6 @@ public class ManagerDao {
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, manager.getManagerId());
 		stmt.setString(2, manager.getManagerPw());
-		System.out.println(stmt+" <--stmt");
 		ResultSet rs = stmt.executeQuery();
 		
 		conn.close();

@@ -92,6 +92,34 @@ public class GoodsDao {
 		return totalRow;
 	}
 	
+	public int searchGoodsListPaging(String search) throws Exception{
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		// search 페이징 sql
+		String sql = "SELECT COUNT(*) FROM goods WHERE goods_title LIKE CONCAT('%',?,'%') OR goods_memo LIKE CONCAT('%',?,'%')";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, search);
+		stmt.setString(2, search);
+		ResultSet rs = stmt.executeQuery();
+		int totalRow = 0;
+		if(rs.next()) {
+			totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+		}
+		
+		conn.close();
+		stmt.close();
+		rs.close();
+		
+		return totalRow;
+	}
+	
+	
+	
 	public ArrayList<HashMap<String,Object>> selectGoodsList(int beginRow, int rowPerPage) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
@@ -314,14 +342,16 @@ public class GoodsDao {
 		 * SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename 
 		 * FROM goods g INNER JOIN goods_img gi 
 		 * ON g.goods_no = gi.goods_no 
-		 * WHERE g.goods_title LIKE CONCAT('%','?','%') 
+		 * WHERE g.goods_title LIKE CONCAT('%',?,'%')
+		 * OR g.goods_memo LIKE CONCAT('%',?,'%') 
 		 * ORDER BY g.goods_no DESC LIMIT ?, ?
 		 * */
-		String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_title LIKE CONCAT('%',?,'%') ORDER BY g.goods_no DESC LIMIT ?, ?";
+		String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_title LIKE CONCAT('%',?,'%') OR g.goods_memo LIKE CONCAT('%',?,'%') ORDER BY g.goods_no DESC LIMIT ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, search);
-		stmt.setInt(2, beginRow);
-		stmt.setInt(3, rowPerPage);
+		stmt.setString(2, search);
+		stmt.setInt(3, beginRow);
+		stmt.setInt(4, rowPerPage);
 		ResultSet rs = stmt.executeQuery();
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
