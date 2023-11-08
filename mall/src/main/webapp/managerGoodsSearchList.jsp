@@ -41,6 +41,8 @@
 		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
 	}	
 
+	String search = request.getParameter("search");
+
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -49,14 +51,12 @@
 	int rowPerPage = 6;
 	
 	GoodsDao goodsDao = new GoodsDao();
-	int totalRow = goodsDao.goodsListPaging();
+	int totalRow = goodsDao.searchGoodsListPaging(search);
 	int lastPage = totalRow / rowPerPage;
 	if(totalRow % rowPerPage != 0) {
 		lastPage = lastPage + 1;
 	}
 	int beginRow = (currentPage-1)*rowPerPage;
-	
-	String search = request.getParameter("search");
 	
 	ArrayList<HashMap<String, Object>> list = goodsDao.searchGoodsList(search, beginRow, rowPerPage);
 %>
@@ -71,7 +71,7 @@
           		<%
           			if(currentPage > 1) {
           		%>	
-          				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+          				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsSearchList.jsp?currentPage=<%=currentPage-1%>&search=<%=search%>">이전</a>
           		<%
           			}
           		%>
@@ -79,7 +79,7 @@
           		<%
 					if(currentPage < lastPage) {
 				%>
-						<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+						<a class="btn btn-light" href="<%=request.getContextPath()%>/managerGoodsSearchList.jsp?currentPage=<%=currentPage+1%>&search=<%=search%>">다음</a>
 				<%		
 					}
 				%>
