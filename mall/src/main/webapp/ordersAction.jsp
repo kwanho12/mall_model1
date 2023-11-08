@@ -5,11 +5,10 @@
 <%
 
 	int customerNo = (Integer) session.getAttribute("customerNo");
-	int ship = Integer.parseInt(request.getParameter("ship")); // 배송비
 	
 	OrdersDao ordersDao = new OrdersDao();
 	ordersDao.orders(customerNo);
 	
-	response.sendRedirect(request.getContextPath()+"/orderConfirmation.jsp?ship=" + ship);
+	response.sendRedirect(request.getContextPath()+"/orderConfirmation.jsp");
 	
 %>

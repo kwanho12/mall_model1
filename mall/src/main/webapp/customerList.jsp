@@ -48,7 +48,7 @@
     <!--================ End Header Menu Area =================-->
 	
 	<div class="container-fluid">
-		<h3>고객 DB</h3>
+		<h3>고객 관리</h3>
 		<table class="table table-hover table-bordered">
 			<colgroup>
 	            <col width=8%>

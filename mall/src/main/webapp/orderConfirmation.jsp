@@ -84,15 +84,22 @@
       
       
       
-      <div class="order_details_table">
-        <h2>주문 정보</h2>
+      <div>
+        <h4>주문 정보</h4>
         <div class="table-responsive">
           <table class="table">
+          	<colgroup>
+	         	<col width=35%>
+	            <col width=21%>
+	            <col width=28%>
+	            <col width=16%>
+          	</colgroup>
             <thead>
               <tr>
-                <th scope="col">상품</th>
-                <th scope="col">수량</th>
-                <th scope="col">합계</th>
+                <th>상품</th>
+                <th>수량</th>
+                <th>합계</th>
+                <th>주문 취소</th>
               </tr>
             </thead>
             <tbody>
@@ -111,6 +118,9 @@
                 <td>
                   <p><%=map.get("totalPrice")%> 원</p>
                 </td>
+                <td>
+                  <p>취소</p>
+                </td>
               </tr>
               
              <%
@@ -128,6 +138,7 @@
                 <td>
                   <h5></h5>
                 </td>
+                <td></td>
                 <td>
                   <p><%=subtotal%> 원</p>
                 </td>
@@ -139,6 +150,7 @@
                 <td>
                   <h5></h5>
                 </td>
+                <td></td>
                 <td>
                   <p>2500 원</p>
                 </td>
@@ -150,6 +162,7 @@
                 <td>
                   <h5></h5>
                 </td>
+                <td></td>
                 <td>
                   <h4><%=subtotal + 2500%> 원</h4>
                 </td>

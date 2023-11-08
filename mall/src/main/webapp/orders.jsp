@@ -105,124 +105,118 @@
           <div class="cart_inner">
               <div class="table-responsive">
 
-              	<form action="<%=request.getContextPath()%>/ordersAction.jsp">
                   <table class="table">
-                  	  <colgroup>
+                	  <colgroup>
 			            <col width=40%>
 			            <col width=21%>
 			            <col width=21%>
 			            <col width=30%>
-     	  			  </colgroup>
-                      <thead>
-                          <tr>
-                              <th scope="col">상품 이름</th>
-                              <th scope="col">가격</th>
-                              <th scope="col">수량</th>
-                              <th scope="col">합계</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-	                      
-	                      <!--cartList 시작 -->
-	                      <%
-	                      	for(HashMap<String, Object> map : cartList) {
-	                      		
-	                      		int goodsPrice = (Integer) map.get("goodsPrice");
-	                      		int quantity = (Integer) map.get("quantity");
-	                      		int goodsSum = goodsPrice * quantity;
-	                      		
-	                      		totalSum += goodsSum;
-	                      		
-	                      %>
-	                       	
-	                      		<tr>  		
-	                              <td>
-	                                  <div class="media">
-	                                      <div class="d-flex">
-	                                          <img src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>" class="img-fluid" style="width:100px; height:100px" alt="">
-	                                      </div>
-	                                      <div class="media-body">
-	                                          <p><%=map.get("goodsTitle")%></p>
-	                                      </div>
-	                                  </div>
-	                              </td>
-	                              
-	                              <td>
-	                                  <h5><%=map.get("goodsPrice")%> 원</h5>
-	                              </td>
-	                              <td>
-	                                  <div class="product_count">
-	                                  	  <div><%=map.get("quantity")%> 개</div>
-	                                  </div>
-	                              </td>
-	                              
-	                              <td>
-	                                  <h5><%=goodsSum%> 원</h5>
-	                              </td>
-	                          </tr>
-	                      
-	                      <%
-	                      	}
-	                      %>
-	                      <!--cartList 끝 -->
-	                          
-	                          <tr>
-	                          	  <td></td>
-	                              <td></td>
-	                              <td>
-	                                  <h5>합계</h5>
-	                              </td>
-	                              <td>
-	                                  <h5><span id="totalSum"><%=totalSum%></span> 원</h5>
-	                              </td>
-	                          </tr>
-	                          <tr class="shipping_area">
-	                          	  
-	                              <td class="d-none d-md-block">
-	
-	                              </td>
-	       
-	                              <td>
-	
-	                              </td>
-	                              <td>
-	                                  <h5>배송</h5>
-	                              </td>
-	                              <td>
-	                              
-	                              	  <div>
-	                              	  	
-	                              	  </div>
-	                                  <div>
-	                                  
-	                                  <div>
-                                  	  	<input type="radio" id="select" name="ship" value="10000" checked>
-                               			<label for="select">선택하기</label>
-                                  	  </div>
-	                           
-                                  	  <div>
-                                  	  	<input type="radio" id="parcel" name="ship" value="2500">
-                               			<label for="parcel">택배 : 2500원</label>	
-                                  	  </div>
-                                  		                               
-	                                  </div>
-	                              </td>
-	                          </tr>
-	                          <tr class="out_button_area">
-	                              <td class="d-none-l"></td>
-	                              <td></td>
-	                              <td></td>
-	                              <td>
-	                                  <div class="checkout_btn_inner d-flex align-items-center justify-content-end">
-	                                      <a class="gray_btn" href="<%=request.getContextPath()%>/goodsList.jsp">계속 쇼핑하기</a>
-	                                      <button class="primary-btn ml-2" id="checkout">결제하기</button>
-	                                  </div>
-	                              </td>
-	                          </tr>
-	                      </tbody>
-	                  </table>
-                  </form>
-                  
+	   	  			  </colgroup>
+                    <thead>
+                        <tr>
+                            <th scope="col">상품 이름</th>
+                            <th scope="col">가격</th>
+                            <th scope="col">수량</th>
+                            <th scope="col">합계</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     
+                     <!--cartList 시작 -->
+                     <%
+                     	for(HashMap<String, Object> map : cartList) {
+                     		
+                     		int goodsPrice = (Integer) map.get("goodsPrice");
+                     		int quantity = (Integer) map.get("quantity");
+                     		int goodsSum = goodsPrice * quantity;
+                     		
+                     		totalSum += goodsSum;
+                     		
+                     %>
+                      	
+                   		<tr>  		
+                             <td>
+                                 <div class="media">
+                                     <div class="d-flex">
+                                         <img src="<%=request.getContextPath()%>/upload/<%=map.get("filename")%>" class="img-fluid" style="width:100px; height:100px" alt="">
+                                     </div>
+                                     <div class="media-body">
+                                         <p><%=map.get("goodsTitle")%></p>
+                                     </div>
+                                 </div>
+                             </td>
+                             
+                             <td>
+                                 <h5><%=map.get("goodsPrice")%> 원</h5>
+                             </td>
+                             <td>
+                                 <div class="product_count">
+                                 	  <div><%=map.get("quantity")%> 개</div>
+                                 </div>
+                             </td>
+                             
+                             <td>
+                                 <h5><%=goodsSum%> 원</h5>
+                             </td>
+                         </tr>
+                     
+                     <%
+                     	}
+                     %>
+                     <!--cartList 끝 -->
+                         
+                         <tr>
+                         	 <td></td>
+                             <td></td>
+                             <td>
+                                 <h5>합계</h5>
+                             </td>
+                             <td>
+                                 <h5><span id="totalSum"><%=totalSum%></span> 원</h5>
+                             </td>
+                         </tr>
+                         <tr class="shipping_area">                  	  
+                             <td class="d-none d-md-block">
+
+                             </td>
+                             <td>
+
+                             </td>
+                             <td>
+                                 <h5>배송</h5>
+                             </td>
+                             <td>
+                             	 <div>
+                             	  	
+                             	 </div>
+                                 <div>
+                                 
+                                 <div>
+                               	  	<input type="radio" id="select" name="ship" checked>
+                           			<label for="select">선택하기</label>
+                              	 </div>
+                          
+                               	 <div>
+                               	  	<input type="radio" id="parcel" name="ship">
+                           			<label for="parcel">택배 : 2500원</label>	
+                               	 </div>
+                                		                               
+                                 </div>
+                             </td>
+                         </tr>
+                         <tr class="out_button_area">
+                             <td class="d-none-l"></td>
+                             <td></td>
+                             <td></td>
+                             <td>
+                                 <div class="checkout_btn_inner d-flex align-items-center justify-content-end">
+                                     <a class="gray_btn" href="<%=request.getContextPath()%>/goodsList.jsp">계속 쇼핑하기</a>
+                                     <a class="primary-btn ml-2" id="checkout" href="#;">결제하기</a>
+                                 </div>
+                             </td>
+                    	     </tr>
+                     </tbody>
+                  </table>                 
               </div>
           </div>
       </div>
@@ -230,24 +224,26 @@
   <!--================End Cart Area =================-->
   
 	<script>
-		// 배송비 선택시 화면에 추가된 금액이 보이게 하기
+		// 택배 checkbox 선택시 화면에 추가된 금액이 보이게 하기
 		$('#parcel').click(function(){
 			$('#totalSum').text(<%=totalSum + 2500%>);
+		});
+		// 다시 선택하기 checkbox 선택시 화면에 배송비가 추가되지 않은 금액이 보이게 하기
+		$('#select').click(function(){
+			$('#totalSum').text(<%=totalSum%>);
 		});
 		
 		$('#checkout').click(function(){
 			
 			if( $('#select').is(':checked') ) {
 				alert('배송 방법을 선택해주세요.')
+				return;
+			} else {
+				$(location).attr('href', "<%=request.getContextPath()%>/ordersAction.jsp");
 			}
 			
-		});
-		
+		});	
 	</script>	
-	
-	
-	
-
 
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
