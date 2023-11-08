@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>매니져 문의사항 관리</title>
+<title>문의사항 답글</title>
 	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -27,11 +27,6 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   	<link rel="stylesheet" href="css/font.css">
-  
-   <style>
-      th { background-color: ; }
-    </style>
-    
 </head>
 <body>
 <% 
@@ -44,15 +39,8 @@
 	System.out.println(questionNo + "<--상세보기할 문의사항 번호");	//디버깅
 	
 	QuestionDao questionDao = new QuestionDao();
-	QuestionCommentDao questionCommentDao = new QuestionCommentDao();
 	ArrayList<HashMap<String,Object>> list = questionDao.selectQuestionOne(questionNo);
-	ArrayList<HashMap<String,Object>> list2 = questionCommentDao.selectQuestionCommentOne(questionNo);
 	
-	int comment = 0;
-	//답글이 존재하면 comment = 1, 존재하지 않으면 comment = 0
-	comment = questionCommentDao.selectQuestionComment(questionNo);
-	
-
 
 %>
 <!--================ Start Header Menu Area ===============-->
@@ -89,62 +77,15 @@
 		</tr>
 	</table>	
 </div>
-<% 
-	if(comment == 1){	
-%>
+<form action="<%=request.getContextPath()%>/managerInsertQuestionCommentAction.jsp" method="post">
+		<input type="hidden" name="managerNo" value="<%=session.getAttribute("managerNo")%>">
+		<input type="hidden" name="questionNo" value="<%=list.get(0).get("questionNo")%>">
+	<div class="container">
+		<label for="comment">답변내용</label>
+			<textarea class="form-control" rows="5" name="questionComment"></textarea>
+		<button type="submit" class="btn btn-dark">답변등록</button>
+	</div>
 	
-<div class="container">
-	<h3>답변</h3>
-	<br>
-	<table class="table table-hover table-bordered">
-		<colgroup>
-            <col width=20% style="background-color: black; color: white;">
-            <col width=80%>
- 	    </colgroup>
-		<tr>
-			<th>담당매니져</th><td><%=list2.get(0).get("managerName") %></td>
-		</tr>
-		<tr>
-			<th>답변내용</th><td><%=list2.get(0).get("commentContent") %></td>
-		</tr>
-		<tr>
-			<th>답변 작성일</th><td><%=list2.get(0).get("createdate") %></td>
-		</tr>
-		<tr>
-			<th>답변 수정일</th><td><%=list2.get(0).get("updatedate") %></td>
-		</tr>
-	</table>	
-</div>
-<%
-	}
-%>
-
-
-
-<%
-	if(comment == 0){
-%>
-<div class="container">
-	<a href="<%=request.getContextPath() %>/managerInsertQuestionCommentForm.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-primary" >답글 추가</a>
-	<a href="<%=request.getContextPath() %>/managerDeleteQuestionAction.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-primary">문의 사항 삭제</a>
-</div>
-<%
-	}
-	if(comment == 1){	
-%>
-<div class="container">
-	<a href="<%=request.getContextPath() %>/managerUpdateQuestionCommentForm.jsp?commentNo=<%=list2.get(0).get("commentNo")%>&&questionNo=<%=questionNo%> " class="btn btn-primary" >
-		답글 수정
-	</a>
-	<a href="<%=request.getContextPath() %>/managerDeleteQuestionCommentAction.jsp?commentNo=<%=list2.get(0).get("commentNo")%>&&questionNo=<%=questionNo%>" class="btn btn-primary">
-		답글 삭제
-	</a>
-</div>
-
-<%
-	}
-%>
-	
-
+</form>
 </body>
 </html>

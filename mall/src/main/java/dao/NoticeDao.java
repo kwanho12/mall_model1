@@ -219,7 +219,7 @@ public class NoticeDao {
 		
 		/*
 			noticeNo를 입력받아 삭제
-			DELETE FROM noticeNo WHERE noticeno_no = ?
+			DELETE FROM notice WHERE noticeno_no = ?
 		 */
 		
 		String sql = "DELETE FROM notice WHERE notice_no = ?";
@@ -240,6 +240,7 @@ public class NoticeDao {
 		stmt.close();
 			
 	}
+	
 	//호출(controller) : questionOne.jsp 
 	public void managerUpdateNotice(int noticeNo, String noticeContent, int managerNo) throws Exception{
 		

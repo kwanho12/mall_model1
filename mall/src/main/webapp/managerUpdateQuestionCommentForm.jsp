@@ -10,13 +10,16 @@
 		return;
 	}
 	
-	int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-	NoticeDao noticeDao = new NoticeDao();
+	int questionNo = Integer.parseInt(request.getParameter("questionNo"));
+	int commentNo = Integer.parseInt(request.getParameter("commentNo"));
 	
-	ArrayList<HashMap<String, Object>> list = noticeDao.selectNoticeOne(noticeNo);
+	
+	QuestionCommentDao questionCommentDao = new QuestionCommentDao();
+	
+	ArrayList<HashMap<String, Object>> list = questionCommentDao.selectQuestionCommentOne(questionNo);
+	
 	//ArrayList<HashMap<String, Object>> 값 가져와서 변수에 저장
-	String noticeTitle = list.get(0).get("noticeTitle").toString();
-	String noticeContent = list.get(0).get("noticeContent").toString();
+	String commentContent = list.get(0).get("commentContent").toString();
 
 %>
 <!DOCTYPE html>
@@ -25,7 +28,7 @@
   	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-  	<title>공지 수정</title>	
+  	<title>답글 수정</title>	
   	<link rel="icon" href="img/Fevicon.png" type="image/png">
   	<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   	<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">	
@@ -48,17 +51,18 @@
 <!--================ End Header Menu Area =================-->
 
 <div class="container">
-	<h3>공지 수정</h3><br>
-	<form action="<%=request.getContextPath()%>/managerUpdateNoticeAction.jsp" method="post">
+	<h3>답글 수정</h3><br>
+	<form action="<%=request.getContextPath()%>/managerUpdateQuestionCommentAction.jsp" method="post">
 		<input type="hidden" name="managerNo" value="<%=session.getAttribute("managerNo")%>">
-		<input type="hidden" name="noticeNo" value="<%=noticeNo%>">
+		<input type="hidden" name="questionNo" value="<%=questionNo%>">
+		<input type="hidden" name="commentNo" value="<%=commentNo%>">
 <div class="mb-3 mt-3">
-	<label for="title" class="form-label">제목</label>
-	<input type="text" class="form-control" id="noticeTitle" name="noticeTitle" value="<%=noticeTitle%>" readonly="readonly">
+	<label for="title" class="form-label">답변번호</label>
+	<input type="text" class="form-control" id="commentNo" name="commentNo" value="<%=commentNo%>" readonly="readonly">
 </div>
 <div class="mb-3">
-	<label for="comment">공지</label>
-		<textarea class="form-control" rows="5" id="noticeContent" name="noticeContent" ><%=noticeContent%></textarea>
+	<label for="comment">답변 내용</label>
+		<textarea class="form-control" rows="5" id="commentContent" name="commentContent" ><%=commentContent%></textarea>
 </div>
 	<button type="submit" class="btn btn-primary">수정</button>
 </form>
