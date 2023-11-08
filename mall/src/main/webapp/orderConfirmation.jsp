@@ -43,6 +43,7 @@
 	ArrayList<HashMap<String, Object>> list = ordersDao.orderList(customerNo);
 	
 	int subtotal = 0;
+	int orderCount = 0;
 %>
   <!--================ Start Header Menu Area ===============-->
   <jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
@@ -113,28 +114,29 @@
                   <p><%=map.get("goodsTitle")%></p>
                 </td>
                 <td>
-                  <h5><%=map.get("quantity")%> 개</h5>
+                  <p><%=map.get("quantity")%> 개</p>
                 </td>
                 <td>
                   <p><%=map.get("totalPrice")%> 원</p>
                 </td>
                 <td>
-                  <p>취소</p>
+                  <a href="<%=request.getContextPath()%>/deleteOrderAction.jsp?ordersNo=<%=map.get("ordersNo")%>">취소</a>
                 </td>
               </tr>
               
              <%
              // 배송비를 제외한 총합 
              subtotal += (Integer) map.get("totalPrice");
+             orderCount++;
             }
              %> 
 
              
               
               <tr>
-                <td>
+              	<td>
                   <h4>Subtotal</h4>
-                </td>
+                </td>    
                 <td>
                   <h5></h5>
                 </td>
@@ -143,20 +145,20 @@
                   <p><%=subtotal%> 원</p>
                 </td>
               </tr>
-              <tr>
-                <td>
+              <tr>   
+              	<td>
                   <h4>배송료</h4>
                 </td>
                 <td>
                   <h5></h5>
                 </td>
-                <td></td>
+                <td></td> 
                 <td>
-                  <p>2500 원</p>
+                  <p><%=2500 * orderCount%> 원</p>
                 </td>
               </tr>
               <tr>
-                <td>
+              	<td>
                   <h4>Total</h4>
                 </td>
                 <td>
@@ -164,7 +166,7 @@
                 </td>
                 <td></td>
                 <td>
-                  <h4><%=subtotal + 2500%> 원</h4>
+                  <h4><%=subtotal + 2500 * orderCount%> 원</h4>
                 </td>
               </tr>
             </tbody>

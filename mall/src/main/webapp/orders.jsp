@@ -53,6 +53,7 @@
 	String msg = request.getParameter("msg");
 	
 	int totalSum = 0;
+	int cartCount = 0;
 %>
 
 	<!--================ Start Header Menu Area ===============-->
@@ -107,10 +108,10 @@
 
                   <table class="table">
                 	  <colgroup>
-			            <col width=40%>
+			            <col width=35%>
 			            <col width=21%>
 			            <col width=21%>
-			            <col width=30%>
+			            <col width=35%>
 	   	  			  </colgroup>
                     <thead>
                         <tr>
@@ -131,7 +132,7 @@
                      		int goodsSum = goodsPrice * quantity;
                      		
                      		totalSum += goodsSum;
-                     		
+                     		cartCount++;   		
                      %>
                       	
                    		<tr>  		
@@ -198,7 +199,7 @@
                           
                                	 <div>
                                	  	<input type="radio" id="parcel" name="ship">
-                           			<label for="parcel">택배 : 2500원</label>	
+                           			<label for="parcel">택배 : 2500 x <%=cartCount%> = <%=2500*cartCount%>원</label>	
                                	 </div>
                                 		                               
                                  </div>
