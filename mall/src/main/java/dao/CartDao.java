@@ -137,7 +137,7 @@ public class CartDao {
 			
 			String cartNoToString = Integer.toString(cartNo);
 			
-			// input의 이름을 cartNo로 설정했기 때문에 각각의 cartNo 에 대한 quantity를 가져 옴
+			// <input> 태그의 이름을 cartNo로 설정했기 때문에 각각의 cartNo 에 대한 quantity를 가져 옴
 			int updateQuantity = Integer.parseInt(request.getParameter(cartNoToString)); 
 			
 			String sql = "UPDATE cart SET quantity = ?, updatedate = now() WHERE cart_no = ?";

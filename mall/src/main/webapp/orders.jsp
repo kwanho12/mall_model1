@@ -227,7 +227,7 @@
 	<script>
 		// 택배 checkbox 선택시 화면에 추가된 금액이 보이게 하기
 		$('#parcel').click(function(){
-			$('#totalSum').text(<%=totalSum + 2500%>);
+			$('#totalSum').text(<%=totalSum + 2500*cartCount%>);
 		});
 		// 다시 선택하기 checkbox 선택시 화면에 배송비가 추가되지 않은 금액이 보이게 하기
 		$('#select').click(function(){

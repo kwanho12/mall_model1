@@ -302,7 +302,7 @@ public class GoodsDao {
 
 	}
 	
-	public ArrayList<HashMap<String,Object>> searchGoodsList(int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String,Object>> searchGoodsList(String search, int beginRow, int rowPerPage) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;
@@ -311,12 +311,17 @@ public class GoodsDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		/*
-		 * 
+		 * SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename 
+		 * FROM goods g INNER JOIN goods_img gi 
+		 * ON g.goods_no = gi.goods_no 
+		 * WHERE g.goods_title LIKE CONCAT('%','?','%') 
+		 * ORDER BY g.goods_no DESC LIMIT ?, ?
 		 * */
-		String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_no DESC LIMIT ?, ?";
+		String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_title LIKE CONCAT('%','?','%') ORDER BY g.goods_no DESC LIMIT ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
+		stmt.setString(1, search);
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
 		ResultSet rs = stmt.executeQuery();
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
