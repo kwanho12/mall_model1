@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import vo.Customer;
 import vo.CustomerAddr;
@@ -141,6 +141,102 @@ public class CustomerDao {
 		stmt3.close();
 		stmt4.close();
 		stmt5.close();
+
+	}
+	
+	public void withdrawalCustomer(int customerNo, String customerPw, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		conn.setAutoCommit(false);
+		
+		String sql1 = "SELECT customer_no FROM customer WHERE customer_no = ? AND customer_pw = PASSWORD(?)";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setInt(1, customerNo);
+		stmt1.setString(2, customerPw);
+		
+		ResultSet rs = stmt1.executeQuery();
+		if(!rs.next()) {
+			conn.rollback();
+			String msg = URLEncoder.encode("비밀번호를 확인하세요."); // 한글 깨짐 방지
+			response.sendRedirect(request.getContextPath()+"/withdrawalCustomer.jsp?msg="+msg);
+			return;
+		}
+		
+		// customer_detail 테이블 데이터 삭제 
+		String sql2 = "DELETE FROM customer_detail WHERE customer_no = ?";
+		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		stmt2.setInt(1, customerNo);
+		int row1 = stmt2.executeUpdate();
+		
+		if(row1 != 1) {
+			conn.rollback();
+			return;
+		}
+		
+		// customer_addr 테이블 데이터 삭제
+		String sql3 = "DELETE FROM customer_addr WHERE customer_no = ?";
+		PreparedStatement stmt3 = conn.prepareStatement(sql3);
+		stmt3.setInt(1, customerNo);
+		int row2 = stmt3.executeUpdate();
+		
+		if(row2 != 1) {
+			conn.rollback();
+			return;
+		}
+		
+		// customer_pw_history 테이블 데이터 삭제
+		String sql4 = "DELETE FROM customer_pw_history WHERE customer_no = ?";
+		PreparedStatement stmt4 = conn.prepareStatement(sql4);
+		stmt4.setInt(1, customerNo);
+		int row3 = stmt4.executeUpdate();
+		
+		if(row3 != 1) {
+			conn.rollback();
+			return;
+		}
+		
+		// cart 테이블 데이터 삭제
+		String sql5 = "DELETE FROM cart WHERE customer_no = ?";
+		PreparedStatement stmt5 = conn.prepareStatement(sql5);
+		stmt5.setInt(1, customerNo);
+		int row4 = stmt5.executeUpdate();
+		
+		CartDao cartDao = new CartDao();
+		int cartCount = cartDao.getCartCount(customerNo);
+		
+		if(row4 != cartCount) {
+			conn.rollback();
+			return;
+		}
+		
+		// customer 테이블 데이터 삭제
+		String sql6 = "DELETE FROM customer WHERE customer_no = ?";
+		PreparedStatement stmt6 = conn.prepareStatement(sql6);
+		stmt6.setInt(1, customerNo);
+		int row5 = stmt6.executeUpdate();
+		
+		if(row5 != 1) {
+			conn.rollback();
+			return;
+		}
+		
+		conn.commit();
+		
+		session.invalidate();
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		
+		conn.close();
+		stmt1.close();
+		rs.close();
+		stmt2.close();
+		stmt3.close();
+		stmt4.close();
+		stmt5.close();
+		stmt6.close();
 
 	}
 	

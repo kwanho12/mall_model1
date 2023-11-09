@@ -11,7 +11,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>마이페이지</title>
+  <title>탈퇴하기</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
   <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -39,10 +39,12 @@
 		return;
 	} else {
 		customerNo = (Integer) session.getAttribute("customerNo");
-	}	
+	}
 
 	CustomerDao customerDao = new CustomerDao();
 	ArrayList<HashMap<String,Object>> list = customerDao.customerOne(customerNo);
+	
+	String msg = request.getParameter("msg");
 	
 %>
 
@@ -64,37 +66,25 @@
 	<section class="login_box_area section-margin">
 		<div class="container">
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
-				<h3>마이페이지</h3>
-				
-			<% 
-				for(HashMap<String,Object> map : list) {
-			%>				
-				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerOne.jsp">
+				<h3>탈퇴하기</h3>	
+				<form class="row login_form" action="<%=request.getContextPath()%>/withdrawalCustomerAction.jsp">
 		            <div class="col-md-12 form-group">
-		            	<div>ID : <input type="text" value="<%=map.get("customerId")%>" name="customerId" readonly></div>
+		            	<div>비밀번호 : <input type="password" name="customerPw"></div>
 		            </div>
-		            <div class="col-md-12 form-group">
-		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName" readonly></div>
-		            </div>
-		            <div class="col-md-12 form-group">
-		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone" readonly></div>
-		            </div>      
-        	        <div class="col-md-12 form-group">
-		            	<div>주소 : <textarea rows="2" cols="50" style="resize:none; border:none; text-align:center;" name="address" readonly><%=map.get("address")%></textarea></div>
-		            </div> 
-		            
+		            <%
+		            	if(request.getParameter("msg") != null) {
+		            %>
+	            		<div class="col-md-12 form-group">
+		            		<div><%=msg%></div>
+			            </div>            
+		            <%
+		            	}
+		            %>     
 		            <div class="form-group container" style="width:400px;">
-						<button style="font-size:15px; margin:10px;" class="btn btn-light">수정하기</button>
-						<button type="button" style="font-size:15px; margin:7px;" class="btn btn-light" onclick="location.href='updateCustomerPw.jsp'">비밀번호 변경</button>
-						<button type="button" style="font-size:15px; margin:7px;" class="btn btn-light" onclick="location.href='withdrawalCustomer.jsp'">탈퇴하기</button>														
+						<button style="font-size:15px; margin:7px;" class="btn btn-light">탈퇴하기</button>					
 					</div>
 				</form>
-			<%
-				}
-			%>
-				
-			</div>
-					
+			</div>		
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->
