@@ -282,6 +282,47 @@ public class NoticeDao {
 		stmt.close();
 			
 	}
+	//호출(controller) : managerNotice.jsp -> 페이지의 마지막 페이지
+	public int selectNoticeLastPage(int rowPerPage) throws Exception{
+		
+		// db핸들링(model)
+		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
+		System.out.println("드라이브 로딩 성공");		// DB 드라이브 로딩 확인 디버깅
+		// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+		String url = "jdbc:mariadb://localhost:3306/mall";		
+		String dbuser = "root";
+		String dbpw = "java1234";
+		//DB연결을 위한 Connection객체 생성, 연결
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		
+		/* 페이징을 위해 lastPage 반환하기 위한 전체 공지의 수 
+		 	SELECT COUNT(*)
+				FROM notice;
+			
+		 */
+		
+		String sql = "SELECT COUNT(*) FROM notice";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+		ResultSet rs = stmt.executeQuery();
+		int totalRow = 0;
+		if(rs.next()) {
+			totalRow = rs.getInt(1);
+		}
+		
+		int lastPage = totalRow / rowPerPage; 
+		if(totalRow%rowPerPage != 0) {
+			lastPage = lastPage + 1;
+		}
+				
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
+		
+		return lastPage;
+	}
 	
 		
 }

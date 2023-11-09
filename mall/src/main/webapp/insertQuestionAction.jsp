@@ -20,10 +20,10 @@
 	//문의사항내용을 넣을 Question 객체 생성
 	Question question = new Question();
 	//ContactDao 호출을 위한 객체 생성
-	QuestionDao QuestionDao = new QuestionDao();
+	QuestionDao questionDao = new QuestionDao();
 		
 	//goodsTitle로 goodsNo를 알아냄
-	int goodsNo = QuestionDao.askGoodsNo(goodsTitle);
+	int goodsNo = questionDao.askGoodsNo(goodsTitle);
 
 	
 	//넘어온 값을 question객체에 담아줌
@@ -33,7 +33,7 @@
 	question.setQuestionContent(questionContent);
 
 	// insertQuestion 호출
-	QuestionDao.insertQuestion(question);
+	questionDao.insertQuestion(question);
 	
 	// 공지사항및문의사항으로 리다이렉션
 	response.sendRedirect(request.getContextPath()+"/question.jsp");
