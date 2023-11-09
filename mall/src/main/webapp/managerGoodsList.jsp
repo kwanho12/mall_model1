@@ -46,7 +46,7 @@
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
 	
-	int rowPerPage = 6;
+	int rowPerPage = 6;	
 	
 	GoodsDao goodsDao = new GoodsDao();
 	int totalRow = goodsDao.goodsListPaging();
@@ -87,13 +87,30 @@
             <form action="<%=request.getContextPath()%>/managerGoodsSearchList.jsp">
       			<div>
 	              <div class="input-group filter-bar-search">
-	                <input type="text" placeholder="검색" name="search">
-	                <div class="input-group-append">
-	                  <button><i class="ti-search"></i></button>
-	              	</div>
+	              
+	              	<table>
+	              		<tr>
+	              			<td>
+	              				<select name="searchField">
+									<option value="select">선택</option>
+									<option value="title">이름</option>
+									<option value="memo">상세 설명</option>
+								</select>
+	              			</td>
+	              			<td>
+	              				<input type="text" placeholder="입력" name="searchText" class="col">	 
+	              			</td>
+	              			<td>
+	              				<div >
+			                  		<button style="height:38px;"><i class="ti-search"></i></button>
+			              		</div>
+	              			</td>
+	              		</tr>
+	              	</table>
+	              		
               	  </div>
             	</div>
-      		</form>
+      		 </form>
       		
       		</div>
           <!-- End Paging, search Bar -->

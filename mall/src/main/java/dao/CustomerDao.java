@@ -285,10 +285,12 @@ public class CustomerDao {
 		int customerNo = rs.getInt("customerNo");
 		String active = rs.getString("active");
 		
-		if(active.equals("Y")) {
+		if(active.equals("Y")) { 
+			// active가 Y이면(회원탈퇴하지 않았다면) 로그인 성공
 			session.setAttribute("customerNo", customerNo);
 			response.sendRedirect(request.getContextPath()+"/home.jsp");
 		} else {
+			// active가 N이면(회원탈퇴하였다면) 로그인 실패
 			String msg = URLEncoder.encode("탈퇴된 회원입니다."); // 한글 깨짐 방지
 			response.sendRedirect(request.getContextPath()+"/login.jsp?msg="+msg);
 			return;	
