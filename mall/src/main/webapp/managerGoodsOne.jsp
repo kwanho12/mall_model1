@@ -43,7 +43,7 @@
 %>
 
 	<!--================ Start Header Menu Area ===============-->
-  	<jsp:include page="/inc/adminMenu.jsp"></jsp:include>
+  	<jsp:include page="/inc/managerMenu.jsp"></jsp:include>
   	<!--================ End Header Menu Area =================-->
   
   <!--================Login Box Area =================-->

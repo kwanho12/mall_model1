@@ -59,7 +59,7 @@
 	ArrayList<HashMap<String, Object>> list = goodsDao.selectGoodsList(beginRow, rowPerPage);
 %>
   <!--================ Start Header Menu Area ===============-->
-  <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
+  <jsp:include page="/inc/managerMenu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
 
           <!-- Start Paging, search Bar -->

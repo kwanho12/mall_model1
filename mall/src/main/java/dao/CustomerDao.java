@@ -221,7 +221,6 @@ public class CustomerDao {
 		stmt2.setInt(1, customerNo);
 		stmt2.setString(2, customerDetail.getCustomerName());
 		stmt2.setString(3, customerDetail.getCustomerPhone());
-		System.out.println(stmt2 + "<--- stmt2 insertTest()");
 		
 		int row2 = stmt2.executeUpdate();
 		if(row2 != 1) {
@@ -233,7 +232,6 @@ public class CustomerDao {
 		PreparedStatement stmt3 = conn.prepareStatement(sql3);
 		stmt3.setInt(1, customerNo);
 		stmt3.setString(2, customerAddr.getAddress());
-		System.out.println(stmt3 + "<--- stmt3 insertTest()");
 		
 		int row3 = stmt3.executeUpdate();
 		if(row3 != 1) {
@@ -245,7 +243,6 @@ public class CustomerDao {
 		PreparedStatement stmt4 = conn.prepareStatement(sql4);
 		stmt4.setInt(1, customerNo);
 		stmt4.setString(2, customer.getCustomerPw());
-		System.out.println(stmt4 + "<--- stmt4 insertTest()");
 		
 		int row4 = stmt4.executeUpdate();
 		if(row4 != 1) {

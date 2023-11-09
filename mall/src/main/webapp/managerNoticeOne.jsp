@@ -48,7 +48,7 @@
 	
 %>
 <!--================ Start Header Menu Area ===============-->
-	<jsp:include page="/inc/adminMenu.jsp"></jsp:include>
+	<jsp:include page="/inc/managerMenu.jsp"></jsp:include>
 <!--================ End Header Menu Area =================-->
 <div class="container">
 	<h3>공지 관리</h3>

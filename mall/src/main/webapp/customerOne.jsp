@@ -64,7 +64,7 @@
 	<section class="login_box_area section-margin">
 		<div class="container">
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
-				<h3>마이페이지</h3>
+				<h3>내 정보</h3>
 				
 			<% 
 				for(HashMap<String,Object> map : list) {
