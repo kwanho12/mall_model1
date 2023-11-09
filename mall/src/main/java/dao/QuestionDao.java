@@ -19,6 +19,7 @@ public class QuestionDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
 		
+		
 		/*	문의사항리스트 : 문의사항번호, 고객ID, 상품이름, 문의사항제목, 문의사항내용, 작성일, 수정일
 			SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate
 				FROM question q INNER JOIN customer c
@@ -28,24 +29,24 @@ public class QuestionDao {
 				ORDER BY q.createdate desc;
 		 */
 		
-		String sql = "SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no INNER JOIN goods g ON g.goods_no = q.goods_no ORDER BY q.createdate desc LIMIT ?,?";
-		PreparedStatement stmt=conn.prepareStatement(sql);
-		stmt.setInt(1, beginRow);
-		stmt.setInt(2, rowPerPage);
-		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
-		ResultSet rs = stmt.executeQuery();	
+		String sql2 = "SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no INNER JOIN goods g ON g.goods_no = q.goods_no ORDER BY q.createdate desc LIMIT ?,?";
+		PreparedStatement stmt2=conn.prepareStatement(sql2);
+		stmt2.setInt(1, beginRow);
+		stmt2.setInt(2, rowPerPage);
+		System.out.println(stmt2 + "<--stmt2");	//쿼리문 확인 디버깅
+		ResultSet rs2 = stmt2.executeQuery();	
 		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
-		while(rs.next()) {
+		while(rs2.next()) {
 			
 			HashMap<String, Object> q = new HashMap<>();
 			
-			q.put("questionNo", rs.getInt("questionNo"));
-			q.put("customerId", rs.getString("customerId"));
-			q.put("goodsTitle", rs.getString("goodsTitle"));
-			q.put("questionTitle", rs.getString("questionTitle"));
-			q.put("questionContent", rs.getString("questionContent"));
-			q.put("createdate", rs.getString("createdate"));
-			q.put("updatedate", rs.getString("updatedate"));
+			q.put("questionNo", rs2.getInt("questionNo"));
+			q.put("customerId", rs2.getString("customerId"));
+			q.put("goodsTitle", rs2.getString("goodsTitle"));
+			q.put("questionTitle", rs2.getString("questionTitle"));
+			q.put("questionContent", rs2.getString("questionContent"));
+			q.put("createdate", rs2.getString("createdate"));
+			q.put("updatedate", rs2.getString("updatedate"));
 			
 			list.add(q);
 		}
@@ -53,8 +54,8 @@ public class QuestionDao {
 		
 		//DB자원 반납
 		conn.close();
-		stmt.close();
-		rs.close();
+		stmt2.close();
+		rs2.close();
 		
 		return list;
 
@@ -337,6 +338,48 @@ public class QuestionDao {
 		conn.close();
 		stmt.close();
 			
+	}
+	
+	//호출(controller) : questionOne.jsp -> 페이지의 마지막 페이지
+	public int selectQuestionLastPage(int rowPerPage) throws Exception{
+		
+		// db핸들링(model)
+		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
+		System.out.println("드라이브 로딩 성공");		// DB 드라이브 로딩 확인 디버깅
+		// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+		String url = "jdbc:mariadb://localhost:3306/mall";		
+		String dbuser = "root";
+		String dbpw = "java1234";
+		//DB연결을 위한 Connection객체 생성, 연결
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		
+		/* 페이징을 위해 lastPage 반환하기 위한 전체 문의사항 수 
+		 	SELECT COUNT(*)
+				FROM question;
+			
+		 */
+		
+		String sql = "SELECT COUNT(*) FROM question";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+		ResultSet rs = stmt.executeQuery();
+		int totalRow = 0;
+		if(rs.next()) {
+			totalRow = rs.getInt(1);
+		}
+		
+		int lastPage = totalRow / rowPerPage; 
+		if(totalRow%rowPerPage != 0) {
+			lastPage = lastPage + 1;
+		}
+				
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
+		
+		return lastPage;
 	}
 	
 		

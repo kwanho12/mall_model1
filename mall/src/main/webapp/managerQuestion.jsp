@@ -29,6 +29,10 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   	<link rel="stylesheet" href="css/font.css">
+   
+   <style>
+      th { background-color: black; color: white;" }
+    </style>
 </head>
 <body>
 
@@ -63,7 +67,7 @@
             <col width=10%>
             <col width=5%>
  	    </colgroup>
-		<thead class="thead-dark">
+		<thead>
 			<tr>
 				<th>게시물 번호</th>
 				<th>고객 ID</th>

@@ -60,7 +60,9 @@
 	<label for="comment">공지</label>
 		<textarea class="form-control" rows="5" id="noticeContent" name="noticeContent" ><%=noticeContent%></textarea>
 </div>
-	<button type="submit" class="btn btn-primary">수정</button>
+<div class="text-right">
+	<button type="submit" class="btn btn-dark">수정</button>
+</div>
 </form>
 </div>
 </body>

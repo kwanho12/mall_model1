@@ -61,7 +61,7 @@
 		        <col width=15%>
 		        <col width=15%>
 		        <col width=5%>
-	        </colgroup>
+	     </colgroup>
 		<thead class="thead-dark">
 			<tr>
 				<th>공지사항 번호</th>

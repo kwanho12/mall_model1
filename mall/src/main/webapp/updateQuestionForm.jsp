@@ -58,25 +58,17 @@
   %>
   <!--================ End Header Menu Area =================-->
 
-	<!-- ================ start banner area ================= -->
-	<section class="blog-banner-area" id="contact">
-		<div class="container h-100">
-			<div class="blog-banner">
-				<div class="text-center">
-					<h1>QnA</h1>
-					<nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">notice</a></li>
-              <li class="breadcrumb-item active" aria-current="page">QnA</li>
-            </ol>
-          </nav>
-				</div>
-			</div>
+<!-- ================ start banner area ================= -->
+	<br>
+	<div class="container">
+		<div class="text-center">
+			<h1>QnA</h1>
+		</div>
     </div>
-	</section>
-	<!-- ================ end banner area ================= -->
+<!-- ================ end banner area ================= -->
 
 	<div class="container">
+		<p>문의사항 내용만 수정이 가능합니다!</p>
 	
 	<form action="<%=request.getContextPath()%>/updateQuestionAction.jsp" method="post">
 			<input type="hidden" name="customerNo" value="<%=session.getAttribute("customerNo")%>">
@@ -90,15 +82,16 @@
     			<input type="text" class="form-control" id="goodsTitle" name="goodsTitle" value="<%=goodsTitle%>" readonly="readonly">
   		</div>
   		<div class="mb-3">
-    		<label for="comment">문의</label>
+    		<label for="comment">문의내용</label>
 				<textarea class="form-control" rows="5" id="questionContent" name="questionContent" ><%=questionContent%></textarea>
   		</div>
   		<div class="form-check mb-3">	
 			<label class="form-check-label">
       			<input class="form-check-input" type="checkbox" name="private"> 비밀글</label>
   		</div>
-
-  		<button type="submit" class="btn btn-primary">등록</button>
+		<div class="text-right">
+  		<button type="submit" class="btn btn-dark">수정</button>
+  		</div>
 	</form>
 	</div>
 	<br>

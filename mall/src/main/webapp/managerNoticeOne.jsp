@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지관리</title>
 <meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -27,6 +27,10 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   	<link rel="stylesheet" href="css/font.css">
+   
+   <style>
+      th { background-color: black; color: white;" }
+    </style>
 </head>
 <body>
 <% 
@@ -51,7 +55,7 @@
 	<br>
 	<table class="table table-hover table-bordered">
 		<colgroup>
-            <col width=20% style="background-color: black; color: white;">
+            <col width=20%>
             <col width=80%>
  	    </colgroup>
 		<tr>
@@ -74,9 +78,9 @@
 		</tr>
 	</table>	
 </div>
-<div class="container">
-	<a href="<%=request.getContextPath() %>/managerUpdateNoticeForm.jsp?noticeNo=<%=list.get(0).get("noticeNo") %>" class="btn btn-primary">수정</a>
-	<a href="<%=request.getContextPath() %>/managerDeleteNoticeAction.jsp?noticeNo=<%=list.get(0).get("noticeNo") %>" class="btn btn-primary">삭제</a>
+<div class="container text-right">
+	<a href="<%=request.getContextPath() %>/managerUpdateNoticeForm.jsp?noticeNo=<%=list.get(0).get("noticeNo") %>" class="btn btn-dark">수정</a>
+	<a href="<%=request.getContextPath() %>/managerDeleteNoticeAction.jsp?noticeNo=<%=list.get(0).get("noticeNo") %>" class="btn btn-dark">삭제</a>
 </div>
 
 </body>

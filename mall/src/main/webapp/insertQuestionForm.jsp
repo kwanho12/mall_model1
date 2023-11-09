@@ -37,24 +37,15 @@
 <!--================ Start Header Menu Area ===============-->
 	<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
 <!--================ End Header Menu Area =================-->
-
 <!-- ================ start banner area ================= -->
-<section class="blog-banner-area" id="contact">
-	<div class="container h-100">
-		<div class="blog-banner">
-			<div class="text-center">
-				<h1>QnA</h1>
-				<nav aria-label="breadcrumb" class="banner-breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">notice</a></li>
-          <li class="breadcrumb-item active" aria-current="page">QnA</li>
-        </ol>
-      </nav>
-			</div>
+	<br>
+	<div class="container">
+		<div class="text-center">
+			<h1>Question</h1>
 		</div>
-</div>
-</section>
+    </div>
 <!-- ================ end banner area ================= -->
+
 
 <div class="container">
 	
@@ -76,8 +67,10 @@
 		<label class="form-check-label">
   			<input class="form-check-input" type="checkbox" name="private"> 비밀글</label>
 	</div>
-
-	<button type="submit" class="btn btn-primary">등록</button>
+	<div class="text-right">
+	
+	<button type="submit" class="btn btn-dark">등록</button>
+	</div>
 </form>
 </div>
 	<br>

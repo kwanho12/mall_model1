@@ -45,6 +45,14 @@
   	}
   %>
   <!--================ End Header Menu Area =================-->
+  <!-- ================ start banner area ================= -->
+		<br>
+		<div class="container">
+				<div class="text-center">
+					<h1>QnA</h1>
+				</div>
+    	</div>
+	<!-- ================ end banner area ================= -->
   <% 
 	
 	// contact.jsp에서 넘어온 파라미터
@@ -60,36 +68,46 @@
 	
 	//end controller code
 %>
-	<div class="container">
+	<br>
+	<br>
+<div class="container">
+	<br>
 	<table class="table">
+	<colgroup>
+		 <col width=10%>
+		 <col width=40%>
+		 <col width=10%>
+		 <col width=10%>
+		 <col width=10%>
+		 <col width=20%>
+	</colgroup>
 <%
 	for(HashMap<String, Object> qOne : list){
 %>
-		<!--<tr><th>번호</th><td><%=qOne.get("questionNo") %></td></tr>-->
-		<tr><th>제목</th><td><%=qOne.get("questionTitle") %></td></tr>
-		<tr><th>작성자</th><td><%=qOne.get("customerId") %></td></tr>
-		<tr><th>작성일</th><td><%=qOne.get("createdate") %></td></tr>
-		<tr><th>상품명</th><td><%=qOne.get("goodsTitle") %></td></tr>
-		<tr><th>내용</th><td><%=qOne.get("questionContent") %></td></tr>	
+		<tr><th>제목</th><td><%=qOne.get("questionTitle") %></td>
+		<th>작성자</th><td><%=qOne.get("customerId") %></td>
+		<th>작성일</th><td><%=qOne.get("createdate") %></td></tr>
+		<tr><th>상품명</th><td colspan="5"><%=qOne.get("goodsTitle") %></td></tr>
+		<tr><th>내용</th><td colspan="5"><%=qOne.get("questionContent") %></td></tr>	
 <%
 		}
 %>
 	</table>
+	</div>
+	<div class="container text-right">
 <%
 	if((int)session.getAttribute("customerNo") == qDao.askCustomerNo(questionNo)) {
 %>
-	<a href="<%=request.getContextPath() %>/updateQuestionForm.jsp?questionNo=<%=questionNo%>" class="btn btn-primary">수정</a>
-	<a href="<%=request.getContextPath() %>/deleteQuestionAction.jsp?questionNo=<%=questionNo%>" class="btn btn-primary">삭제</a>
+	<a href="<%=request.getContextPath() %>/updateQuestionForm.jsp?questionNo=<%=questionNo%>" class="btn btn-dark">수정</a>
+	<a href="<%=request.getContextPath() %>/deleteQuestionAction.jsp?questionNo=<%=questionNo%>" class="btn btn-dark">삭제</a>
 <%
 	}
 %>	
-	</div>
+	</div>	
 	
-	<div class="container">
-<%
-
-%>	
-	<h3>답변</h3>
+	
+<div class="container">
+	<h3>Answer</h3>
 	<table class="table">
 <%
 	if(comment == 1){
