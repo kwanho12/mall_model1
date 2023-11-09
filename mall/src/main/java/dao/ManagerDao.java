@@ -1,11 +1,15 @@
 package dao;
 
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import vo.Manager;
 import vo.ManagerPwHistory;
@@ -105,5 +109,81 @@ public class ManagerDao {
 		}
 		
 		return list;
+	}
+	
+	public void updateManagerOne(int managerNo, String managerName) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "UPDATE manager SET manager_name = ?, updatedate = NOW() WHERE manager_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, managerName);
+		stmt.setInt(2, managerNo);
+		
+		int row = stmt.executeUpdate();
+		if(row != 1) {
+			return;
+		}
+	}
+	
+	public void updateManagerPw(int managerNo, String oldPw, String newPw, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		conn.setAutoCommit(false);
+		
+		// 변경할 비밀번호가 이전에 사용했던 비밀번호와 다른지 검사
+		// 같다면 비밀번호 변경 화면으로 redirect해서 메시지 출력
+		String sql0 = "SELECT manager_pw managerPw FROM manager_pw_history WHERE manager_no = ? AND manager_pw = PASSWORD(?)";
+		PreparedStatement stmt0 = conn.prepareStatement(sql0);
+		stmt0.setInt(1, managerNo);
+		stmt0.setString(2, newPw);
+		ResultSet rs = stmt0.executeQuery();
+		if(rs.next()) { // 변경할 비밀번호가 이전에 사용했던 비밀번호와 같다면
+			conn.rollback();
+			String msg = URLEncoder.encode("변경할 비밀번호가 이전의 비밀번호와 같습니다. 다른 비밀번호를 입력해주세요.");
+			response.sendRedirect(request.getContextPath()+"/updateManagerPw.jsp?msg="+msg);
+			return;
+		}
+		
+			
+		// 입력한 비밀번호가 원래 비밀번호와 일치하는지 대조하고 일치한다면 customer 테이블 데이터 수정(비밀번호 수정)
+		String sql1 = "UPDATE manager SET manager_pw = password(?), updatedate = NOW() WHERE manager_no = ? AND manager_pw = password(?)";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setString(1, newPw);
+		stmt1.setInt(2, managerNo);
+		stmt1.setString(3, oldPw);
+	
+		int row1 = stmt1.executeUpdate();
+		
+		if(row1 != 1) {
+			conn.rollback();
+			String msg = URLEncoder.encode("비밀번호를 확인하세요.");
+			response.sendRedirect(request.getContextPath()+"/updateManagerPw.jsp?msg="+msg);
+			return;
+		}
+		
+		// 비밀번호를 수정하고 customer_pw_history 테이블에 비밀번호 변경 내역 추가
+		String sql2 = "INSERT INTO manager_pw_history(manager_no, manager_pw, createdate) VALUES(?, PASSWORD(?), NOW())";
+		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		stmt2.setInt(1, managerNo);
+		stmt2.setString(2, newPw);
+		int row2 = stmt2.executeUpdate();
+		
+		if(row2 != 1) {
+			conn.rollback();
+			return;
+		}
+		
+		conn.commit();
+		
+		response.sendRedirect(request.getContextPath()+"/managerOne.jsp");
 	}
 }

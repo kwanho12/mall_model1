@@ -29,6 +29,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/font.css">
+  
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 <%
@@ -75,7 +78,7 @@
 		            	<div>ID : <input type="text" value="<%=map.get("customerId")%>" readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName"></div>
+		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName" id="name"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
 		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone"></div>
@@ -95,6 +98,10 @@
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->
+	
+	<script>
+		$('#name').focus();
+	</script>
 
 
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>

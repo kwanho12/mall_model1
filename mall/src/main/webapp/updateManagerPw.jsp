@@ -1,8 +1,5 @@
+<%@page import="dao.ManagerDao"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="dao.CustomerDao"%>
-<%@page import="dao.GoodsDao"%>
-<%@page import="vo.Goods"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>비밀번호 변경</title>
+  <title>관리자 비밀번호 변경</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
   <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -33,41 +30,29 @@
 <body>
 <%
 	//세션 적용(로그인하지 않은 사람은 접근하지 않게 하기 위함)
-	int customerNo = 0;
-	if(session.getAttribute("customerNo") == null) {
-		response.sendRedirect(request.getContextPath()+"/login.jsp");
+	int managerNo = 0;
+	if(session.getAttribute("managerNo") == null) {
+		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
 		return;
 	} else {
-		customerNo = (Integer) session.getAttribute("customerNo");
+		managerNo = (Integer) session.getAttribute("managerNo");
 	}
-
-	CustomerDao customerDao = new CustomerDao();
-	ArrayList<HashMap<String,Object>> list = customerDao.customerOne(customerNo);
+	
 	
 	String msg = request.getParameter("msg");
 	
 %>
 
 	<!--================ Start Header Menu Area ===============-->
-	  <%
-	  	if(session.getAttribute("customerNo") != null) {
-	  %>
-	  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
-	  <% 	
-	  	} else {
-	  %>
-	  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
-	  <% 	
-	  	}
-	  %>
-  <!--================ End Header Menu Area =================-->
+    <jsp:include page="/inc/managerMenu.jsp"></jsp:include>
+    <!--================ End Header Menu Area =================-->
   
   <!--================Login Box Area =================-->
 	<section class="login_box_area section-margin">
 		<div class="container">
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
-				<h3>비밀번호 변경</h3>	
-				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerPwAction.jsp">
+				<h3>관리자 비밀번호 변경</h3>	
+				<form class="row login_form" action="<%=request.getContextPath()%>/updateManagerPwAction.jsp">
 		            <div class="col-md-12 form-group">
 		            	<div>원래 비밀번호 : <input type="password" name="oldPw"></div>
 		            </div>

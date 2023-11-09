@@ -434,7 +434,7 @@ public class CustomerDao {
 		
 		conn.commit();
 		
-		response.sendRedirect(request.getContextPath()+"/customerOne.jsp?customerNo="+customerNo);
+		response.sendRedirect(request.getContextPath()+"/customerOne.jsp");
 	}
 	
 	public int customerListPaging() throws Exception{
