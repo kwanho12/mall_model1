@@ -26,10 +26,6 @@
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
   
-  
-  	<!-- BootStrap5 -->
-	<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script> -->	
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
@@ -96,7 +92,8 @@
 	</div>
 	<div class="container text-right">
 <%
-	if((int)session.getAttribute("customerNo") == qDao.askCustomerNo(questionNo)) {
+	// 세션에 customerNo가 존재하고, customerNo가 작성자의 customerNo와 같다면
+	if((session.getAttribute("customerNo") != null)&&((int)session.getAttribute("customerNo") == qDao.askCustomerNo(questionNo))) {
 %>
 	<a href="<%=request.getContextPath() %>/updateQuestionForm.jsp?questionNo=<%=questionNo%>" class="btn btn-dark">수정</a>
 	<a href="<%=request.getContextPath() %>/deleteQuestionAction.jsp?questionNo=<%=questionNo%>" class="btn btn-dark">삭제</a>

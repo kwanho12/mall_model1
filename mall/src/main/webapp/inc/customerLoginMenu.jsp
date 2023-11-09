@@ -31,9 +31,10 @@
                  <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/cart.jsp">장바구니</a></li>
                </ul>       
 			</li>
- 
               <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/question.jsp">고객센터</a></li>
+              <li class="nav-item"><a class="nav-link" href="<%=request.getContextPath()%>/review.jsp">리뷰</a></li>
             </ul>
+
 
             <ul class="nav-shop">
               <li class="nav-item"><button><i class="ti-search"></i></button></li>

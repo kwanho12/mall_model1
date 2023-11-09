@@ -340,7 +340,7 @@ public class QuestionDao {
 			
 	}
 	
-	//호출(controller) : questionOne.jsp -> 페이지의 마지막 페이지
+	//호출(controller) : question.jsp -> 페이지의 마지막 페이지
 	public int selectQuestionLastPage(int rowPerPage) throws Exception{
 		
 		// db핸들링(model)
