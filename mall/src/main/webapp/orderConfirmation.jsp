@@ -54,7 +54,17 @@
   <section class="order_details">
     <div class="container" style="margin-bottom:50px;">
 		  <div style="margin-top : 50px;">
-			<p class="billing-alert">주문 완료되었습니다. 이용해 주셔서 감사합니다.</p>
+		  	<%
+	  		if(list.size() != 0) {
+		  	%>
+				<p class="billing-alert">결제 완료되었습니다. 이용해 주셔서 감사합니다.</p>
+			<%
+	  		} else {
+			%>
+				<p class="billing-alert">결제 내역이 존재하지 않습니다.</p>
+			<%
+	  		}
+			%>
 		  </div>
       
 

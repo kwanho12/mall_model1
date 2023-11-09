@@ -67,7 +67,7 @@
   %>
   <!--================ End Header Menu Area =================-->
 
-          <!-- Start Paging Bar -->
+          <!-- Start Paging, search Bar -->
           <div class="filter-bar d-flex flex-wrap align-items-center">
           	<div class="sorting mr-auto">
         
@@ -102,7 +102,7 @@
             
             
           </div>
-          <!-- End Paging Bar -->
+          <!-- End Paging, search Bar -->
    
           
           <!-- Start goods list -->

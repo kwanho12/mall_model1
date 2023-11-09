@@ -92,7 +92,7 @@ public class GoodsDao {
 		return totalRow;
 	}
 	
-	public int searchGoodsListPaging(String search) throws Exception{
+	public int goodsSearchListPaging(String search) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;

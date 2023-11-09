@@ -38,14 +38,84 @@
 	//세션 적용(로그인하지 않은 사람은 접근하지 않게 하기 위함)
 	if(session.getAttribute("managerNo") == null) {
 		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
-	}	
-
+	}
+	
+	int currentPage = 1;
+	if(request.getParameter("currentPage") != null) {
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
+	
+	int rowPerPage = 6;
+	
 	CustomerDao customerDao = new CustomerDao();
-	ArrayList<HashMap<String, Object>> list = customerDao.customerList();
+	int totalRow = customerDao.customerListPaging();
+	int lastPage = totalRow / rowPerPage;
+	if(totalRow % rowPerPage != 0) {
+		lastPage = lastPage + 1;
+	}
+	int beginRow = (currentPage-1)*rowPerPage;
+
+	ArrayList<HashMap<String, Object>> list = customerDao.customerList(beginRow, rowPerPage);
 %>	
 	<!--================ Start Header Menu Area ===============-->
     <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
     <!--================ End Header Menu Area =================-->
+    
+     <!-- Start Paging, search Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+          	<div class="sorting mr-auto">
+        
+          		<%
+          			if(currentPage > 1) {
+          		%>	
+          				<a class="btn btn-light" href="<%=request.getContextPath()%>/customerList.jsp?currentPage=<%=currentPage-1%>">이전</a>
+          		<%
+          			}
+          		%>
+          		
+          		<%
+					if(currentPage < lastPage) {
+				%>
+						<a class="btn btn-light" href="<%=request.getContextPath()%>/customerList.jsp?currentPage=<%=currentPage+1%>">다음</a>
+				<%		
+					}
+				%>
+
+          	</div>
+      
+            <form action="<%=request.getContextPath()%>/customerSearchList.jsp">
+      			<div>
+	              <div class="input-group filter-bar-search">
+	              
+	              	<table>
+	              		<tr>
+	              			<td>
+	              				<select name="searchField">
+									<option value="0">선택</option>
+									<option value="id">ID</option>
+									<option value="name">이름</option>
+									<option value="address">주소</option>
+									<option value="phone">휴대폰 번호</option>
+									<option value="active">활동 상태</option>
+								</select>
+	              			</td>
+	              			<td>
+	              				<input type="text" placeholder="입력" name="searchText" class="col">	 
+	              			</td>
+	              			<td>
+	              				<div >
+			                  		<button style="height:38px;"><i class="ti-search"></i></button>
+			              		</div>
+	              			</td>
+	              		</tr>
+	              	</table>
+	              		
+              	  </div>
+            	</div>
+      		</form>
+      		
+      		</div>
+          <!-- End Paging, search Bar -->
 	
 	<div class="container-fluid">
 		<h3>고객 관리</h3>

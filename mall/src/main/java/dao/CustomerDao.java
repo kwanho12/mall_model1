@@ -19,7 +19,7 @@ import vo.CustomerDetail;
 
 public class CustomerDao {
 	
-	public ArrayList<HashMap<String, Object>> customerList() throws Exception {
+	public ArrayList<HashMap<String, Object>> customerList(int beginRow, int rowPerPage) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
@@ -33,9 +33,12 @@ public class CustomerDao {
 		 * FROM customer c INNER JOIN customer_detail cd 
 		 * ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca 
 		 * ON ca.customer_no = c.customer_no
+		 * LIMIT ?, ?
 		 * */
-		String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no";
+		String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no LIMIT ?, ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, beginRow);
+		stmt.setInt(2, rowPerPage);
 		ResultSet rs = stmt.executeQuery();
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
@@ -370,5 +373,320 @@ public class CustomerDao {
 		conn.commit();
 		
 		response.sendRedirect(request.getContextPath()+"/customerOne.jsp?customerNo="+customerNo);
+	}
+	
+	public int customerListPaging() throws Exception{
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		// 페이징 sql
+		String sql = "SELECT COUNT(*) FROM customer";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		int totalRow = 0;
+		if(rs.next()) {
+			totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+		}
+		
+		conn.close();
+		stmt.close();
+		rs.close();
+		
+		return totalRow;
+	}
+	
+	public int customerSearchListPaging(String searchField, String searchText) throws Exception{
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		// 페이징 sql
+		int totalRow = 0;
+		if(searchField.equals("id")) {
+			
+			String sql = "SELECT COUNT(*) FROM customer WHERE customer_id LIKE CONCAT('%',?,'%')";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+			}
+			
+			conn.close();
+			stmt.close();
+			rs.close();
+		}
+		
+		if(searchField.equals("name")) {
+			
+			String sql = "SELECT COUNT(*) FROM customer_detail WHERE customer_name LIKE CONCAT('%',?,'%')";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+			}
+			
+			conn.close();
+			stmt.close();
+			rs.close();
+		}
+		
+		if(searchField.equals("address")) {
+			
+			String sql = "SELECT COUNT(*) FROM customer_addr WHERE address LIKE CONCAT('%',?,'%')";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+			}
+			
+			conn.close();
+			stmt.close();
+			rs.close();
+		}
+		
+		if(searchField.equals("phone")) {
+			
+			String sql = "SELECT COUNT(*) FROM customer_detail WHERE customer_phone LIKE CONCAT('%',?,'%')";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+			}
+			
+			conn.close();
+			stmt.close();
+			rs.close();
+		}
+		
+		if(searchField.equals("active")) {
+			
+			String sql = "SELECT COUNT(*) FROM customer WHERE active LIKE CONCAT('%',?,'%')";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+			}
+			
+			conn.close();
+			stmt.close();
+			rs.close();
+		}
+
+		return totalRow;
+	}
+	
+	public ArrayList<HashMap<String, Object>> searchCustomerList(String searchField, String searchText, int beginRow, int rowPerPage) throws Exception{
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
+		if(searchField.equals("id")) { // 검색창에서 id를 선택했을 때 
+			
+			/*
+			 * SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address 
+			 * FROM customer c INNER JOIN customer_detail cd 
+			 * ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca 
+			 * ON ca.customer_no = c.customer_no 
+			 * WHERE c.customer_id LIKE CONCAT('%',?,'%') 
+			 * LIMIT ?, ?
+			 * */
+			String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no WHERE c.customer_id LIKE CONCAT('%',?,'%') LIMIT ?, ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				HashMap<String, Object> c = new HashMap<>();
+				
+				c.put("customerNo", rs.getInt("customerNo"));
+				c.put("customerId", rs.getString("customerId"));
+				c.put("createdate", rs.getString("createdate"));
+				c.put("updatedate", rs.getString("updatedate"));
+				c.put("active", rs.getString("active"));
+				c.put("customerName", rs.getString("customerName"));
+				c.put("customerPhone", rs.getString("customerPhone"));
+				c.put("address", rs.getString("address"));
+				
+				list.add(c);
+			}
+			
+			stmt.close();
+			rs.close();
+		
+		}
+				
+		if(searchField.equals("name")) { // 검색창에서 id를 선택했을 때 
+			
+			/*
+			 * SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address 
+			 * FROM customer c INNER JOIN customer_detail cd 
+			 * ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca 
+			 * ON ca.customer_no = c.customer_no 
+			 * WHERE cd.customer_name LIKE CONCAT('%',?,'%') 
+			 * LIMIT ?, ?
+			 * */
+			String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no WHERE cd.customer_name LIKE CONCAT('%',?,'%') LIMIT ?, ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				HashMap<String, Object> c = new HashMap<>();
+				
+				c.put("customerNo", rs.getInt("customerNo"));
+				c.put("customerId", rs.getString("customerId"));
+				c.put("createdate", rs.getString("createdate"));
+				c.put("updatedate", rs.getString("updatedate"));
+				c.put("active", rs.getString("active"));
+				c.put("customerName", rs.getString("customerName"));
+				c.put("customerPhone", rs.getString("customerPhone"));
+				c.put("address", rs.getString("address"));
+				
+				list.add(c);
+			}
+			
+			stmt.close();
+			rs.close();
+		
+		}
+		
+		if(searchField.equals("address")) { // 검색창에서 id를 선택했을 때 
+			
+			/*
+			 * SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address 
+			 * FROM customer c INNER JOIN customer_detail cd 
+			 * ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca 
+			 * ON ca.customer_no = c.customer_no 
+			 * WHERE ca.address LIKE CONCAT('%',?,'%') 
+			 * LIMIT ?, ?
+			 * */
+			String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no WHERE ca.address LIKE CONCAT('%',?,'%') LIMIT ?, ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				HashMap<String, Object> c = new HashMap<>();
+				
+				c.put("customerNo", rs.getInt("customerNo"));
+				c.put("customerId", rs.getString("customerId"));
+				c.put("createdate", rs.getString("createdate"));
+				c.put("updatedate", rs.getString("updatedate"));
+				c.put("active", rs.getString("active"));
+				c.put("customerName", rs.getString("customerName"));
+				c.put("customerPhone", rs.getString("customerPhone"));
+				c.put("address", rs.getString("address"));
+				
+				list.add(c);
+			}
+			
+			stmt.close();
+			rs.close();
+		
+		}
+		
+		if(searchField.equals("phone")) { // 검색창에서 id를 선택했을 때 
+			
+			/*
+			 * SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address 
+			 * FROM customer c INNER JOIN customer_detail cd 
+			 * ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca 
+			 * ON ca.customer_no = c.customer_no 
+			 * WHERE cd.customer_phone LIKE CONCAT('%',?,'%') 
+			 * LIMIT ?, ?
+			 * */
+			String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no WHERE cd.customer_phone LIKE CONCAT('%',?,'%') LIMIT ?, ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				HashMap<String, Object> c = new HashMap<>();
+				
+				c.put("customerNo", rs.getInt("customerNo"));
+				c.put("customerId", rs.getString("customerId"));
+				c.put("createdate", rs.getString("createdate"));
+				c.put("updatedate", rs.getString("updatedate"));
+				c.put("active", rs.getString("active"));
+				c.put("customerName", rs.getString("customerName"));
+				c.put("customerPhone", rs.getString("customerPhone"));
+				c.put("address", rs.getString("address"));
+				
+				list.add(c);
+			}
+			
+			stmt.close();
+			rs.close();
+		
+		}
+		
+		if(searchField.equals("active")) { // 검색창에서 id를 선택했을 때 
+			
+			/*
+			 * SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address 
+			 * FROM customer c INNER JOIN customer_detail cd 
+			 * ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca 
+			 * ON ca.customer_no = c.customer_no 
+			 * WHERE c.active LIKE CONCAT('%',?,'%') 
+			 * LIMIT ?, ?
+			 * */
+			String sql = "SELECT c.customer_no customerNo, c.customer_id customerId, c.createdate createdate, c.updatedate updatedate, c.active, cd.customer_name customerName, cd.customer_phone customerPhone, ca.address FROM customer c INNER JOIN customer_detail cd ON c.customer_no = cd.customer_no INNER JOIN customer_addr ca ON ca.customer_no = c.customer_no WHERE c.active LIKE CONCAT('%',?,'%') LIMIT ?, ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage);
+			ResultSet rs = stmt.executeQuery();
+			
+			while(rs.next()) {
+				
+				HashMap<String, Object> c = new HashMap<>();
+				
+				c.put("customerNo", rs.getInt("customerNo"));
+				c.put("customerId", rs.getString("customerId"));
+				c.put("createdate", rs.getString("createdate"));
+				c.put("updatedate", rs.getString("updatedate"));
+				c.put("active", rs.getString("active"));
+				c.put("customerName", rs.getString("customerName"));
+				c.put("customerPhone", rs.getString("customerPhone"));
+				c.put("address", rs.getString("address"));
+				
+				list.add(c);
+			}
+			
+			stmt.close();
+			rs.close();
+		
+		}
+
+		conn.close();
+		return list;
 	}
 }
