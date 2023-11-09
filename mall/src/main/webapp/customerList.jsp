@@ -139,8 +139,8 @@
 					<th>주소</th>
 					<th>휴대폰 번호</th>
 					<th>활동 상태</th>
-					<th>createdate</th>
-					<th>updatedate</th>
+					<th>가입 날짜</th>
+					<th>수정 날짜</th>
 					<th>삭제</th>
 				</tr>
 			</thead>

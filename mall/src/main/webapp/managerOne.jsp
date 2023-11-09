@@ -1,3 +1,7 @@
+<%@page import="vo.Manager"%>
+<%@page import="dao.ManagerDao"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="dao.GoodsDao"%>
 <%@page import="vo.Goods"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -8,7 +12,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>상품 수정</title>
+  <title>마이페이지</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
   <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -30,60 +34,58 @@
 <body>
 <%
 	//세션 적용(로그인하지 않은 사람은 접근하지 않게 하기 위함)
+	int managerNo = 0;
 	if(session.getAttribute("managerNo") == null) {
 		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
-	}
+		return;
+	} else {
+		managerNo = (Integer) session.getAttribute("managerNo");
+	}	
 
-	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
-	GoodsDao goodsDao = new GoodsDao();
-	Goods g = goodsDao.goodsOne(goodsNo);
+	ManagerDao managerDao = new ManagerDao();
+	ArrayList<Manager> list = managerDao.managerOne(managerNo);
+	
 %>
 
 	<!--================ Start Header Menu Area ===============-->
-  	<jsp:include page="/inc/managerMenu.jsp"></jsp:include>
-  	<!--================ End Header Menu Area =================-->
+    <jsp:include page="/inc/managerMenu.jsp"></jsp:include>
+    <!--================ End Header Menu Area =================-->
   
   <!--================Login Box Area =================-->
 	<section class="login_box_area section-margin">
 		<div class="container">
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
-				<h3>상품 수정</h3>
-		
-				<form method="post" enctype="multipart/form-data" class="row login_form" action="<%=request.getContextPath()%>/updateGoodsAction.jsp?goodsNo=<%=g.getGoodsNo()%>">
-	
-					<div class="col-md-12 form-group">
-						<div>상품 번호 : <input type="text" value="<%=g.getGoodsNo()%>" readonly></div>
-         			</div>
-         			
-					<div class="col-md-12 form-group">
-						<input type="file" name="goodsImg">
-         			</div>
+				<h3>관리자 정보</h3>
+				
+			<% 
+				for(Manager m : list) {
+			%>				
+				<form class="row login_form" action="<%=request.getContextPath()%>/updateManagerOne.jsp">
 		            <div class="col-md-12 form-group">
-		            	<div>상품 이름 : <input type="text" value="<%=g.getGoodsTitle()%>" name="goodsTitle"></div>
+		            	<div>ID : <input type="text" value="<%=m.getManagerId()%>" name="managerId" readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>상품 가격 : <input type="text" value="<%=g.getGoodsPrice()%>" name="goodsPrice"></div>
+		            	<div>이름 : <input type="text" value="<%=m.getManagerName()%>" name="managerName" readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>soldout : <input type="text" value="<%=g.getSoldout()%>" name="soldout"></div>
+		            	<div>가입 날짜 : <input type="text" value="<%=m.getCreatedate()%>" readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>등록 날짜 : <input type="text" value="<%=g.getCreatedate()%>" readonly></div>
-		            </div>
-		            <div class="col-md-12 form-group">
-		            	<div>수정 날짜 : <input type="text" value="<%=g.getUpdatedate()%>" readonly></div>
-		            </div>
-        	        <div class="col-md-12 form-group">
-		            	<div>memo <textarea class="form-control" rows="7" name="goodsMemo"><%=g.getGoodsMemo()%></textarea></div>
-		            </div>
-		           
-					<div class="col-md-12 form-group">
-						<button type="submit" value="submit" class="button button-register w-100 mx-auto" style="margin:30px;">수정완료</button>
+		            	<div>수정 날짜 : <input type="text" value="<%=m.getUpdatedate()%>" readonly></div>
+		            </div>     
+		            
+		            <div class="form-group container" style="width:400px;">
+						<button style="font-size:15px; margin:10px;" class="btn btn-light">수정하기</button>
+						<button type="button" style="font-size:15px; margin:7px;" class="btn btn-light" onclick="location.href='updateManagerPw.jsp'">비밀번호 변경</button>
+						<button type="button" style="font-size:15px; margin:7px;" class="btn btn-light" onclick="location.href='withdrawalManager.jsp'">탈퇴하기</button>														
 					</div>
 				</form>
+			<%
+				}
+			%>
 				
-				
-			</div>		
+			</div>
+					
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->

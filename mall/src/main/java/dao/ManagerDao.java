@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import vo.Manager;
 import vo.ManagerPwHistory;
@@ -75,5 +76,34 @@ public class ManagerDao {
 		rs.close();
 		
 		return rs;
+	}
+	
+	public ArrayList<Manager> managerOne(int managerNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT manager_id managerId, manager_name managerName, createdate, updatedate FROM manager WHERE manager_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, managerNo);
+		ResultSet rs = stmt.executeQuery();
+		
+		
+		ArrayList<Manager> list = new ArrayList<>();
+		if(rs.next()) {
+			
+			Manager m = new Manager();
+			m.setManagerId(rs.getString("managerId"));
+			m.setManagerName(rs.getString("managerName"));
+			m.setCreatedate(rs.getString("createdate"));
+			m.setUpdatedate(rs.getString("updatedate"));
+			
+			list.add(m);
+		}
+		
+		return list;
 	}
 }

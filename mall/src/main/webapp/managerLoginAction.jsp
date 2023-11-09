@@ -16,7 +16,7 @@
 	ResultSet rs = managerDao.managerLogin(manager);
 	
 	if(rs.next()) { // 로그인 성공
-		session.setAttribute("managerNo", rs.getString("managerNo"));
+		session.setAttribute("managerNo", rs.getInt("managerNo"));
 		response.sendRedirect(request.getContextPath()+"/customerList.jsp");
 	} else { // 로그인 실패
 		String msg = URLEncoder.encode("아이디,비밀번호를 확인하세요."); // 한글 깨짐 방지

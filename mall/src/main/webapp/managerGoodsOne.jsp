@@ -68,10 +68,10 @@
 		            	<div>soldout : <input type="text" value="<%=g.getSoldout()%>" readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>createdate : <input type="text" value="<%=g.getCreatedate()%>" readonly></div>
+		            	<div>등록 날짜 : <input type="text" value="<%=g.getCreatedate()%>" readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>updatedate : <input type="text" value="<%=g.getUpdatedate()%>" readonly></div>
+		            	<div>수정 날짜 : <input type="text" value="<%=g.getUpdatedate()%>" readonly></div>
 		            </div>
         	        <div class="col-md-12 form-group">
 		            	<div>상품 설명 <textarea class="form-control" rows="7" name="goodsMemo" placeholder="<%=g.getGoodsMemo()%>" readonly></textarea></div>
