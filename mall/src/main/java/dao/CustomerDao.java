@@ -261,7 +261,7 @@ public class CustomerDao {
 		stmt4.close();
 	}
 	
-	public ResultSet customerLogin(Customer customer) throws Exception{
+	public void customerLogin(Customer customer, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
@@ -269,17 +269,35 @@ public class CustomerDao {
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
-		String sql = "SELECT customer_no customerNo FROM customer WHERE customer_id=? AND customer_pw = PASSWORD(?)";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, customer.getCustomerId());
-		stmt.setString(2, customer.getCustomerPw());
-		ResultSet rs = stmt.executeQuery();
+		// 입력한 ID와 비밀번호가 DB에 있는 데이터와 일치하는지 확인
+		String sql1 = "SELECT active, customer_no customerNo FROM customer WHERE customer_id=? AND customer_pw = PASSWORD(?)";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setString(1, customer.getCustomerId());
+		stmt1.setString(2, customer.getCustomerPw());
+		ResultSet rs = stmt1.executeQuery();
+			
+		if(!rs.next()) {
+			String msg = URLEncoder.encode("아이디,비밀번호를 확인하세요."); // 한글 깨짐 방지
+			response.sendRedirect(request.getContextPath()+"/login.jsp?msg="+msg);
+			return;	
+		} 
 		
+		int customerNo = rs.getInt("customerNo");
+		String active = rs.getString("active");
+		
+		if(active.equals("Y")) {
+			session.setAttribute("customerNo", customerNo);
+			response.sendRedirect(request.getContextPath()+"/home.jsp");
+		} else {
+			String msg = URLEncoder.encode("탈퇴된 회원입니다."); // 한글 깨짐 방지
+			response.sendRedirect(request.getContextPath()+"/login.jsp?msg="+msg);
+			return;	
+		}
+
 		conn.close();
-		stmt.close();
+		stmt1.close();
 		rs.close();
 		
-		return rs;
 	}
 	
 	public ArrayList<HashMap<String,Object>> customerOne(int customerNo) throws Exception {
