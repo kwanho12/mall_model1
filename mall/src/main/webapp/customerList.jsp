@@ -91,7 +91,7 @@
 	              		<tr>
 	              			<td>
 	              				<select name="searchField">
-									<option value="0">선택</option>
+									<option value="select">선택</option>
 									<option value="id">ID</option>
 									<option value="name">이름</option>
 									<option value="address">주소</option>

@@ -59,6 +59,10 @@
 	int beginRow = (currentPage-1)*rowPerPage;
 	
 	ArrayList<HashMap<String, Object>> list = customerDao.searchCustomerList(searchField, searchText, beginRow, rowPerPage);
+	
+	if(request.getParameter("searchField").equals("select")) { // 검색창에서 세부사항을 선택을 하지 않고 검색할 때
+		response.sendRedirect(request.getContextPath()+"/customerList.jsp");
+	}
 %>	
 	<!--================ Start Header Menu Area ===============-->
     <jsp:include page="/inc/adminMenu.jsp"></jsp:include>
@@ -94,7 +98,7 @@
 	              		<tr>
 	              			<td>
 	              				<select name="searchField">
-									<option value="0">선택</option>
+									<option value="select">선택</option>
 									<option value="id">ID</option>
 									<option value="name">이름</option>
 									<option value="address">주소</option>

@@ -92,7 +92,7 @@ public class GoodsDao {
 		return totalRow;
 	}
 	
-	public int goodsSearchListPaging(String search) throws Exception{
+	public int goodsSearchListPaging(String searchField, String searchText) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;
@@ -101,19 +101,36 @@ public class GoodsDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		// search 페이징 sql
-		String sql = "SELECT COUNT(*) FROM goods WHERE goods_title LIKE CONCAT('%',?,'%') OR goods_memo LIKE CONCAT('%',?,'%')";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, search);
-		stmt.setString(2, search);
-		ResultSet rs = stmt.executeQuery();
 		int totalRow = 0;
-		if(rs.next()) {
-			totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+		if(searchField.equals("title")) {
+			
+			String sql = "SELECT COUNT(*) FROM goods WHERE goods_title LIKE CONCAT('%',?,'%')";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+			}
+			
+			conn.close();
+			stmt.close();
+			rs.close();	
 		}
 		
-		conn.close();
-		stmt.close();
-		rs.close();
+		if(searchField.equals("memo")) {
+			
+			String sql = "SELECT COUNT(*) FROM goods WHERE goods_memo LIKE CONCAT('%',?,'%')";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				totalRow = rs.getInt("COUNT(*)"); // rs1.getInt(1)
+			}
+			
+			conn.close();
+			stmt.close();
+			rs.close();	
+		}
 		
 		return totalRow;
 	}
@@ -330,7 +347,7 @@ public class GoodsDao {
 
 	}
 	
-	public ArrayList<HashMap<String,Object>> searchGoodsList(String search, int beginRow, int rowPerPage) throws Exception {
+	public ArrayList<HashMap<String,Object>> searchGoodsList(String searchField, String searchText, int beginRow, int rowPerPage) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;
@@ -338,36 +355,74 @@ public class GoodsDao {
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
-		/*
-		 * SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename 
-		 * FROM goods g INNER JOIN goods_img gi 
-		 * ON g.goods_no = gi.goods_no 
-		 * WHERE g.goods_title LIKE CONCAT('%',?,'%')
-		 * OR g.goods_memo LIKE CONCAT('%',?,'%') 
-		 * ORDER BY g.goods_no DESC LIMIT ?, ?
-		 * */
-		String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_title LIKE CONCAT('%',?,'%') OR g.goods_memo LIKE CONCAT('%',?,'%') ORDER BY g.goods_no DESC LIMIT ?, ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setString(1, search);
-		stmt.setString(2, search);
-		stmt.setInt(3, beginRow);
-		stmt.setInt(4, rowPerPage);
-		ResultSet rs = stmt.executeQuery();
-		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();
-		while(rs.next()) {
+		if(searchField.equals("title")) {
+			/*
+			 * SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename 
+			 * FROM goods g INNER JOIN goods_img gi 
+			 * ON g.goods_no = gi.goods_no 
+			 * WHERE g.goods_title LIKE CONCAT('%',?,'%')
+			 * ORDER BY g.goods_no DESC LIMIT ?, ?
+			 * */
+			String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_title LIKE CONCAT('%',?,'%') ORDER BY g.goods_no DESC LIMIT ?, ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage);
+			ResultSet rs = stmt.executeQuery();
 			
-			HashMap<String, Object> map = new HashMap<>();
-			map.put("goodsNo", rs.getInt("goodsNo"));
-			map.put("goodsTitle", rs.getString("goodsTitle"));
-			map.put("goodsPrice", rs.getInt("goodsPrice"));
-			map.put("soldout", rs.getString("soldout"));
-			map.put("goodsMemo", rs.getString("goodsMemo"));
-			map.put("filename", rs.getString("filename"));
 			
-			list.add(map);
+			while(rs.next()) {
+				
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("goodsNo", rs.getInt("goodsNo"));
+				map.put("goodsTitle", rs.getString("goodsTitle"));
+				map.put("goodsPrice", rs.getInt("goodsPrice"));
+				map.put("soldout", rs.getString("soldout"));
+				map.put("goodsMemo", rs.getString("goodsMemo"));
+				map.put("filename", rs.getString("filename"));
+				
+				list.add(map);
+			}
+			
+			stmt.close();
+			rs.close();
 		}
 		
+		if(searchField.equals("memo")) {
+			/*
+			 * SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename 
+			 * FROM goods g INNER JOIN goods_img gi 
+			 * ON g.goods_no = gi.goods_no 
+			 * WHERE g.goods_memo LIKE CONCAT('%',?,'%')
+			 * ORDER BY g.goods_no DESC LIMIT ?, ?
+			 * */
+			String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_memo LIKE CONCAT('%',?,'%') ORDER BY g.goods_no DESC LIMIT ?, ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, searchText);
+			stmt.setInt(2, beginRow);
+			stmt.setInt(3, rowPerPage);
+			ResultSet rs = stmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("goodsNo", rs.getInt("goodsNo"));
+				map.put("goodsTitle", rs.getString("goodsTitle"));
+				map.put("goodsPrice", rs.getInt("goodsPrice"));
+				map.put("soldout", rs.getString("soldout"));
+				map.put("goodsMemo", rs.getString("goodsMemo"));
+				map.put("filename", rs.getString("filename"));
+				
+				list.add(map);
+			}
+			
+			stmt.close();
+			rs.close();
+		}
+		
+		conn.close();
 		return list;
 	
 	}

@@ -36,7 +36,6 @@
 </head>
 <body>
 <%
-	String search = request.getParameter("search");
 
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null) {
@@ -45,8 +44,11 @@
 	
 	int rowPerPage = 6;
 	
+	String searchField = request.getParameter("searchField");
+	String searchText = request.getParameter("searchText");
+	
 	GoodsDao goodsDao = new GoodsDao();
-	int totalRow = goodsDao.goodsSearchListPaging(search);
+	int totalRow = goodsDao.goodsSearchListPaging(searchField, searchText);
 	int lastPage = totalRow / rowPerPage;
 	if(totalRow % rowPerPage != 0) {
 		lastPage = lastPage + 1;
@@ -54,7 +56,11 @@
 	int beginRow = (currentPage-1)*rowPerPage;
 	
 	// 검색창에서 검색한 단어에 대해 필터링한 결과값
-	ArrayList<HashMap<String, Object>> list = goodsDao.searchGoodsList(search, beginRow, rowPerPage);
+	ArrayList<HashMap<String, Object>> list = goodsDao.searchGoodsList(searchField, searchText, beginRow, rowPerPage);
+	
+	if(request.getParameter("searchField").equals("select")) { // 검색창에서 세부사항을 선택을 하지 않고 검색할 때
+		response.sendRedirect(request.getContextPath()+"/goodsList.jsp");
+	}
 %>
   <!--================ Start Header Menu Area ===============-->
   <%
@@ -77,7 +83,7 @@
           		<%
           			if(currentPage > 1) {
           		%>	
-          				<a class="btn btn-light" href="<%=request.getContextPath()%>/goodsSearchList.jsp?currentPage=<%=currentPage-1%>&search=<%=search%>">이전</a>
+          				<a class="btn btn-light" href="<%=request.getContextPath()%>/goodsSearchList.jsp?currentPage=<%=currentPage-1%>&searchField=<%=searchField%>&searchText=<%=searchText%>">이전</a>
           		<%
           			}
           		%>
@@ -85,7 +91,7 @@
           		<%
 					if(currentPage < lastPage) {
 				%>
-						<a class="btn btn-light" href="<%=request.getContextPath()%>/goodsSearchList.jsp?currentPage=<%=currentPage+1%>&search=<%=search%>">다음</a>
+						<a class="btn btn-light" href="<%=request.getContextPath()%>/goodsSearchList.jsp?currentPage=<%=currentPage+1%>&searchField=<%=searchField%>&searchText=<%=searchText%>">다음</a>
 				<%		
 					}
 				%>
@@ -95,14 +101,30 @@
       		<form action="<%=request.getContextPath()%>/goodsSearchList.jsp">
       			<div>
 	              <div class="input-group filter-bar-search">
-	                <input type="text" placeholder="검색" name="search">
-	                <div class="input-group-append">
-	                  <button><i class="ti-search"></i></button>
-	              	</div>
+	              
+	              	<table>
+	              		<tr>
+	              			<td>
+	              				<select name="searchField">
+									<option value="select">선택</option>
+									<option value="title">이름</option>
+									<option value="memo">상세 설명</option>
+								</select>
+	              			</td>
+	              			<td>
+	              				<input type="text" placeholder="입력" name="searchText" class="col">	 
+	              			</td>
+	              			<td>
+	              				<div >
+			                  		<button style="height:38px;"><i class="ti-search"></i></button>
+			              		</div>
+	              			</td>
+	              		</tr>
+	              	</table>
+	              		
               	  </div>
             	</div>
-      		</form>
-            
+      		</form>       
             
           </div>
           <!-- End Paging, search Bar -->
