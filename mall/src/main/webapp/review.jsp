@@ -71,7 +71,7 @@
 	
 	//end controller code
 	
-		%>
+	%>
   		
  	<%
 	// 로그인이 되어 있고 orders에 구매 내역이 있는 고객이라면
@@ -102,11 +102,11 @@
 		        <col width=5%>
 		        <col width=17%>
 		        <col width=10%>
-		        <col width=38%>
-		        <col width=7%>
-		        <col width=13%>
+		        <col width=35%>
+		        <col width=8%>
+		        <col width=15%>
 	     </colgroup>
-		<thead class="table-dark">
+		<thead class="table-primary">
 			<tr>
 				<th>No</th>
 				<th>상품이미지</th>
@@ -142,6 +142,28 @@
 					<td><%=review.get("createdate") %></td>
 				</tr>
 		<% 		
+				// 본인이 작성한 리뷰는 수정, 삭제 가능 
+				// 리뷰작성자 customerNo와 로그인 customerNo가 같으면
+				String customerId = (String)review.get("customerId");
+				int reviewWriterNo = (int)reviewDao.askCustomerNo(customerId);
+				if(session.getAttribute("customerNo") != null){
+					if((int)(session.getAttribute("customerNo"))==reviewWriterNo){	
+		%>
+				<tr class="text-right">
+					<td colspan="6">
+					<%=review.get("customerId") %>님이 작성한 리뷰입니다.
+						<a href="<%=request.getContextPath() %>/updateReviewForm.jsp?reveiwNo=<%=review.get("reviewNo") %>" class="btn btn-dark">
+							수정
+						</a>
+						<a href="<%=request.getContextPath() %>/deleteReviewAction.jsp?reviewNo=<%=review.get("reviewNo") %>" class="btn btn-dark">
+							삭제
+						</a>
+					</td>
+				</tr>
+		<% 
+					}
+				}
+						
 			}
 		%>
 		</tbody>

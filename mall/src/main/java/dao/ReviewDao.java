@@ -211,6 +211,96 @@ public class ReviewDao {
 		
 		return ordersNo;
 		
-			}	
+			}
+
+	//호출(controller) : reveiw.jsp/managerReview.jsp
+	public void deleteReview(int reviewNo) throws Exception{
+		
+		System.out.println(reviewNo + "<-- 삭제할 reviewNo");
+		
+		// db핸들링(model)
+		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
+		System.out.println("드라이브 로딩 성공");		// DB 드라이브 로딩 확인 디버깅
+		// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+		String url = "jdbc:mariadb://localhost:3306/mall";		
+		String dbuser = "root";
+		String dbpw = "java1234";
+		//DB연결을 위한 Connection객체 생성, 연결
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		
+		/*
+			questionNo를 입력받아 삭제
+			DELETE FROM review WHERE review_no = ?
+		 */
+		
+		String sql = "DELETE FROM review WHERE review_no = ?";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		stmt.setInt(1, reviewNo);
+		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+
+		int row = stmt.executeUpdate();	
+		
+		if(row == 1) {
+			System.out.println("리뷰 삭제성공");
+		}else {
+			System.out.println("리뷰 삭제실패");
+		}
+		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+			
+	}
+
+	//호출(controller) : review.jsp - customerNo 알아오기
+	public int askCustomerNo(String customerId) throws Exception{
+		
+		System.out.println(customerId + "<-- customerNo 값 구할  customerId");
+		
+		// db핸들링(model)
+		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
+		System.out.println("드라이브 로딩 성공");		// DB 드라이브 로딩 확인 디버깅
+		// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+		String url = "jdbc:mariadb://localhost:3306/mall";		
+		String dbuser = "root";
+		String dbpw = "java1234";
+		//DB연결을 위한 Connection객체 생성, 연결
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		
+		/* customerId 입력받아 customerNo 출력
+		  SELECT customer_no customerNo
+			FROM customer
+			WHERE customer_id = ?;
+		 */
+		
+		String sql = "SELECT customer_no customerNo FROM customer WHERE customer_id = ?";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		stmt.setString(1,customerId);
+		
+		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+
+		
+		int customerNo = 0;
+		
+		// goodsTitle 로 goodsNo를 조회
+		ResultSet rs = stmt.executeQuery();	
+		if(rs.next()) {
+			customerNo = rs.getInt(1);	
+		}else {
+			System.out.println("고객번호(customerNo) 가져오기 실패");
+		}
+		System.out.println(customerNo + "<--customerNo");	//goodsNo 디버깅
+		
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
+		
+		return customerNo;
+		
+	}
+	
 
 }

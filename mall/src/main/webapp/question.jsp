@@ -90,7 +90,7 @@
 	
 	<div class="container">
 	<table class="table table-hover">
-		<thead class="table-dark">
+		<thead class="table-primary">
 			<tr>
 				<th>No</th>
 				<th>작성자</th>
