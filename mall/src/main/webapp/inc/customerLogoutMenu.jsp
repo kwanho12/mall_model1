@@ -33,7 +33,6 @@
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-search"></i></button></li>
               <li class="nav-item float-left">
               	<button type="button" onclick="location.href='<%=request.getContextPath()%>/cart.jsp'">       	
               	<i class="ti-shopping-cart"></i>

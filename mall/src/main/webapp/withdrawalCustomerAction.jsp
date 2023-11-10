@@ -7,5 +7,4 @@
 
 	CustomerDao customerDao = new CustomerDao();
 	customerDao.withdrawalCustomer(customerNo, customerPw, request, response, session);
-	
 %>

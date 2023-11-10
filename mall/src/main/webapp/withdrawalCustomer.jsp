@@ -1,8 +1,3 @@
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="dao.CustomerDao"%>
-<%@page import="dao.GoodsDao"%>
-<%@page import="vo.Goods"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -29,6 +24,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/font.css">
+  
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 <%
@@ -37,29 +35,14 @@
 	if(session.getAttribute("customerNo") == null) {
 		response.sendRedirect(request.getContextPath()+"/login.jsp");
 		return;
-	} else {
-		customerNo = (Integer) session.getAttribute("customerNo");
-	}
-
-	CustomerDao customerDao = new CustomerDao();
-	ArrayList<HashMap<String,Object>> list = customerDao.customerOne(customerNo);
+	} 
 	
 	String msg = request.getParameter("msg");
 	
 %>
 
-	<!--================ Start Header Menu Area ===============-->
-	  <%
-	  	if(session.getAttribute("customerNo") != null) {
-	  %>
-	  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
-	  <% 	
-	  	} else {
-	  %>
-	  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
-	  <% 	
-	  	}
-	  %>
+  <!--================ Start Header Menu Area ===============-->
+  <jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
   <!--================ End Header Menu Area =================-->
   
   <!--================Login Box Area =================-->
@@ -69,7 +52,7 @@
 				<h3>탈퇴하기</h3>	
 				<form class="row login_form" action="<%=request.getContextPath()%>/withdrawalCustomerAction.jsp">
 		            <div class="col-md-12 form-group">
-		            	<div>비밀번호 : <input type="password" name="customerPw"></div>
+		            	<div>비밀번호 : <input type="password" name="customerPw" id="pw"></div>
 		            </div>
 		            <%
 		            	if(request.getParameter("msg") != null) {
@@ -88,6 +71,10 @@
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->
+	
+	<script>
+		$('#pw').focus();
+	</script>
 
 
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>

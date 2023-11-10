@@ -26,6 +26,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/font.css">
+  
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
 <%
@@ -54,7 +57,7 @@
 				<h3>관리자 비밀번호 변경</h3>	
 				<form class="row login_form" action="<%=request.getContextPath()%>/updateManagerPwAction.jsp">
 		            <div class="col-md-12 form-group">
-		            	<div>원래 비밀번호 : <input type="password" name="oldPw"></div>
+		            	<div>원래 비밀번호 : <input type="password" name="oldPw" id="pw"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
 		            	<div>변경할 비밀번호 : <input type="password" name="newPw"></div>
@@ -69,13 +72,17 @@
 		            	}
 		            %>     
 		            <div class="form-group container" style="width:400px;">
-						<button style="font-size:15px; margin:7px;" class="btn btn-light">변경하기</button>					
+						<button style="font-size:15px; margin:7px;" class="btn btn-light">변경완료</button>					
 					</div>
 				</form>
 			</div>		
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->
+	
+	<script>
+		$('#pw').focus();
+	</script>
 
 
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>

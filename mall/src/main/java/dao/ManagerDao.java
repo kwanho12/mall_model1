@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import vo.Manager;
 import vo.ManagerPwHistory;
@@ -186,4 +187,48 @@ public class ManagerDao {
 		
 		response.sendRedirect(request.getContextPath()+"/managerOne.jsp");
 	}
-}
+	
+	public void withdrawalManager(int managerNo, String managerPw, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		conn.setAutoCommit(false);
+		
+		String sql1 = "SELECT manager_no FROM manager WHERE manager_no = ? AND manager_pw = PASSWORD(?)";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setInt(1, managerNo);
+		stmt1.setString(2, managerPw);
+		
+		ResultSet rs = stmt1.executeQuery();
+		if(!rs.next()) {
+			conn.rollback();
+			String msg = URLEncoder.encode("비밀번호를 확인하세요."); // 한글 깨짐 방지
+			response.sendRedirect(request.getContextPath()+"/withdrawalManager.jsp?msg="+msg);
+			return;
+		}
+		
+		// 비밀번호가 일치하면 active를 'N'으로 변경
+		String sql2 = "UPDATE manager SET active = 'N' WHERE manager_no = ?";
+		PreparedStatement stmt2 = conn.prepareStatement(sql2);
+		stmt2.setInt(1, managerNo);
+		
+		int row = stmt2.executeUpdate();
+		if(row != 1) {
+			conn.rollback();
+			return;
+		} 
+		
+		conn.commit();
+		
+		session.invalidate();
+		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
+		
+		conn.close();
+		stmt1.close();
+		rs.close();
+		stmt2.close();
+	}
+ }
