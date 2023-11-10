@@ -36,9 +36,12 @@
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
 				<h3>관리자 추가</h3>
 				<form class="row login_form" action="<%=request.getContextPath()%>/managerRegisterAction.jsp" id="register_form" >
-					<div class="col-md-12 form-group">
+					<div class="col-md-8 form-group">
 						<input type="text" class="form-control" id="managerId" name="managerId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
-           				</div>
+           			</div>
+           			<div class="col-md-4 form-group">
+       					<button type="button" class="form-control" id="idCheck">중복체크</button>    					
+       				</div>
 		            <div class="col-md-12 form-group">
 						<input type="password" class="form-control" id="managerPw" name="managerPw" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
 		            </div>
@@ -56,6 +59,31 @@
 	</section>
 	<!--================End Login Box Area =================-->
 	
+	<script>
+	// ID 중복체크
+	$('#idCheck').click(function(){
+	
+		let managerId = $('#managerId').val(); // 입력된 id를 가져 옴.
+		
+		if(managerId != "") {
+			$.ajax({
+				url: "<%=request.getContextPath()%>/managerIdCheckAction.jsp",
+				type: "post",
+				data: {managerId : managerId},
+				dataType: 'json',
+				success: function(result) {
+					if(result == 0) {
+						alert('이미 등록된 아이디입니다.');
+					} else {
+						alert('사용 가능한 아이디입니다.');
+					}
+				}
+			});
+		} else {
+			alert('아이디를 입력해 주세요.');	
+		}		
+   });
+	</script>
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="vendors/skrollr.min.js"></script>

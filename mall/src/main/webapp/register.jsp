@@ -85,6 +85,7 @@
 	<!--================End Login Box Area =================-->
 	
 	<script>
+		// ID 중복체크
 		$('#idCheck').click(function(){
 		
 			let customerId = $('#customerId').val(); // 입력된 id를 가져 옴.

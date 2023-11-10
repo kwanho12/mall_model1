@@ -62,6 +62,30 @@ public class ManagerDao {
 		stmt2.close();
 	}
 	
+	public int managerIdCheck(String managerId) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT manager_id managerId FROM manager WHERE manager_id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, managerId);
+		ResultSet rs = stmt.executeQuery();
+		
+		int idCheck = 0;
+		if(rs.next()) {
+			idCheck = 0; // id가 이미 존재하는 경우. (생성 불가능)
+		} else {
+			idCheck = 1; // id가 존재하지 않는 경우. (생성 가능)
+		}
+		
+		return idCheck;
+		
+	}
+	
 	public ResultSet managerLogin(Manager manager) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
