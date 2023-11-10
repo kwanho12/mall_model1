@@ -39,7 +39,7 @@
   
   
   <!--================Login Box Area =================-->
-	<section class="login_box_area">
+	<section class="login_box_area" style="margin-top:100px;">
 		<div class="container">
 			<div class="row">
 			
@@ -107,15 +107,19 @@
 			$(this).val($(this).val().replace(/[^0-9]/g, ''));
 		});
 		
-		// 중복체크를 하고 난 뒤 아이디 입력란에 사용 가능한 아이디를 지우고 새로운 아이디를 입력했을 경우에 대처
+		
 		let isIdCheck = false; 
 		
-		// ID 중복체크
-		$('#idCheck').click(function(){
+		// 중복체크를 하고 난 뒤 아이디 입력란에 사용 가능한 아이디를 지우고 새로운 아이디를 입력했을 경우에 대처
+		$('#customerId').keydown(function(){
+			isIdCheck = false;
+		});
 		
+		//// ID 중복체크
+		$('#idCheck').click(function(){
+			
+			// ID 중복체크
 			let customerId = $('#customerId').val(); // 입력된 id를 가져 옴.
-			
-			
 			if(customerId != "") {
 				$.ajax({
 					url: "<%=request.getContextPath()%>/customerIdCheckAction.jsp",
@@ -127,9 +131,9 @@
 							alert('이미 등록된 아이디입니다. 다른 아이디를 입력하세요.');
 							$('#customerId').focus();
 						} else {
+							isIdCheck = true;
 							alert('사용 가능한 아이디입니다.');
 							$('#customerPw').focus();
-							isIdCheck = true;
 						}
 					}
 				});
@@ -139,11 +143,7 @@
 	   });
 		
 		
-		$('#customerId').keydown(function(){
-			isIdCheck = false;
-		});
-		
-		// 가입하기 버튼을 누를 때
+		//// 가입하기 
 		$('#signBtn').click(function(){
 			
 			if(isIdCheck == false) {
