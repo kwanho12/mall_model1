@@ -52,7 +52,6 @@
 				</div>
     	</div>
   <!-- ================ end banner area ================= -->
-<<<<<<< HEAD
     <!-- Start Paging, search Bar -->
           <div class="filter-bar d-flex flex-wrap align-items-center">
           	<div class="sorting mr-auto">
@@ -108,9 +107,6 @@
       		
       		</div>
           <!-- End Paging, search Bar -->
-=======
-  
->>>>>>> d5b647117fd6912fe3694a4cab0084f017894b67
 <%
 	//start controller code
 	int currentPage=1;
