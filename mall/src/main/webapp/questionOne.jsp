@@ -51,7 +51,7 @@
 	<!-- ================ end banner area ================= -->
   <% 
 	
-	// contact.jsp에서 넘어온 파라미터
+	// question.jsp에서 넘어온 파라미터
   	int questionNo = Integer.parseInt(request.getParameter("questionNo"));
   	System.out.println(questionNo + "<-- questionNo");	// questionNo 디버깅
 	

@@ -19,6 +19,6 @@
 	// 수정 updateQuestion 호출
 	questionDao.updateQuestion(questionNo, questionContent);
 	
-	//리다이렉션 -> qeustion.jsp
-	response.sendRedirect(request.getContextPath()+"/question.jsp");
+	//리다이렉션 -> 수정이 완료되면 수정한 문의사항으로 이동 qeustionOne.jsp
+	response.sendRedirect(request.getContextPath()+"/questionOne.jsp?questionNo="+questionNo);
 %>

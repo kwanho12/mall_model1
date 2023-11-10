@@ -28,7 +28,7 @@
 	questionCommentDao.insertQuestionComment(qComment);
 	
 	// 리다이렉트 -> 추가가 완료되면 managerNotice.jsp로 이동
-	response.sendRedirect(request.getContextPath()+"/managerQuestion.jsp");
+	response.sendRedirect(request.getContextPath()+"/managerQuestionOne.jsp?questionNo="+questionNo);
 	
 
 %>

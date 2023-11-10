@@ -152,7 +152,7 @@
 				<tr class="text-right">
 					<td colspan="6">
 					<%=review.get("customerId") %>님이 작성한 리뷰입니다.
-						<a href="<%=request.getContextPath() %>/updateReviewForm.jsp?reveiwNo=<%=review.get("reviewNo") %>" class="btn btn-dark">
+						<a href="<%=request.getContextPath() %>/updateReviewForm.jsp?reviewNo=<%=review.get("reviewNo") %>" class="btn btn-dark">
 							수정
 						</a>
 						<a href="<%=request.getContextPath() %>/deleteReviewAction.jsp?reviewNo=<%=review.get("reviewNo") %>" class="btn btn-dark">

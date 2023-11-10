@@ -20,8 +20,8 @@
 	
 	noticeDao.managerUpdateNotice(noticeNo, noticeContent, managerNo);
 	
-	// 리다이렉트 -> 수정이 완료되면 managerNotice.jsp로 이동
-	response.sendRedirect(request.getContextPath()+"/managerNotice.jsp");
+	// 리다이렉트 -> 수정이 완료되면 수정한 공지의 managerNoticeOne.jsp로 이동
+	response.sendRedirect(request.getContextPath()+"/managerNoticeOne.jsp?managerNo="+managerNo);
 	
 
 %>
