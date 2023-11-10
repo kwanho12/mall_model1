@@ -17,6 +17,8 @@
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
   	<link rel="stylesheet" href="css/style.css">
+  	<link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+  	<link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
   
   	<!--구글폰트 -->
   	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -50,6 +52,7 @@
 				</div>
     	</div>
   <!-- ================ end banner area ================= -->
+<<<<<<< HEAD
     <!-- Start Paging, search Bar -->
           <div class="filter-bar d-flex flex-wrap align-items-center">
           	<div class="sorting mr-auto">
@@ -105,6 +108,9 @@
       		
       		</div>
           <!-- End Paging, search Bar -->
+=======
+  
+>>>>>>> d5b647117fd6912fe3694a4cab0084f017894b67
 <%
 	//start controller code
 	int currentPage=1;
