@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import="dao.*" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html>
@@ -23,6 +23,7 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com" >
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
+  	
 </head>
 <body>
 
@@ -54,7 +55,7 @@
           	<div class="sorting mr-auto">
         
           		<%
-          			//if(currentPage > 1) {
+          			// if(currentPage > 1) {
           		%>	
           				<a class="btn btn-light" href="<%=request.getContextPath()%>">이전</a>
           		<%
@@ -62,7 +63,7 @@
           		%>
           		
           		<%
-					//if(currentPage < lastPage) {
+					// if(currentPage < lastPage) {
 				%>
 						<a class="btn btn-light" href="<%=request.getContextPath()%>">다음</a>
 				<%		
@@ -91,7 +92,7 @@
 	              				<input type="text" placeholder="입력" name="searchText" class="col">	 
 	              			</td>
 	              			<td>
-	              				<div >
+	              				<div>
 			                  		<button style="height:38px;"><i class="ti-search"></i></button>
 			              		</div>
 	              			</td>

@@ -106,7 +106,7 @@
 	              				<input type="text" placeholder="입력" name="searchText" class="col">	 
 	              			</td>
 	              			<td>
-	              				<div >
+	              				<div>
 			                  		<button style="height:38px;"><i class="ti-search"></i></button>
 			              		</div>
 	              			</td>
@@ -118,9 +118,8 @@
       		</form>
       		
    		</div>
-          <!-- End Paging, search Bar -->
-   
-          
+          <!-- End Paging, search Bar -->  
+       
           <!-- Start goods list -->
           <section class="lattest-product-area pb-40 category-list container">
             <div class="row">

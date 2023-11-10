@@ -52,7 +52,7 @@
 					</div>
 				</div>
 			
-				<div class="col-lg-6 mx-auto">
+				<div class="col-lg-6">
 					<div class="login_form_inner register_form_inner">
 						<h3>회원가입</h3>
 						<form class="row login_form" action="<%=request.getContextPath()%>/registerAction.jsp" id="signinForm">
@@ -107,11 +107,14 @@
 			$(this).val($(this).val().replace(/[^0-9]/g, ''));
 		});
 		
-	
+		// 중복체크를 하고 난 뒤 아이디 입력란에 사용 가능한 아이디를 지우고 새로운 아이디를 입력했을 경우에 대처
+		let isIdCheck = false; 
+		
 		// ID 중복체크
 		$('#idCheck').click(function(){
 		
 			let customerId = $('#customerId').val(); // 입력된 id를 가져 옴.
+			
 			
 			if(customerId != "") {
 				$.ajax({
@@ -121,10 +124,12 @@
 					dataType: 'json',
 					success: function(result) {
 						if(result == 0) {
-							alert('이미 등록된 아이디입니다.');
+							alert('이미 등록된 아이디입니다. 다른 아이디를 입력하세요.');
+							$('#customerId').focus();
 						} else {
 							alert('사용 가능한 아이디입니다.');
 							$('#customerPw').focus();
+							isIdCheck = true;
 						}
 					}
 				});
@@ -133,48 +138,73 @@
 			}		
 	   });
 		
+		
+		$('#customerId').keydown(function(){
+			isIdCheck = false;
+		});
+		
 		// 가입하기 버튼을 누를 때
 		$('#signBtn').click(function(){
 			
-			// 아이디 창에 아무것도 입력하지 않았을 때
-			if($('#customerId').val() == "") {
+			if(isIdCheck == false) {
+				alert('ID 중복체크를 하세요.')
+				return;
+			}
+			
+			
+			if($('#customerId').val() == "") { 
+				// 아이디 창에 아무것도 입력하지 않았을 때
 				alert('아이디를 입력하세요.');
 				return;
-			}
-			
-			// 비밀번호 창에 아무것도 입력하지 않았을 때
-			if($('#customerPw').val() == "" || $('#pwCheck').val() == "") {
-				alert('비밀번호를 입력하세요.');
+			} else if($('#customerId').val().length < 5) { 
+				// 아이디 창의 입력값의 length가 5 미만일 때
+				alert('아이디를 5자 이상 입력하세요.');
 				return;
 			}
 			
-			// 비밀번호 일치 확인
-			if($('#customerPw').val() != $('#pwCheck').val()) {
+			if($('#customerPw').val() == "" || $('#pwCheck').val() == "") { 
+				// 비밀번호 창에 아무것도 입력하지 않았을 때
+				alert('비밀번호를 입력하세요.');
+				return;
+			} else if($('#customerPw').val().length < 6) { 
+				// 비밀번호 창의 입력값의 length가 6 미만일 때
+				alert('비밀번호를 6자 이상 입력하세요.');
+				return;
+			} else if($('#customerPw').val() != $('#pwCheck').val()) { 
+				// 비밀번호 일치 확인
 				alert('비밀번호가 일치하지 않습니다.');
 				return;
 			}
 			
-			// 이름 창에 아무것도 입력하지 않았을 때
+			
+			
 			if($('#customerName').val() == "") {
+				// 이름 창에 아무것도 입력하지 않았을 때
 				alert('이름을 입력하세요.');
+				return;
+			} else if($('#customerName').val().length < 2) { 
+				// 이름 창의 입력값의 length가 2 미만일 때
+				alert('이름을 2자 이상 입력하세요.');
 				return;
 			}
 			
-			// 주소 창에 아무것도 입력하지 않았을 때
+			
 			if($('#address').val() == "") {
+				// 주소 창에 아무것도 입력하지 않았을 때
 				alert('주소를 입력하세요.');
 				return;
 			}
 			
-			// 휴대폰 번호 창에 아무것도 입력하지 않았을 때
+			
 			if($('#customerPhone').val() == "") {
+				// 휴대폰 번호 창에 아무것도 입력하지 않았을 때
 				alert('휴대폰 번호를 입력하세요.');
 				return;
+			} else if(($('#customerPhone').val().length != 11) || ($('#customerPhone').val().substr(0,3) != '010') ) {
+				// 휴대폰 번호의 길이가 11이 아니거나 번호가 010으로 시작하지 않을 때
+				alert('휴대폰 번호의 형식이 올바르지 않습니다.');
+				return;
 			}
-			
-			
-			
-			
 			
 			$('#signinForm').submit();
 		});
