@@ -10,12 +10,17 @@
 	String questionTitle = request.getParameter("questionTitle");
 	String goodsTitle = request.getParameter("goodsTitle");
 	String questionContent = request.getParameter("questionContent");
+	String questionType = request.getParameter("questionType");
 	
 	// 문의사항 내용 디버깅
 	System.out.println(customerNo+"<--customerNo");
 	System.out.println(questionTitle+"<--questionTitle");
 	System.out.println(goodsTitle+"<--goodsTitle");
 	System.out.println(questionContent+"<--questionContent");
+	System.out.println(questionType+"<--questionType");
+	
+	// questionTitle 에 questionType을 합쳐셔 저장
+	questionTitle=questionType+questionTitle;
 	
 	//문의사항내용을 넣을 Question 객체 생성
 	Question question = new Question();

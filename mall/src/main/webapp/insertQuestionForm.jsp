@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="dao.*" %>
+<%@ page import="vo.*" %>
+<%@ page import="java.util.*" %>
     
 <%
 	// 로그인 후 접근가능
@@ -57,19 +60,41 @@
 		</div>
     </div>
 <!-- ================ end banner area ================= -->
-
+<%
+	QuestionDao questionDao = new QuestionDao();
+	 ArrayList<HashMap<String,Object>> list = questionDao.selectQuestionGoodsList();
+	 int totalGoods = list.size();
+	 System.out.println(totalGoods + "<--상품 총 개수 출력");
+	 
+%>
 
 <div class="container">
 	
 <form action="<%=request.getContextPath()%>/insertQuestionAction.jsp" method="post">
 		<input type="hidden" name="customerNo" value="<%=session.getAttribute("customerNo")%>">
 	<div class="mb-3 mt-3">
-		<label for="title" class="form-label">제목</label>
-			<input type="text" class="form-control" id="questiontitle" placeholder="제목을 입력하세요." name="questionTitle">
+		<select name="questionType" id="questionType">
+				 <option selected="selected">-문의종류-</option>
+				 <option value="[배송]">[배송]</option>
+				 <option value="[상품]">[상품]</option>
+				 <option value="[AS]" >[AS]</option>
+				 <option value="[환불]">[환불]</option>			
+				 <option value="[기타]">[기타]</option>			
+		</select>
+		<select name="goodsTitle" id="goodsTitle">
+				 <option selected="selected">-상품명-</option>
+				 <%
+				 	for(int i = 0 ; i <totalGoods; i=i+1){
+				 %>
+				 <option value="<%=list.get(i).get("goodsTitle") %>"><%=list.get(i).get("goodsTitle") %></option>		
+				 <%
+				 	}
+				 %>	
+		</select>
 	</div>
 	<div class="mb-3 mt-3">
-		<label for="goodsName" class="form-label">상품명</label>
-			<input type="text" class="form-control" id="goodsTitle" placeholder="상품명을 입력하세요." name="goodsTitle">
+		<label for="title" class="form-label">제목</label>
+			<input type="text" class="form-control" id="questiontitle" placeholder="제목을 입력하세요." name="questionTitle">
 	</div>
 	<div class="mb-3">
 		<label for="comment">문의</label>
