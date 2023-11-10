@@ -56,7 +56,7 @@
 						<h3>회원가입</h3>
 						<form class="row login_form" action="<%=request.getContextPath()%>/registerAction.jsp">
 							<div class="col-md-8 form-group">
-								<input type="text" class="form-control" id="customerId" name="customerId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
+								<input type="text" class="form-control" id="customerId" name="customerId" placeholder="아이디" maxlength="14" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
              				</div>
              				<div class="col-md-4 form-group">
              					<button type="button" class="form-control" id="idCheck">중복체크</button>    					
@@ -85,6 +85,11 @@
 	<!--================End Login Box Area =================-->
 	
 	<script>
+		// 정규식을 이용한 입력 체크(영문 소문자, 숫자만 입력 가능)
+		$('#customerId').keyup(function(){
+			$(this).val($(this).val().replace(/[^a-z0-9]/g, ''));
+		});
+	
 		// ID 중복체크
 		$('#idCheck').click(function(){
 		
@@ -101,6 +106,7 @@
 							alert('이미 등록된 아이디입니다.');
 						} else {
 							alert('사용 가능한 아이디입니다.');
+							$('#customerPw').focus();
 						}
 					}
 				});
