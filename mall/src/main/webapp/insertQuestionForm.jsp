@@ -28,6 +28,8 @@
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
   	<link rel="stylesheet" href="css/style.css">
+  	<link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+  	<link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
   
   	<!--구글폰트 -->
   	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,6 +97,7 @@ select {
 				 <option value="[환불]">[환불]</option>			
 				 <option value="[기타]">[기타]</option>			
 		</select>
+		<br>
 		<select name="goodsTitle" id="goodsTitle">
 				 <option selected="selected">-상품명-</option>
 				 <%
@@ -105,6 +108,9 @@ select {
 				 	}
 				 %>	
 		</select>
+		<br>
+		<br>
+		<br>
 	</div>
 	<div class="mb-3 mt-3">
 		<label for="title" class="form-label">제목</label>
@@ -114,10 +120,11 @@ select {
 		<label for="comment">문의</label>
 			<textarea class="form-control" rows="5" id="questionContent" name="questionContent"></textarea>
 	</div>
+	<!--  
 	<div class="form-check mb-3">	
 		<label class="form-check-label">
   			<input class="form-check-input" type="checkbox" name="private"> 비밀글</label>
-	</div>
+	</div>-->
 	<div class="text-right">
 	<button type="submit" class="btn btn-dark">등록</button>
 	</div>
@@ -125,5 +132,14 @@ select {
 </div>
 	<br>
 	<br>
+	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+  	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
+  	<script src="vendors/skrollr.min.js"></script>
+  	<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+  	<script src="vendors/nice-select/jquery.nice-select.min.js"></script>
+  	<script src="vendors/nouislider/nouislider.min.js"></script>
+  	<script src="vendors/jquery.ajaxchimp.min.js"></script>
+  	<script src="vendors/mail-script.js"></script>
+  	<script src="js/main.js"></script>
 </body>
 </html>

@@ -17,6 +17,9 @@
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
   	<link rel="stylesheet" href="css/style.css">
+  	<link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+  	<link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
+  	
   
   	<!--구글폰트 -->
   	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,19 +27,7 @@
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
   	
-	 <style>
-	.page-link {
-	  color: #000; 
-	  background-color: #fff0f5;
-	  border-color: #ffffff;
-	}	
-	
-	.page-link:focus, .page-link:hover {
-	  color: #000;
-	  background-color: #ffe4e1; 
-	  border-color: #ffffff;
-	}
-	</style>
+
   	
 </head>
 <body>
@@ -60,62 +51,7 @@
 					<h1>QnA</h1>
 				</div>
     	</div>
-<!-- ================ end banner area ================= -->
-    <!-- Start Paging, search Bar -->
-          <div class="filter-bar d-flex flex-wrap align-items-center">
-          	<div class="sorting mr-auto">
-        
-          		<%
-          			//if(currentPage > 1) {
-          		%>	
-          				<a class="btn btn-light" href="">이전</a>
-          		<%
-          			//}
-          		%>
-          		
-          		<%
-					//if(currentPage < lastPage) {
-				%>
-						<a class="btn btn-light" href="">다음</a>
-				<%		
-					//}
-				%>
-
-          	</div>
-      
-            <form action="<%=request.getContextPath()%>/">
-      			<div>
-	              <div class="input-group filter-bar-search">
-	              
-	              	<table>
-	              		<tr>
-	              			<td>
-	              				<select name="">
-									<option value="select">선택</option>
-									<option value="id">ID</option>
-									<option value="name">이름</option>
-									<option value="address">주소</option>
-									<option value="phone">휴대폰 번호</option>
-									<option value="active">활동 상태</option>
-								</select>
-	              			</td>
-	              			<td>
-	              				<input type="text" placeholder="입력" name="searchText" class="col">	 
-	              			</td>
-	              			<td>
-	              				<div >
-			                  		<button style="height:38px;"><i class="ti-search"></i></button>
-			              		</div>
-	              			</td>
-	              		</tr>
-	              	</table>
-	              		
-              	  </div>
-            	</div>
-      		</form>
-      		
-      		</div>
-          <!-- End Paging, search Bar -->
+ 
 <%
 	//start controller code
 	int currentPage=1;
@@ -124,11 +60,27 @@
 	}
 	int rowPerPage = 2;
 	int beginRow=(currentPage-1)*rowPerPage;
+	
+	// 검색을 위한 변수
+	String searchWord = "";
+	String questionType = "";
+	
+	// 검색값으로 넘어온 문자가 있으면
+	if(request.getParameter("questionType") != null){
+		questionType= request.getParameter("questionType");
+	}
+	
+	if(request.getParameter("searchWord") != null){
+		searchWord= request.getParameter("searchWord");
+	}
+	// 검색값 디버깅
+	System.out.println(questionType+"<--questionType");
+	System.out.println(searchWord+"<--searchWord");
 
 	// moder 호출 코드(controller code)
 	// 문의사항 model값
 	QuestionDao cd = new QuestionDao();
-	ArrayList<HashMap<String,Object>> list = cd.selectQuestionList(beginRow, rowPerPage);
+	ArrayList<HashMap<String,Object>> list = cd.selectQuestionList(beginRow, rowPerPage, searchWord, questionType);
 	
 	int lastPage = cd.selectQuestionLastPage(rowPerPage);
 	System.out.println(lastPage+"<--lastPage");
@@ -139,9 +91,52 @@
 	//end controller code
 	
 		%>
+<!-- Start Paging, search Bar -->
+
+ <div class="filter-bar d-flex flex-wrap align-items-center">
+ 	<div class="sorting mr-auto">
+ 
+ 		<%
+ 			if(currentPage > 1) {
+ 		%>	
+ 				<a class="btn btn-light" href="<%=request.getContextPath()%>/question.jsp?currentPage=<%=currentPage-1%>">이전</a>
+ 		<%
+ 			}
+ 		%>
+ 		
+ 		<%
+			if(currentPage < lastPage) {
+		%>
+				<a class="btn btn-light" href="<%=request.getContextPath()%>/question.jsp?currentPage=<%=currentPage+1%>">다음</a>
+		<%		
+			}
+		%>
+
+ 	</div>
+ 
+ 	<form action="<%=request.getContextPath()%>/question.jsp">
+		<div>
+	          <div class="input-group filter-bar-search">
+	            <select name="questionType">
+					<option selected="selected">-문의종류-</option>
+				 	<option value="[배송]">[배송]</option>
+				 	<option value="[상품]">[상품]</option>
+				 	<option value="[AS]" >[AS]</option>
+				 	<option value="[환불]">[환불]</option>			
+				 	<option value="[기타]">[기타]</option>	
+				</select>
+	            	<input type="text" placeholder="입력" name="searchWord" class="col">	 
+	            <div>
+		            <button style="height:38px;"><i class="ti-search"></i></button>
+		        </div>
+       	  	</div>
+     	</div>
+	</form>
+</div>
+<!-- End Paging, search Bar -->
 		<br>
 		<br>
-	
+	              		
 	<div class="container">
 	<table class="table table-hover">
 		<thead class="table-primary">
@@ -218,28 +213,13 @@
 	<br>
 	<br>
 	
-<div class="container">
-	<ul class="pagination justify-content-center">
-    <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/question.jsp?currentPage=1">처음</a></li>
-    <%
-    	for(int i = 1; i<=lastPage; i=i+1){
-    %>
-    <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/question.jsp?currentPage=<%=i %>"><%=i %></a></li>
-	<%
-    }
-	%>
-    <li class="page-item"><a class="page-link" href="<%=request.getContextPath()%>/question.jsp?currentPage=<%=lastPage%>">마지막</a></li>
-  </ul>
-</div>
-	
+
+
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="vendors/skrollr.min.js"></script>
   <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
   <script src="vendors/nice-select/jquery.nice-select.min.js"></script>
-  <script src="vendors/jquery.form.js"></script>
-  <script src="vendors/jquery.validate.min.js"></script>
-  <script src="vendors/contact.js"></script>
   <script src="vendors/jquery.ajaxchimp.min.js"></script>
   <script src="vendors/mail-script.js"></script>
   <script src="js/main.js"></script>

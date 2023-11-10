@@ -6,7 +6,7 @@ import java.sql.*;
 public class QuestionDao {
 	
 	//호출(controller) : question.jsp - 문의사항(table:question) 의 데이터를 question.jsp에 출력
-	public ArrayList<HashMap<String, Object>> selectQuestionList(int beginRow, int rowPerPage) throws Exception{
+	public ArrayList<HashMap<String, Object>> selectQuestionList(int beginRow, int rowPerPage, String questionType, String searchWord  ) throws Exception{
 		
 		// db핸들링(model)
 		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
@@ -26,27 +26,31 @@ public class QuestionDao {
 				ON q.customer_no = c.customer_no
 				INNER JOIN goods g
 				ON g.goods_no = q.goods_no
-				ORDER BY q.createdate desc;
+				WHERE q.question_title LIKE CONCAT('%',?,'%',?)
+				ORDER BY q.createdate desc
+				LIMIT ?,?;
 		 */
 		
-		String sql2 = "SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no INNER JOIN goods g ON g.goods_no = q.goods_no ORDER BY q.createdate desc LIMIT ?,?";
-		PreparedStatement stmt2=conn.prepareStatement(sql2);
-		stmt2.setInt(1, beginRow);
-		stmt2.setInt(2, rowPerPage);
-		System.out.println(stmt2 + "<--stmt2");	//쿼리문 확인 디버깅
-		ResultSet rs2 = stmt2.executeQuery();	
+		String sql = "SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no INNER JOIN goods g ON g.goods_no = q.goods_no WHERE q.question_title LIKE CONCAT('%',?,'%',?) ORDER BY q.createdate desc LIMIT ?,?";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		stmt.setString(1, questionType);
+		stmt.setString(2, searchWord);
+		stmt.setInt(3, beginRow);
+		stmt.setInt(4, rowPerPage);
+		System.out.println(stmt + "<--stmt2");	//쿼리문 확인 디버깅
+		ResultSet rs = stmt.executeQuery();	
 		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
-		while(rs2.next()) {
+		while(rs.next()) {
 			
 			HashMap<String, Object> q = new HashMap<>();
 			
-			q.put("questionNo", rs2.getInt("questionNo"));
-			q.put("customerId", rs2.getString("customerId"));
-			q.put("goodsTitle", rs2.getString("goodsTitle"));
-			q.put("questionTitle", rs2.getString("questionTitle"));
-			q.put("questionContent", rs2.getString("questionContent"));
-			q.put("createdate", rs2.getString("createdate"));
-			q.put("updatedate", rs2.getString("updatedate"));
+			q.put("questionNo", rs.getInt("questionNo"));
+			q.put("customerId", rs.getString("customerId"));
+			q.put("goodsTitle", rs.getString("goodsTitle"));
+			q.put("questionTitle", rs.getString("questionTitle"));
+			q.put("questionContent", rs.getString("questionContent"));
+			q.put("createdate", rs.getString("createdate"));
+			q.put("updatedate", rs.getString("updatedate"));
 			
 			list.add(q);
 		}
@@ -54,8 +58,8 @@ public class QuestionDao {
 		
 		//DB자원 반납
 		conn.close();
-		stmt2.close();
-		rs2.close();
+		stmt.close();
+		rs.close();
 		
 		return list;
 
