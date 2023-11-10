@@ -38,6 +38,10 @@
 	                  aria-expanded="false">공지 사항</a>        
 				</li>
 				<li class="nav-item submenu dropdown">  
+					<a href="<%=request.getContextPath()%>/managerReview.jsp" class="nav-link" role="button" aria-haspopup="true"
+	                  aria-expanded="false">리뷰 목록</a>        
+				</li>
+				<li class="nav-item submenu dropdown">  
 					<a href="<%=request.getContextPath()%>/managerOne.jsp" class="nav-link" role="button" aria-haspopup="true"
 	                  aria-expanded="false">마이페이지</a>        
 				</li>

@@ -23,8 +23,8 @@
 	questionCommentDao.updateQuestionComment(commentNo, commentContent);
 	
 
-	// 리다이렉트 -> 수정이 완료되면 managerQuestion.jsp로 이동
-	response.sendRedirect(request.getContextPath()+"/managerQuestion.jsp");
+	// 리다이렉트 -> 수정이 완료되면 수정한 managerQuestionOne.jsp로 이동
+	response.sendRedirect(request.getContextPath()+"/managerQuestionOne.jsp?questionNo="+questionNo);
 	
 
 %>
