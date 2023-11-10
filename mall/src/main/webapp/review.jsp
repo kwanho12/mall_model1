@@ -39,6 +39,7 @@
   	}
   %>
   <!--================ End Header Menu Area =================-->
+  
 
   <!-- ================ start banner area ================= -->
 		<br>
@@ -48,6 +49,61 @@
 				</div>
     	</div>
   <!-- ================ end banner area ================= -->
+    <!-- Start Paging, search Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+          	<div class="sorting mr-auto">
+        
+          		<%
+          			//if(currentPage > 1) {
+          		%>	
+          				<a class="btn btn-light" href="<%=request.getContextPath()%>">이전</a>
+          		<%
+          			//}
+          		%>
+          		
+          		<%
+					//if(currentPage < lastPage) {
+				%>
+						<a class="btn btn-light" href="<%=request.getContextPath()%>">다음</a>
+				<%		
+					//}
+				%>
+
+          	</div>
+      
+            <form action="<%=request.getContextPath()%>/customerSearchList.jsp">
+      			<div>
+	              <div class="input-group filter-bar-search">
+	              
+	              	<table>
+	              		<tr>
+	              			<td>
+	              				<select name="searchField">
+									<option value="select">선택</option>
+									<option value="id">ID</option>
+									<option value="name">이름</option>
+									<option value="address">주소</option>
+									<option value="phone">휴대폰 번호</option>
+									<option value="active">활동 상태</option>
+								</select>
+	              			</td>
+	              			<td>
+	              				<input type="text" placeholder="입력" name="searchText" class="col">	 
+	              			</td>
+	              			<td>
+	              				<div >
+			                  		<button style="height:38px;"><i class="ti-search"></i></button>
+			              		</div>
+	              			</td>
+	              		</tr>
+	              	</table>
+	              		
+              	  </div>
+            	</div>
+      		</form>
+      		
+      		</div>
+          <!-- End Paging, search Bar -->
 <%
 	//start controller code
 	int currentPage=1;

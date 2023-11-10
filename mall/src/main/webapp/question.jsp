@@ -26,15 +26,15 @@
   	
 	 <style>
 	.page-link {
-	  color: #999; 
-	  background-color: #000;
-	  border-color: #444;
+	  color: #000; 
+	  background-color: #fff0f5;
+	  border-color: #ffffff;
 	}	
 	
 	.page-link:focus, .page-link:hover {
-	  color: #ccc;
-	  background-color: #222; 
-	  border-color: #444;
+	  color: #000;
+	  background-color: #ffe4e1; 
+	  border-color: #ffffff;
 	}
 	</style>
   	
@@ -61,7 +61,61 @@
 				</div>
     	</div>
 <!-- ================ end banner area ================= -->
+    <!-- Start Paging, search Bar -->
+          <div class="filter-bar d-flex flex-wrap align-items-center">
+          	<div class="sorting mr-auto">
+        
+          		<%
+          			//if(currentPage > 1) {
+          		%>	
+          				<a class="btn btn-light" href="">이전</a>
+          		<%
+          			//}
+          		%>
+          		
+          		<%
+					//if(currentPage < lastPage) {
+				%>
+						<a class="btn btn-light" href="">다음</a>
+				<%		
+					//}
+				%>
 
+          	</div>
+      
+            <form action="<%=request.getContextPath()%>/">
+      			<div>
+	              <div class="input-group filter-bar-search">
+	              
+	              	<table>
+	              		<tr>
+	              			<td>
+	              				<select name="">
+									<option value="select">선택</option>
+									<option value="id">ID</option>
+									<option value="name">이름</option>
+									<option value="address">주소</option>
+									<option value="phone">휴대폰 번호</option>
+									<option value="active">활동 상태</option>
+								</select>
+	              			</td>
+	              			<td>
+	              				<input type="text" placeholder="입력" name="searchText" class="col">	 
+	              			</td>
+	              			<td>
+	              				<div >
+			                  		<button style="height:38px;"><i class="ti-search"></i></button>
+			              		</div>
+	              			</td>
+	              		</tr>
+	              	</table>
+	              		
+              	  </div>
+            	</div>
+      		</form>
+      		
+      		</div>
+          <!-- End Paging, search Bar -->
 <%
 	//start controller code
 	int currentPage=1;
