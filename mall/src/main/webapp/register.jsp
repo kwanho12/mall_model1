@@ -24,9 +24,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/font.css">
+
   <style>
   	body {overflow : hidden;}
   </style>
+  
+  <!-- jQuery CDN 주소 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
@@ -50,9 +54,12 @@
 				<div class="col-lg-6">
 					<div class="login_form_inner register_form_inner">
 						<h3>회원가입</h3>
-						<form class="row login_form" action="<%=request.getContextPath()%>/registerAction.jsp" id="register_form" >
-							<div class="col-md-12 form-group">
+						<form class="row login_form" action="<%=request.getContextPath()%>/registerAction.jsp">
+							<div class="col-md-8 form-group">
 								<input type="text" class="form-control" id="customerId" name="customerId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
+             				</div>
+             				<div class="col-md-4 form-group">
+             					<button type="button" class="form-control" id="idCheck">중복체크</button>    					
              				</div>
 				            <div class="col-md-12 form-group">
 								<input type="password" class="form-control" id="customerPw" name="customerPw" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'">
@@ -76,6 +83,31 @@
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->
+	
+	<script>
+		$('#idCheck').click(function(){
+		
+			let customerId = $('#customerId').val(); // 입력된 id를 가져 옴.
+			
+			if(customerId != "") {
+				$.ajax({
+					url: "<%=request.getContextPath()%>/customerIdCheckAction.jsp",
+					type: "post",
+					data: {customerId : customerId},
+					dataType: 'json',
+					success: function(result) {
+						if(result == 0) {
+							alert('이미 등록된 아이디입니다.');
+						} else {
+							alert('사용 가능한 아이디입니다.');
+						}
+					}
+				});
+			} else {
+				alert('아이디를 입력해 주세요.');	
+			}		
+	   });
+	</script>
 
 
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>

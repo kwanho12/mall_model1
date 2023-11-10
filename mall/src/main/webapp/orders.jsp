@@ -31,7 +31,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/font.css">
   
-  <!-- jQuery -->
+  <!-- jQuery CDN 주소 -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
@@ -57,18 +57,8 @@
 %>
 
 	<!--================ Start Header Menu Area ===============-->
-	  <%
-	  	if(session.getAttribute("customerNo") != null) {
-	  %>
-	  		<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
-	  <% 	
-	  	} else {
-	  %>
-	  		<jsp:include page="/inc/customerLogoutMenu.jsp"></jsp:include>
-	  <% 	
-	  	}
-	  %>
-  <!--================ End Header Menu Area =================-->
+	<jsp:include page="/inc/customerLoginMenu.jsp"></jsp:include>
+    <!--================ End Header Menu Area =================-->
   
   <!--================Order Information Area =================-->
 	<section class="login_box_area section-margin">
