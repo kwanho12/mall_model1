@@ -5,7 +5,7 @@ import java.sql.*;
 
 public class QuestionDao {
 	
-	//호출(controller) : question.jsp - 문의사항(table:question) 의 데이터를 contact.jsp에 출력
+	//호출(controller) : question.jsp - 문의사항(table:question) 의 데이터를 question.jsp에 출력
 	public ArrayList<HashMap<String, Object>> selectQuestionList(int beginRow, int rowPerPage) throws Exception{
 		
 		// db핸들링(model)
@@ -258,7 +258,7 @@ public class QuestionDao {
 	}
 	
 	
-	//호출(controller) : questionOne.jsp
+	//호출(controller) : questionOne.jsp - question_comment 테이블에 테이터가 있다면 먼저 삭제하고 qeustion을 삭제
 	public void deleteQuestion(int questionNo) throws Exception{
 		
 		System.out.println(questionNo + "<-- 삭제할 questionNo");
@@ -273,28 +273,55 @@ public class QuestionDao {
 		//DB연결을 위한 Connection객체 생성, 연결
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		conn.setAutoCommit(false); 	//outoCommit을 꺼준다
 		
+		// question 테이블 데이터 삭제
+		/*
+			questionNo를 입력받아 삭제
+			DELETE FROM question_comment WHERE question_no = ?
+		*/
+		
+		// question_comment 테이블 데이터 삭제
+		String sql1 = "DELETE FROM question_comment WHERE question_no = ?";
+		PreparedStatement stmt1 = conn.prepareStatement(sql1);
+		stmt1.setInt(1, questionNo);
+		int row1 = stmt1.executeUpdate();
+		
+		if(row1 != 1) {
+			conn.rollback();
+			return;
+		}else {
+			System.out.println("quetionComment를 삭제 하지 못했습니다.");
+			System.out.println("rollback");
+		}
+		
+				
+		// question 테이블 데이터 삭제
 		/*
 			questionNo를 입력받아 삭제
 			DELETE FROM question WHERE question_no = ?
 		 */
 		
-		String sql = "DELETE FROM question WHERE question_no = ?";
-		PreparedStatement stmt=conn.prepareStatement(sql);
-		stmt.setInt(1, questionNo);
-		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+		String sql2 = "DELETE FROM question WHERE question_no = ?";
+		PreparedStatement stmt2=conn.prepareStatement(sql2);
+		stmt2.setInt(1, questionNo);
+		System.out.println(stmt2 + "<--stmt");	//쿼리문 확인 디버깅
 
-		int row = stmt.executeUpdate();	
+		int row2 = stmt2.executeUpdate();	
 		
-		if(row == 1) {
-			System.out.println("문의사항 삭제성공");
-		}else {
+		if(row2 != 1) {
 			System.out.println("문의사항 삭제실패");
+			conn.rollback();
+		}else {
+			System.out.println("문의사항 삭제성공");
 		}
+		
+		conn.commit();
 		
 		// DB자원 반납
 		conn.close();
-		stmt.close();
+		stmt1.close();
+		stmt2.close();
 			
 	}
 	
@@ -381,6 +408,53 @@ public class QuestionDao {
 		
 		return lastPage;
 	}
+
+	//호출(controller) : questionInsertForm.jsp - 문의할 상품명을 출력
+	public ArrayList<HashMap<String,Object>> selectQuestionGoodsList() throws Exception{
+		
+		// db핸들링(model)
+		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
+		System.out.println("드라이브 로딩 성공");		// DB 드라이브 로딩 확인 디버깅
+		// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+		String url = "jdbc:mariadb://localhost:3306/mall";		
+		String dbuser = "root";
+		String dbpw = "java1234";
+		//DB연결을 위한 Connection객체 생성, 연결
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		
+		
+		/*	문의사항 입력에 출력될 상품명을 출력
+		 	SELECT goods_title goodsTitle
+		 		FROM goods 
+		 */
+		
+		String sql = "SELECT goods_title goodsTitle FROM goods";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+		
+		ResultSet rs = stmt.executeQuery();	
+		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
+		
+			while(rs.next()) {
+			
+				HashMap<String, Object> q = new HashMap<>();
+			
+			q.put("goodsTitle", rs.getString("goodsTitle"));
+
+			
+			list.add(q);
+		}
+		//end model code
+		
+		//DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
+		
+		return list;
 	
+	}
+		
 		
 }
