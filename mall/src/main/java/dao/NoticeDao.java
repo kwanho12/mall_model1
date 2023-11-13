@@ -108,7 +108,9 @@ public class NoticeDao {
 	}
 	
 	//호출(controller)	: managerNotice.jsp - 공지사항(table:notice) 전체 출력
-	public ArrayList<HashMap<String,Object>> managerSelectNoticeList(int beginRow, int rowPerPage) throws Exception{
+	public ArrayList<HashMap<String,Object>> managerSelectNoticeList(int beginRow, int rowPerPage, String searchType, String searchWord) throws Exception{
+		
+		System.out.println(searchType + "NoticeDao넘어온 searchType");
 		
 		// db핸들링(model)
 		Class.forName("org.mariadb.jdbc.Driver");		// DB Driver클래스 코드
@@ -121,14 +123,38 @@ public class NoticeDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
 		
+
 		/*	공지사항리스트 : 공지번호, 담당매니져이름, 공지제목, 공지내용, 작성일, 수정일 
-		 	SELECT n.notice_no noticeNo, m.manager_name managerName, n.notice_title noticeTitle, n.notice_content noticeContent, n.createdate createdate, n.updatedate updatedate
+			SELECT n.notice_no noticeNo, m.manager_name managerName, n.notice_title noticeTitle, n.notice_content noticeContent, n.createdate createdate, n.updatedate updatedate
 				FROM notice n INNER JOIN manager m
-				ON n.manager_no = m.manager_no;
+				ON n.manager_no = m.manager_no
 		 */
 		
 		String sql = "SELECT n.notice_no noticeNo, m.manager_name managerName, n.notice_title noticeTitle, n.notice_content noticeContent, n.createdate createdate, n.updatedate updatedate FROM notice n INNER JOIN manager m ON n.manager_no = m.manager_no";
+		
+		//searchType이 선택안됐을 경우
+		if(searchType.equals("")) {
+			sql = sql + " WHERE notice_title LIKE CONCAT('%',?,'%') ORDER BY n.createdate desc LIMIT ?,?";
+		}
+		
+		//매니져 이름으로 검색할 경우
+		if(searchType.equals("managerName")) {
+			sql = sql + " WHERE manager_name LIKE CONCAT('%',?,'%') ORDER BY n.createdate desc LIMIT ?,?";
+		}
+		
+		//공지 제목으로 검색할 경우
+		if(searchType.equals("noticeTitle")) {
+			sql = sql + " WHERE notice_title LIKE CONCAT('%',?,'%') ORDER BY n.createdate desc LIMIT ?,?";
+		}
+		
+		//공지 내용으로 검색할 경우
+		if(searchType.equals("noticeContent")) {
+			sql = sql + " WHERE notice_content LIKE CONCAT('%',?,'%') ORDER BY n.createdate desc LIMIT ?,?";
+		}
 		PreparedStatement stmt=conn.prepareStatement(sql);
+		stmt.setString(1, searchWord);
+		stmt.setInt(2, beginRow);
+		stmt.setInt(3, rowPerPage);
 		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
 		ResultSet rs = stmt.executeQuery();	//jdbc환경의 모델
 		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
@@ -152,8 +178,10 @@ public class NoticeDao {
 		stmt.close();
 		rs.close();
 		
-		return list;		
-	}
+		return list;
+		}
+		
+	
 	
 	
 	
@@ -282,7 +310,8 @@ public class NoticeDao {
 		stmt.close();
 			
 	}
-	//호출(controller) : managerNotice.jsp -> 페이지의 마지막 페이지
+	
+	//호출(controller) : managerNotice.jsp 공지사항 페이징을 위해 totalRow값 
 	public int selectNoticeLastPage(int rowPerPage) throws Exception{
 		
 		// db핸들링(model)
@@ -296,7 +325,7 @@ public class NoticeDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
 		
-		/* 페이징을 위해 lastPage 반환하기 위한 전체 공지의 수 
+		/* 페이징을 위해 lastPage 반환하기 위한 전체 문의사항 수 
 		 	SELECT COUNT(*)
 				FROM notice;
 			
@@ -323,6 +352,7 @@ public class NoticeDao {
 		
 		return lastPage;
 	}
+
 	
 		
 }

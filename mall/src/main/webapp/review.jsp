@@ -52,93 +52,100 @@
 				</div>
     	</div>
   <!-- ================ end banner area ================= -->
-    <!-- Start Paging, search Bar -->
-          <div class="filter-bar d-flex flex-wrap align-items-center">
-          	<div class="sorting mr-auto">
-        
-          		<%
-          			// if(currentPage > 1) {
-          		%>	
-          				<a class="btn btn-light" href="<%=request.getContextPath()%>">이전</a>
-          		<%
-          			//}
-          		%>
-          		
-          		<%
-					// if(currentPage < lastPage) {
-				%>
-						<a class="btn btn-light" href="<%=request.getContextPath()%>">다음</a>
-				<%		
-					//}
-				%>
 
-          	</div>
-      
-            <form action="<%=request.getContextPath()%>/customerSearchList.jsp">
-      			<div>
-	              <div class="input-group filter-bar-search">
-	              
-	              	<table>
-	              		<tr>
-	              			<td>
-	              				<select name="searchField">
-									<option value="select">선택</option>
-									<option value="id">ID</option>
-									<option value="name">이름</option>
-									<option value="address">주소</option>
-									<option value="phone">휴대폰 번호</option>
-									<option value="active">활동 상태</option>
-								</select>
-	              			</td>
-	              			<td>
-	              				<input type="text" placeholder="입력" name="searchText" class="col">	 
-	              			</td>
-	              			<td>
-	              				<div>
-			                  		<button style="height:38px;"><i class="ti-search"></i></button>
-			              		</div>
-	              			</td>
-	              		</tr>
-	              	</table>
-	              		
-              	  </div>
-            	</div>
-      		</form>
-      		
-      		</div>
-          <!-- End Paging, search Bar -->
 <%
 	//start controller code
 	int currentPage=1;
 	if(request.getParameter("currentPage") != null){
 		currentPage=Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int rowPerPage = 2;
+	int rowPerPage = 5;
 	int beginRow=(currentPage-1)*rowPerPage;
 
+	// 검색을 위한 변수
 	String searchWord = "";
+	String searchGoodsTitle= "";
+	
+	// 검색값으로 넘어온 문자가 있으면
+	if(request.getParameter("searchGoodsTitle") != null){
+		searchGoodsTitle= request.getParameter("searchGoodsTitle");
+	}
+		
+	if(request.getParameter("searchWord") != null){
+		searchWord= request.getParameter("searchWord");
+	}
+	// 검색값 디버깅
+	System.out.println(searchGoodsTitle+"<--searchGoodsTitle");
+	System.out.println(searchWord+"<--searchWord");
+
 	// moder 호출 코드(controller code)
 	// 리뷰 model값
 	ReviewDao reviewDao = new ReviewDao(); 
-	ArrayList<HashMap<String,Object>> list = reviewDao.selectReview(beginRow, rowPerPage, searchWord);
+	ArrayList<HashMap<String,Object>> list = reviewDao.selectReview(beginRow, rowPerPage, searchGoodsTitle, searchWord);
 
+	//페이징을 위해 마지막 페이지알아오기
+	int lastPage = reviewDao.selectReviewLastPage(rowPerPage);
 	
+	//리뷰 검색목록에 상품명 출력을 위해
+		QuestionDao questionDao = new QuestionDao();
+		 ArrayList<HashMap<String,Object>> list2 = questionDao.selectQuestionGoodsList();
+		 int totalGoods = list2.size();
+		 System.out.println(totalGoods + "<--상품 총 개수 출력");
 
-	// 페이징
-	// int lastPage = cd.selectQuestionLastPage(rowPerPage);
-	//System.out.println(lastPage+"<--lastPage");
-	
-	//end controller code
-	
 	%>
+	<!-- Start Paging, search Bar -->
+
+ <div class="filter-bar d-flex flex-wrap align-items-center">
+ 	<div class="sorting mr-auto">
+ 
+ 		<%
+ 			if(currentPage > 1) {
+ 		%>	
+ 				<a class="btn btn-light" href="<%=request.getContextPath()%>/review.jsp?currentPage=<%=currentPage-1%>">이전</a>
+ 		<%
+ 			}
+ 		%>
+ 		
+ 		<%
+			if(currentPage < lastPage) {
+		%>
+				<a class="btn btn-light" href="<%=request.getContextPath()%>/review.jsp?currentPage=<%=currentPage+1%>">다음</a>
+		<%		
+			}
+		%>
+
+ 	</div>
+ 
+ 	<form action="<%=request.getContextPath()%>/review.jsp">
+		<div>
+	          <div class="input-group filter-bar-search">
+	            <select name=searchGoodsTitle id="searchGoodsTitle">
+				 	<option value="" selected="selected">-상품명-</option>
+				 <%
+				 		for(int i = 0 ; i <totalGoods; i=i+1){
+				 %>
+				 	<option value="<%=list2.get(i).get("goodsTitle") %>"><%=list2.get(i).get("goodsTitle") %></option>		
+				 <%
+				 		}
+				 %>	
+				</select>
+	            	<input type="text" placeholder="입력" name="searchWord" class="col">	 
+	            <div>
+		            <button style="height:38px;"><i class="ti-search"></i></button>
+		        </div>
+       	  	</div>
+     	</div>
+	</form>
+</div>
+<!-- End Paging, search Bar -->
   		
  	<%
 	// 로그인이 되어 있고 orders에 구매 내역이 있는 고객이라면
 	if(session.getAttribute("customerNo") != null) {
 		// orders에 구매내역이 있는지 확인
-		ArrayList<HashMap<String, Object>> list2 = reviewDao.selectReviewGoodsTitle((int)session.getAttribute("customerNo"));
+		ArrayList<HashMap<String, Object>> list3 = reviewDao.selectReviewGoodsTitle((int)session.getAttribute("customerNo"));
 		System.out.println("리뷰작성을 위해 로그인되어 있고");
-			if(list2.size() != 0){
+			if(list3.size() != 0){
 				System.out.println("주문내역 있음");
 	%>
 			<div class="container text-right">

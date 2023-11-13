@@ -35,15 +35,82 @@
 		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
 	}
 
-	int beginRow = 0;
-	int rowPerPage = 10;
+	//페이징을 위한 변수
+	int currentPage= 1;
+	if(request.getParameter("currentPage") != null){
+		currentPage=Integer.parseInt(request.getParameter("currentPage"));
+	}
+	int rowPerPage = 5;
+	int beginRow=(currentPage-1)*rowPerPage;
+	
+	// 검색을 위한 변수
+	String searchWord = "";
+	String searchType = "";
+	
+	// 검색값으로 넘어온 문자가 있으면
+	if(request.getParameter("searchType") != null){
+		searchType= request.getParameter("searchType");
+	}
+	if(request.getParameter("searchWord") != null){
+		searchWord= request.getParameter("searchWord");
+	}
+	// 검색값 디버깅
+	System.out.println(searchType+"<--searchType");
+	System.out.println(searchWord+"<--searchWord");
+	
 	
 	NoticeDao noticeDao = new NoticeDao();
-	ArrayList<HashMap<String,Object>> list = noticeDao.managerSelectNoticeList(beginRow, rowPerPage);
+	ArrayList<HashMap<String,Object>> list = noticeDao.managerSelectNoticeList(beginRow, rowPerPage, searchType, searchWord);
+	
+	//페이징을 위해 마지막 페이지알아오기
+	int lastPage = noticeDao.selectNoticeLastPage(rowPerPage);
+	System.out.println(lastPage + "<--lastPate(notice)");
+	
 %>
 <!--================ Start Header Menu Area ===============-->
 	<jsp:include page="/inc/managerMenu.jsp"></jsp:include>
 <!--================ End Header Menu Area =================-->
+
+<!-- Start Paging, search Bar -->
+<div class="filter-bar d-flex flex-wrap align-items-center">
+ 	<div class="sorting mr-auto">
+ 
+ 		<%
+ 			if(currentPage > 1) {
+ 		%>	
+ 				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerNotice.jsp?currentPage=<%=currentPage-1%>">이전</a>
+ 		<%
+ 			}
+ 		%>
+ 		
+ 		<%
+			if(currentPage < lastPage) {
+		%>
+				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerNotice.jsp?currentPage=<%=currentPage+1%>">다음</a>
+		<%		
+			}
+		%>
+
+ 	</div>
+ 
+ 	<form action="<%=request.getContextPath()%>/managerNotice.jsp">
+		<div>
+	          <div class="input-group filter-bar-search">
+	            <select name=searchType id="searchType">
+				 	<option value="" selected="selected">-전체보기-</option>
+				 	<option value="managerName">매니져</option>		
+				 	<option value="noticeTitle">제목</option>		
+				 	<option value="noticeContent">내용</option>		
+				</select>
+	            	<input type="text" placeholder="입력" name="searchWord" class="col">	 
+	            <div>
+		            <button style="height:38px;"><i class="ti-search"></i></button>
+		        </div>
+       	  	</div>
+     	</div>
+	</form>
+</div>
+<!-- End Paging, search Bar -->
 
 <div class="container-fluid">
 	<h3>공지 관리</h3><br>
