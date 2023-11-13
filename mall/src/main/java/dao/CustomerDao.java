@@ -595,7 +595,7 @@ public class CustomerDao {
 		
 	}
 	
-	public void updateCustomerPw(int customerNo, String oldPw, String newPw, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public int updateCustomerPw(int customerNo, String oldPw, String newPw) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
@@ -613,9 +613,7 @@ public class CustomerDao {
 		ResultSet rs = stmt0.executeQuery();
 		if(rs.next()) { // 변경할 비밀번호가 이전에 사용했던 비밀번호와 같다면
 			conn.rollback();
-			String msg = URLEncoder.encode("변경할 비밀번호가 이전의 비밀번호와 같습니다. 다른 비밀번호를 입력해주세요.");
-			response.sendRedirect(request.getContextPath()+"/updateCustomerPw.jsp?msg="+msg);
-			return;
+			return 1;
 		}
 		
 			
@@ -630,9 +628,7 @@ public class CustomerDao {
 		
 		if(row1 != 1) {
 			conn.rollback();
-			String msg = URLEncoder.encode("비밀번호를 확인하세요.");
-			response.sendRedirect(request.getContextPath()+"/updateCustomerPw.jsp?msg="+msg);
-			return;
+			return 2;
 		}
 		
 		// 비밀번호를 수정하고 customer_pw_history 테이블에 비밀번호 변경 내역 추가
@@ -644,12 +640,12 @@ public class CustomerDao {
 		
 		if(row2 != 1) {
 			conn.rollback();
-			return;
+			return 3;
 		}
 		
 		conn.commit();
-		
-		response.sendRedirect(request.getContextPath()+"/customerOne.jsp");
+		return 4;
+	
 	}
 	
 	public int customerListPaging() throws Exception{

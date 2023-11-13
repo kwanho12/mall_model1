@@ -60,22 +60,16 @@
 		<div class="container">
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
 				<h3>비밀번호 변경</h3>	
-				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerPwAction.jsp" id=updateForm>
+				<form class="row login_form" id=updateForm>
 		            <div class="col-md-12 form-group">
 		            	<div>원래 비밀번호 : <input type="password" name="oldPw" id="oldPw" maxlength="15"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
 		            	<div>변경할 비밀번호 : <input type="password" name="newPw" id="newPw" maxlength="15"></div>
 		            </div> 
-		            <%
-		            	if(request.getParameter("msg") != null) {
-		            %>
-	            		<div class="col-md-12 form-group">
-		            		<div><%=msg%></div>
-			            </div>            
-		            <%
-		            	}
-		            %>     
+            		<div class="col-md-12 form-group">
+	            		<div id="msg"></div>
+		            </div>            
 		            <div class="form-group container" style="width:400px;">
 						<button type="button" style="font-size:15px; margin:7px;" class="btn btn-light" id="updateBtn">변경하기</button>					
 					</div>
@@ -86,6 +80,7 @@
 	<!--================End Login Box Area =================-->
 	
 	<script>
+		
 		$('#oldPw').focus();
 		
 	    $('#updateBtn').click(function(){
@@ -110,9 +105,27 @@
 		        alert("변경할 비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
 		        return;
 		    }
+	 	    	
+	    	let dataset = $('#updateForm').serialize();
 	    	
-	    	alert('비밀번호가 변경되었습니다.');
-	    	$('#updateForm').submit();
+	    	$.ajax({
+				url: "<%=request.getContextPath()%>/updateCustomerPwAction.jsp",
+				type: "post",
+				data: dataset,
+				dataType: 'json',
+				success: function(result) {
+					if(result == 1) {
+						$('#msg').text('변경할 비밀번호가 이전 비밀번호와 같습니다.');
+					} else if(result == 2){
+						$('#msg').text('입력한 비밀번호가 원래 비밀번호와 다릅니다.');
+					} else if(result == 3) {
+						$('#msg').text('비밀번호 변경 내역이 추가가 되지 않았습니다.');
+					} else {
+						$('#msg').text('비밀번호가 변경되었습니다.');
+					}
+				}
+			});
+	    	
 	    });
 	    
 		

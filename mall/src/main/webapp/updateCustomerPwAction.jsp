@@ -7,5 +7,7 @@
 	String newPw = request.getParameter("newPw");
 	
 	CustomerDao customerDao = new CustomerDao();
-	customerDao.updateCustomerPw(customerNo, oldPw, newPw, request, response);
+	int result = customerDao.updateCustomerPw(customerNo, oldPw, newPw);
+	
+	out.print(result);
 %>
