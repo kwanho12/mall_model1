@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>관리자 공지 관리</title>
+<title>관리자 리뷰 관리</title>
 	<meta charset="UTF-8">
  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
  	<meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -35,21 +35,92 @@
 		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
 	}
 	
-	//페이징 변수
-	int beginRow = 0;
-	int rowPerPage = 10;
+	//페이징을 위한 변수
+	int currentPage=1;
+	if(request.getParameter("currentPage") != null){
+		currentPage=Integer.parseInt(request.getParameter("currentPage"));
+	}
+	int rowPerPage = 5;
+	int beginRow=(currentPage-1)*rowPerPage;
 	
-	//검색 변수
+	// 검색을 위한 변수
 	String searchWord = "";
+	String searchGoodsTitle= "";
 	
+	// 검색값으로 넘어온 문자가 있으면
+	if(request.getParameter("searchGoodsTitle") != null){
+		searchGoodsTitle= request.getParameter("searchGoodsTitle");
+	}
+		
+	if(request.getParameter("searchWord") != null){
+		searchWord= request.getParameter("searchWord");
+	}
+	// 검색값 디버깅
+	System.out.println(searchGoodsTitle+"<--searchGoodsTitle");
+	System.out.println(searchWord+"<--searchWord");
+
 	ReviewDao reviewDao = new ReviewDao();
-	ArrayList<HashMap<String,Object>> list = reviewDao.selectReview(beginRow, rowPerPage, searchWord);
+	ArrayList<HashMap<String,Object>> list = reviewDao.selectReview(beginRow, rowPerPage, searchGoodsTitle, searchWord);
 	
+	//페이징을 위해 마지막 페이지알아오기
+	int lastPage = reviewDao.selectReviewLastPage(rowPerPage);
+	
+	//리뷰 검색목록에 상품명 출력을 위해
+	QuestionDao questionDao = new QuestionDao();
+	 ArrayList<HashMap<String,Object>> list2 = questionDao.selectQuestionGoodsList();
+	 int totalGoods = list2.size();
+	 System.out.println(totalGoods + "<--상품 총 개수 출력");
 	
 %>
 <!--================ Start Header Menu Area ===============-->
 	<jsp:include page="/inc/managerMenu.jsp"></jsp:include>
 <!--================ End Header Menu Area =================-->
+
+<!-- Start Paging, search Bar -->
+ <div class="filter-bar d-flex flex-wrap align-items-center">
+ 	<div class="sorting mr-auto">
+ 
+ 		<%
+ 			if(currentPage > 1) {
+ 		%>	
+ 				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerReview.jsp?currentPage=<%=currentPage-1%>">이전</a>
+ 		<%
+ 			}
+ 		%>
+ 		
+ 		<%
+			if(currentPage < lastPage) {
+		%>
+				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerReview.jsp?currentPage=<%=currentPage+1%>">다음</a>
+		<%		
+			}
+		%>
+
+ 	</div>
+ 
+ 	<form action="<%=request.getContextPath()%>/managerReview.jsp">
+		<div>
+	          <div class="input-group filter-bar-search">
+	            <select name=searchGoodsTitle id="searchGoodsTitle">
+				 	<option value="" selected="selected">-상품명-</option>
+				 <%
+				 		for(int i = 0 ; i <totalGoods; i=i+1){
+				 %>
+				 	<option value="<%=list2.get(i).get("goodsTitle") %>"><%=list2.get(i).get("goodsTitle") %></option>		
+				 <%
+				 		}
+				 %>	
+				</select>
+	            	<input type="text" placeholder="입력" name="searchWord" class="col">	 
+	            <div>
+		            <button style="height:38px;"><i class="ti-search"></i></button>
+		        </div>
+       	  	</div>
+     	</div>
+	</form>
+</div>
+<!-- End Paging, search Bar -->
+
 
 <div class="container-fluid">
 	<h3>리뷰 관리</h3><br>

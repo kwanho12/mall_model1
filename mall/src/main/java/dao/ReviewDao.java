@@ -12,7 +12,7 @@ import vo.*;
 public class ReviewDao {
 	
 	//호출(controller) : review.jsp - 리뷰리스트 출력 고객/관리자
-	public ArrayList<HashMap<String, Object>> selectReview(int beginRow, int rowPerPage, String searchWord) throws Exception{
+	public ArrayList<HashMap<String, Object>> selectReview(int beginRow, int rowPerPage, String searchGoodsTitle,String searchWord) throws Exception{
 		
 		// db핸들링(model)
 		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
@@ -27,18 +27,25 @@ public class ReviewDao {
 		
 		
 		/*	리뷰 리스트 : 리뷰 번호,리뷰 내용, 작성자ID, 상품명, 리뷰작성일, 리뷰수정일, 이미지파일 이름, 이미지파일타입 , 주문번호
-			SELECT r.review_no reviewNo ,r.review_content reviewContent, g.goods_title goodsTitle, c.customer_id customerId, gi.filename giFileName, gi.content_type giContentType, r.createdate createdate, r.updatedate updatedate, o.orders_no orderNo
+			SELECT r.review_no reviewNo ,r.review_content reviewContent, g.goods_title goodsTitle, c.customer_id customerId, gi.filename giFileName, gi.content_type giContentType, r.createdate createdate, r.updatedate updatedate, o.orders_no ordersNo
 				FROM review r INNER JOIN orders o
 				ON r.orders_no = o.orders_no INNER JOIN goods g
 				ON o.goods_no = g.goods_no INNER JOIN customer c
 				ON o.customer_no = c.customer_no INNER JOIN goods_img gi
 				ON g.goods_no = gi.goods_no
-				WHERE 1=1 //검색기능 추가를 위해 
+				WHERE  g.goods_title LIKE CONCAT('%',?,'%')
+				AND r.review_content LIKE CONCAT('%',?,'%')
+				ORDER BY r.createdate desc
+				LIMIT ?,?
 				
 		 */
 		
-		String sql = "SELECT r.review_no reviewNo ,r.review_content reviewContent, g.goods_title goodsTitle, c.customer_id customerId, gi.filename giFileName, gi.content_type giContentType, r.createdate createdate, r.updatedate updatedate, o.orders_no ordersNo FROM review r INNER JOIN orders o ON r.orders_no = o.orders_no INNER JOIN goods g ON o.goods_no = g.goods_no INNER JOIN customer c ON o.customer_no = c.customer_no INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE 1=1";
+		String sql = "SELECT r.review_no reviewNo ,r.review_content reviewContent, g.goods_title goodsTitle, c.customer_id customerId, gi.filename giFileName, gi.content_type giContentType, r.createdate createdate, r.updatedate updatedate, o.orders_no ordersNo FROM review r INNER JOIN orders o ON r.orders_no = o.orders_no INNER JOIN goods g ON o.goods_no = g.goods_no INNER JOIN customer c ON o.customer_no = c.customer_no INNER JOIN goods_img gi ON g.goods_no = gi.goods_no WHERE g.goods_title LIKE CONCAT('%',?,'%') AND r.review_content LIKE CONCAT('%',?,'%') ORDER BY r.createdate desc LIMIT ?,?;";
 		PreparedStatement stmt=conn.prepareStatement(sql);
+		stmt.setString(1, searchGoodsTitle);
+		stmt.setString(2, searchWord);
+		stmt.setInt(3, beginRow);
+		stmt.setInt(4, rowPerPage);
 		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
 		ResultSet rs = stmt.executeQuery();	
 		ArrayList<HashMap<String,Object>> list = new ArrayList<>();
@@ -400,6 +407,48 @@ public class ReviewDao {
 		return list;
 
 	} 
+	
+	//호출(controller) : question.jsp -> 페이지의 마지막 페이지
+	public int selectReviewLastPage(int rowPerPage) throws Exception{
+		
+		// db핸들링(model)
+		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
+		System.out.println("드라이브 로딩 성공");		// DB 드라이브 로딩 확인 디버깅
+		// DB연결에 필요한 정보를 변수에 담아줌 (가독성)
+		String url = "jdbc:mariadb://localhost:3306/mall";		
+		String dbuser = "root";
+		String dbpw = "java1234";
+		//DB연결을 위한 Connection객체 생성, 연결
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		
+		/* 페이징을 위해 lastPage 반환하기 위한 전체 리뷰 수 
+		 	SELECT COUNT(*)
+				FROM review;
+			
+		 */
+		
+		String sql = "SELECT COUNT(*) FROM review";
+		PreparedStatement stmt=conn.prepareStatement(sql);
+		System.out.println(stmt + "<--stmt");	//쿼리문 확인 디버깅
+		ResultSet rs = stmt.executeQuery();
+		int totalRow = 0;
+		if(rs.next()) {
+			totalRow = rs.getInt(1);
+		}
+		
+		int lastPage = totalRow / rowPerPage; 
+		if(totalRow%rowPerPage != 0) {
+			lastPage = lastPage + 1;
+		}
+				
+		// DB자원 반납
+		conn.close();
+		stmt.close();
+		rs.close();
+		
+		return lastPage;
+	}
 	
 
 }
