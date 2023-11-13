@@ -32,9 +32,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/font.css">
+  
   <style>
   	body {overflow : hidden;}
   </style>
+  
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
@@ -44,7 +46,7 @@
 
   
   <!--================Login Box Area =================-->
-	<section class="login_box_area" style="margin-top:100px;">
+	<section class="login_box_area" style="margin-top:70px;">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">
@@ -84,7 +86,7 @@
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->
-
+	
 
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>

@@ -66,6 +66,132 @@ public class CustomerDao {
 		return list;
 	}
 	
+	public int getOrdersCount(int customerNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT COUNT(*) FROM orders WHERE customer_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		ResultSet rs = stmt.executeQuery();
+		int ordersCount = 0;
+		if(rs.next()) {
+			ordersCount = rs.getInt("COUNT(*)");
+		}
+		
+		stmt.close();
+		rs.close();
+		
+		return ordersCount;
+	}
+	
+	public int getCustomerPwHistoryCount(int customerNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT COUNT(*) FROM customer_pw_history WHERE customer_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		ResultSet rs = stmt.executeQuery();
+		int customerPwHistoryCount = 0;
+		if(rs.next()) {
+			customerPwHistoryCount = rs.getInt("COUNT(*)");
+		}
+		
+		stmt.close();
+		rs.close();
+		
+		return customerPwHistoryCount;
+	}
+	
+	public ArrayList<Integer> getQuestionNo(int customerNo) throws Exception {
+
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		/*
+		  SELECT COUNT(*) 
+		  FROM question_comment qc INNER JOIN question q 
+		  ON qc.question_no = q.question_no INNER JOIN customer c 
+		  ON c.customer_no = q.customer_no 
+		  WHERE c.customer_no = ?
+		 * */
+		
+		String sql = "SELECT q.question_no questionNo FROM question_comment qc INNER JOIN question q ON qc.question_no = q.question_no INNER JOIN customer c ON c.customer_no = q.customer_no WHERE c.customer_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		ResultSet rs = stmt.executeQuery();
+		
+		ArrayList<Integer> list = new ArrayList<>();
+		while(rs.next()) {
+			list.add(rs.getInt("questionNo"));
+		}
+		
+		stmt.close();
+		rs.close();
+		
+		return list;
+	}
+	
+	public int getQuestionCommentCount(int questionNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT COUNT(*) FROM question_comment WHERE question_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, questionNo);
+		ResultSet rs = stmt.executeQuery();
+		
+		int questionCommentCount = 0;
+		if(rs.next()) {
+			questionCommentCount = rs.getInt("COUNT(*)");
+		}
+		
+		stmt.close();
+		rs.close();
+		
+		return questionCommentCount;
+	}
+	
+	public int getQuestionCount(int customerNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		String sql = "SELECT COUNT(*) FROM question WHERE customer_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		ResultSet rs = stmt.executeQuery();
+		int questionCount = 0;
+		if(rs.next()) {
+			questionCount = rs.getInt("COUNT(*)");
+		}
+		
+		stmt.close();
+		rs.close();
+		
+		return questionCount;
+		
+	}
+	
 	public void deleteCustomer(int customerNo) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
@@ -75,60 +201,123 @@ public class CustomerDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
+		CustomerDao customerDao = new CustomerDao();
+		
 		// customer_detail 테이블 데이터 삭제 
 		String sql1 = "DELETE FROM customer_detail WHERE customer_no = ?";
 		PreparedStatement stmt1 = conn.prepareStatement(sql1);
 		stmt1.setInt(1, customerNo);
 		int row1 = stmt1.executeUpdate();
-		
+		System.out.println(row1 + " = row1");
 		if(row1 != 1) {
 			conn.rollback();
 			return;
 		}
 		
-		// customer_addr 테이블 데이터 삭제
-		String sql2 = "DELETE FROM customer_addr WHERE customer_no = ?";
+		// orders 테이블 데이터 삭제
+		String sql2 = "DELETE FROM orders WHERE customer_no = ?";
 		PreparedStatement stmt2 = conn.prepareStatement(sql2);
 		stmt2.setInt(1, customerNo);
-		int row2 = stmt2.executeUpdate();
 		
-		if(row2 != 1) {
+		int ordersCount = customerDao.getOrdersCount(customerNo);
+		System.out.println(ordersCount + " = ordersCount");
+		int row2 = stmt2.executeUpdate();
+		System.out.println(row2 + " = row2");
+		if(row2 != ordersCount) {
 			conn.rollback();
 			return;
 		}
 		
-		// customer_pw_history 테이블 데이터 삭제
-		String sql3 = "DELETE FROM customer_pw_history WHERE customer_no = ?";
+
+		// customer_addr 테이블 데이터 삭제
+		String sql3 = "DELETE FROM customer_addr WHERE customer_no = ?";
 		PreparedStatement stmt3 = conn.prepareStatement(sql3);
 		stmt3.setInt(1, customerNo);
 		int row3 = stmt3.executeUpdate();
+		System.out.println(row3 + " = row3");
 		
 		if(row3 != 1) {
 			conn.rollback();
 			return;
 		}
 		
-		// cart 테이블 데이터 삭제
-		String sql4 = "DELETE FROM cart WHERE customer_no = ?";
+
+		// customer_pw_history 테이블 데이터 삭제
+		String sql4 = "DELETE FROM customer_pw_history WHERE customer_no = ?";
 		PreparedStatement stmt4 = conn.prepareStatement(sql4);
 		stmt4.setInt(1, customerNo);
 		int row4 = stmt4.executeUpdate();
+		System.out.println(row4 + " = row4");
+		
+		int customerPwHistoryCount = customerDao.getCustomerPwHistoryCount(customerNo);
+		System.out.println(customerPwHistoryCount + " = customerPwHistoryCount");
+		if(row4 != customerPwHistoryCount) {
+			conn.rollback();
+			return;
+		}
+			
+		
+		// cart 테이블 데이터 삭제
+		String sql5 = "DELETE FROM cart WHERE customer_no = ?";
+		PreparedStatement stmt5 = conn.prepareStatement(sql5);
+		stmt5.setInt(1, customerNo);
+		int row5 = stmt5.executeUpdate();
+		System.out.println(row5 + " = row5");
 		
 		CartDao cartDao = new CartDao();
 		int cartCount = cartDao.getCartCount(customerNo);
+		System.out.println(cartCount + " = cartCount");
 		
-		if(row4 != cartCount) {
+		if(row5 != cartCount) {
+			conn.rollback();
+			return;
+		}
+				
+		// question_comment 테이블 데이터 삭제
+		
+		ArrayList<Integer> list = customerDao.getQuestionNo(customerNo);
+		for(int questionNo : list) {
+
+			String sql6 = "DELETE FROM question_comment WHERE question_no = ?";
+			PreparedStatement stmt6 = conn.prepareStatement(sql6);
+			stmt6.setInt(1, questionNo);
+			int row6 = stmt6.executeUpdate();
+			System.out.println(row6 + " = row6");
+			
+			int questionCommentCount = customerDao.getQuestionCommentCount(questionNo);
+			System.out.println(questionCommentCount + " = questionCommentCount");
+			if(row6 != questionCommentCount) {
+				conn.rollback();
+				return;
+			}
+			
+			stmt6.close();
+		}
+		
+		// question 테이블 데이터 삭제
+		String sql7 = "DELETE FROM question WHERE customer_no = ?";
+		PreparedStatement stmt7 = conn.prepareStatement(sql7);
+		stmt7.setInt(1, customerNo);
+		int row7 = stmt7.executeUpdate();
+		System.out.println(row7 + " = row7");
+	
+		int questionCount = customerDao.getQuestionCount(customerNo);
+		System.out.println(questionCount + " = questionCount");
+		
+		if(row7 != questionCount) {
 			conn.rollback();
 			return;
 		}
 		
+
 		// customer 테이블 데이터 삭제
-		String sql5 = "DELETE FROM customer WHERE customer_no = ?";
-		PreparedStatement stmt5 = conn.prepareStatement(sql5);
-		stmt5.setInt(1, customerNo);
-		int row5 = stmt5.executeUpdate();
+		String sqlLast = "DELETE FROM customer WHERE customer_no = ?";
+		PreparedStatement stmtLast = conn.prepareStatement(sqlLast);
+		stmtLast.setInt(1, customerNo);
+		int rowLast = stmtLast.executeUpdate();
+		System.out.println(rowLast + " = rowLast");
 		
-		if(row5 != 1) {
+		if(rowLast != 1) {
 			conn.rollback();
 			return;
 		}
@@ -141,6 +330,8 @@ public class CustomerDao {
 		stmt3.close();
 		stmt4.close();
 		stmt5.close();
+		stmt7.close();
+		stmtLast.close();
 
 	}
 	

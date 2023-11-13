@@ -63,21 +63,21 @@
 			<% 
 				for(HashMap<String,Object> map : list) {
 			%>				
-				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerOneAction.jsp">
+				<form class="row login_form" action="<%=request.getContextPath()%>/updateCustomerOneAction.jsp" id="updateForm">
 		            <div class="col-md-12 form-group">
-		            	<div>ID : <input type="text" value="<%=map.get("customerId")%>" readonly></div>
+		            	<div>ID : <input type="text" value="<%=map.get("customerId")%>" maxlength="14"  readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName" id="name"></div>
+		            	<div>이름 : <input type="text" value="<%=map.get("customerName")%>" name="customerName" id="customerName" maxlength="10"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone"></div>
+		            	<div>휴대폰 번호 : <input type="text" value="<%=map.get("customerPhone")%>" name="customerPhone" id="customerPhone" maxlength="11"></div>
 		            </div>      
         	        <div class="col-md-12 form-group">
-		            	<div>주소 : <textarea rows="2" cols="50" style="resize:none;" name="address"><%=map.get("address")%></textarea></div>
+		            	<div>주소 : <textarea rows="2" cols="50" style="resize:none;" name="address" id="address"><%=map.get("address")%></textarea></div>
 		            </div>       
 		            <div class="form-group container" style="width:400px;">
-						<button style="font-size:15px; margin:10px;" class="btn btn-light">수정완료</button>
+						<button type="button" style="font-size:15px; margin:10px;" class="btn btn-light" id="updateBtn">수정완료</button>
 					</div>         
 				</form>
 			<%
@@ -90,11 +90,53 @@
 	<!--================End Login Box Area =================-->
 	
 	<script>
-		$('#name').focus();
+		$('#customerName').focus();
+		
+		// 정규식을 이용한 이름 입력 체크(영문, 한글만 입력 가능)
+		$('#customerName').keyup(function(){
+			$(this).val($(this).val().replace(/[^a-zA-Z가-힣]/g, ''));
+		});
+		
+		// 정규식을 이용한 휴대폰 번호 입력 체크(숫자만 입력 가능)
+		$('#customerPhone').keyup(function(){
+			$(this).val($(this).val().replace(/[^0-9]/g, ''));
+		});
+		
+		$('#updateBtn').click(function(){
+			if($('#customerName').val() == "") {
+				// 이름 창에 아무것도 입력하지 않았을 때
+				alert('이름을 입력하세요.');
+				return;
+			} else if($('#customerName').val().length < 2) { 
+				// 이름 창의 입력값의 length가 2 미만일 때
+				alert('이름을 2자 이상 입력하세요.');
+				return;
+			}
+			
+			if($('#customerPhone').val() == "") {
+				// 휴대폰 번호 창에 아무것도 입력하지 않았을 때
+				alert('휴대폰 번호를 입력하세요.');
+				return;
+			} else if(($('#customerPhone').val().length != 11) || ($('#customerPhone').val().substr(0,3) != '010') ) {
+				// 휴대폰 번호의 길이가 11이 아니거나 번호가 010으로 시작하지 않을 때
+				alert('휴대폰 번호의 형식이 올바르지 않습니다.');
+				return;
+			}
+			
+			if($('#address').val() == "") {
+				// 주소 창에 아무것도 입력하지 않았을 때
+				alert('주소를 입력하세요.');
+				return;
+			}
+			
+			alert('정보가 수정되었습니다.')
+			$('#updateForm').submit();
+		});
+
+		
 	</script>
-
-
-  <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+	
+	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="vendors/skrollr.min.js"></script>
   <script src="vendors/owl-carousel/owl.carousel.min.js"></script>

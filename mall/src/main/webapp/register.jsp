@@ -39,7 +39,7 @@
   
   
   <!--================Login Box Area =================-->
-	<section class="login_box_area" style="margin-top:100px;">
+	<section class="login_box_area" style="margin-top:70px;">
 		<div class="container">
 			<div class="row">
 			
@@ -69,7 +69,7 @@
 								<input type="password" class="form-control" id="pwCheck" placeholder="비밀번호 확인" maxlength="15" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호 확인'">
 				            </div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="customerName" name="customerName" placeholder="이름" onfocus="this.placeholder = ''" onblur="this.placeholder = '이름'">
+								<input type="text" class="form-control" id="customerName" name="customerName" placeholder="이름" maxlength="10" onfocus="this.placeholder = ''" onblur="this.placeholder = '이름'">
 							</div>
 				            <div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="address" name="address" placeholder="주소" onfocus="this.placeholder = ''" onblur="this.placeholder = '주소'">
@@ -162,19 +162,26 @@
 				return;
 			}
 			
-			if($('#customerPw').val() == "" || $('#pwCheck').val() == "") { 
+			let checkNumber = $('#customerPw').val().search(/[0-9]/g);
+		    let checkEnglish = $('#customerPw').val().search(/[a-z]/ig);
+		    
+			if($('#customerPw').val() == "") { 
 				// 비밀번호 창에 아무것도 입력하지 않았을 때
 				alert('비밀번호를 입력하세요.');
-				return;
-			} else if($('#customerPw').val().length < 6) { 
-				// 비밀번호 창의 입력값의 length가 6 미만일 때
-				alert('비밀번호를 6자 이상 입력하세요.');
 				return;
 			} else if($('#customerPw').val() != $('#pwCheck').val()) { 
 				// 비밀번호 일치 확인
 				alert('비밀번호가 일치하지 않습니다.');
 				return;
-			}
+			} else if($('#customerPw').val().length < 6 || $('#pwCheck').val().length < 6) { 
+				// 비밀번호 창의 입력값의 length가 6 미만일 때
+				alert('비밀번호를 6자 이상 입력하세요.');
+				return;
+			} else if(checkNumber <0 || checkEnglish <0){
+				// 숫자와 영어를 혼용하지 않았을 때
+		        alert("비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
+		        return;
+		    } 
 			
 			
 			
@@ -206,6 +213,7 @@
 				return;
 			}
 			
+			alert('가입이 완료되었습니다.')
 			$('#signinForm').submit();
 		});
 		
