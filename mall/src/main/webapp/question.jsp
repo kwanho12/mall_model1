@@ -58,12 +58,12 @@
 	if(request.getParameter("currentPage") != null){
 		currentPage=Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int rowPerPage = 2;
+	int rowPerPage = 5;
 	int beginRow=(currentPage-1)*rowPerPage;
 	
 	// 검색을 위한 변수
 	String searchWord = "";
-	String questionType = "";
+	String questionType= "";
 	
 	// 검색값으로 넘어온 문자가 있으면
 	if(request.getParameter("questionType") != null){
@@ -118,7 +118,7 @@
 		<div>
 	          <div class="input-group filter-bar-search">
 	            <select name="questionType">
-					<option selected="selected">-문의종류-</option>
+					<option value="" selected="selected">-문의종류-</option>
 				 	<option value="[배송]">[배송]</option>
 				 	<option value="[상품]">[상품]</option>
 				 	<option value="[AS]" >[AS]</option>

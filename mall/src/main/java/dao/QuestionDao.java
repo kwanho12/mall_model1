@@ -6,7 +6,7 @@ import java.sql.*;
 public class QuestionDao {
 	
 	//호출(controller) : question.jsp - 문의사항(table:question) 의 데이터를 question.jsp에 출력
-	public ArrayList<HashMap<String, Object>> selectQuestionList(int beginRow, int rowPerPage, String questionType, String searchWord  ) throws Exception{
+	public ArrayList<HashMap<String, Object>> selectQuestionList(int beginRow, int rowPerPage, String searchWord, String questionType ) throws Exception{
 		
 		// db핸들링(model)
 		Class.forName("org.mariadb.jdbc.Driver");	// DB Driver클래스 코드
@@ -26,12 +26,12 @@ public class QuestionDao {
 				ON q.customer_no = c.customer_no
 				INNER JOIN goods g
 				ON g.goods_no = q.goods_no
-				WHERE q.question_title LIKE CONCAT('%',?,'%',?)
+				WHERE q.question_title LIKE CONCAT('%',?,'%',?,'%')
 				ORDER BY q.createdate desc
 				LIMIT ?,?;
 		 */
 		
-		String sql = "SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no INNER JOIN goods g ON g.goods_no = q.goods_no WHERE q.question_title LIKE CONCAT('%',?,'%',?) ORDER BY q.createdate desc LIMIT ?,?";
+		String sql = "SELECT q.question_no questionNo, c.customer_id customerId, g.goods_title goodsTitle, q.question_title questionTitle, q.question_content questionContent, q.createdate ,q.updatedate FROM question q INNER JOIN customer c ON q.customer_no = c.customer_no INNER JOIN goods g ON g.goods_no = q.goods_no WHERE q.question_title LIKE CONCAT('%',?,'%',?,'%') ORDER BY q.createdate desc LIMIT ?,?";
 		PreparedStatement stmt=conn.prepareStatement(sql);
 		stmt.setString(1, questionType);
 		stmt.setString(2, searchWord);

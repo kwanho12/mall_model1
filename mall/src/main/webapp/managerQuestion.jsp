@@ -42,18 +42,87 @@
 	if(session.getAttribute("managerNo") == null) {
 		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
 	}	
+
+	//페이징을 위한 변수
+	int currentPage=1;
+	if(request.getParameter("currentPage") != null){
+		currentPage=Integer.parseInt(request.getParameter("currentPage"));
+	}
+	int rowPerPage = 5;
+	int beginRow=(currentPage-1)*rowPerPage;
 	
 
-	int beginRow = 0;
-	int rowPerPage = 10;
+	// 검색을 위한 변수
+	String searchWord = "";
+	String questionType= "";
+	
+	// 검색값으로 넘어온 문자가 있으면
+	if(request.getParameter("questionType") != null){
+		questionType= request.getParameter("questionType");
+	}
+	
+	if(request.getParameter("searchWord") != null){
+		searchWord= request.getParameter("searchWord");
+	}
+	// 검색값 디버깅
+	System.out.println(questionType+"<--questionType");
+	System.out.println(searchWord+"<--searchWord");
+
 
 	QuestionDao questionDao= new QuestionDao();
-	ArrayList<HashMap<String,Object>> list = questionDao.selectQuestionList(beginRow, rowPerPage);
+	ArrayList<HashMap<String,Object>> list = questionDao.selectQuestionList(beginRow, rowPerPage, searchWord, questionType);
+
+	int lastPage = questionDao.selectQuestionLastPage(rowPerPage);
+	System.out.println(lastPage+"<--lastPage");
 	
 %>	
 <!--================ Start Header Menu Area ===============-->
 	<jsp:include page="/inc/managerMenu.jsp"></jsp:include>
 <!--================ End Header Menu Area =================-->
+
+<!-- Start Paging, search Bar -->
+
+ <div class="filter-bar d-flex flex-wrap align-items-center">
+ 	<div class="sorting mr-auto">
+ 
+ 		<%
+ 			if(currentPage > 1) {
+ 		%>	
+ 				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerQuestion.jsp?currentPage=<%=currentPage-1%>">이전</a>
+ 		<%
+ 			}
+ 		%>
+ 		
+ 		<%
+			if(currentPage < lastPage) {
+		%>
+				<a class="btn btn-light" href="<%=request.getContextPath()%>/managerQuestion.jsp?currentPage=<%=currentPage+1%>">다음</a>
+		<%		
+			}
+		%>
+
+ 	</div>
+ 
+ 	<form action="<%=request.getContextPath()%>/managerQuestion.jsp">
+		<div>
+	          <div class="input-group filter-bar-search">
+	            <select name="questionType">
+					<option value="" selected="selected">-문의종류-</option>
+				 	<option value="[배송]">[배송]</option>
+				 	<option value="[상품]">[상품]</option>
+				 	<option value="[AS]" >[AS]</option>
+				 	<option value="[환불]">[환불]</option>			
+				 	<option value="[기타]">[기타]</option>	
+				</select>
+	            	<input type="text" placeholder="입력" name="searchWord" class="col">	 
+	            <div>
+		            <button style="height:38px;"><i class="ti-search"></i></button>
+		        </div>
+       	  	</div>
+     	</div>
+	</form>
+</div>
+<!-- End Paging, search Bar -->
 	
 <div class="container-fluid">
 	<h3>문의사항 관리</h3>
