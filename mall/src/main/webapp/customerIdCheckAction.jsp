@@ -6,5 +6,5 @@
 	CustomerDao customerDao = new CustomerDao();
 	int idCheck = customerDao.customerIdCheck(customerId);
 	
-	out.write(idCheck);
+	out.write(idCheck + "");
 %>

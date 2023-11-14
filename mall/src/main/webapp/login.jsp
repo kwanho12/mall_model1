@@ -2,11 +2,10 @@
     pageEncoding="UTF-8"%>
 <%
 	if(session.getAttribute("customerId") != null) { // 로그인 되어 있으면 
-	response.sendRedirect(request.getContextPath()+"/home.jsp");
-	return;	
+		response.sendRedirect(request.getContextPath()+"/home.jsp");
+		return;	
 	}
 
-	String msg = request.getParameter("msg");
 %>
 <!DOCTYPE html>
 <html>
@@ -37,6 +36,8 @@
   	body {overflow : hidden;}
   </style>
   
+  <!-- jQuery CDN 주소 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
 </head>
 <body>
   <!--================ Start Header Menu Area ===============-->
@@ -60,14 +61,10 @@
 				<div class="col-lg-6">
 					<div class="login_form_inner">
 						<h3>로그인 화면</h3>
-						<%
-						if(msg != null) {
-						%>
-							<p style="margin:50px"><%=msg%></p>
-						<%	
-						}
-						%>
-						<form class="row login_form" action="<%=request.getContextPath()%>/loginAction.jsp" id="contactForm" >
+	
+						<p style="margin:50px" id="msg"></p>
+				
+						<form class="row login_form" id="loginForm" >
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="customerId" name="customerId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'">
 							</div>
@@ -76,7 +73,7 @@
 							</div>
 						
 							<div class="col-md-12 form-group">
-								<button type="submit" class="button button-login w-100 mx-auto" style="margin:30px;">로그인</button>
+								<button type="button" class="button button-login w-100 mx-auto" style="margin:30px;" id="loginBtn">로그인</button>
 								<a href="<%=request.getContextPath()%>/managerLogin.jsp" style="font-size:20px">관리자 로그인</a>
 							</div>
 						</form>
@@ -86,6 +83,30 @@
 		</div>
 	</section>
 	<!--================End Login Box Area =================-->
+	
+	<script>
+		$('#loginBtn').click(function(){
+			
+			let dataset = $('#loginForm').serialize();
+			
+			$.ajax({
+				url: "<%=request.getContextPath()%>/loginAction.jsp",
+				type: "post",
+				data: dataset,
+				dataType: 'json',
+				success: function(result) {
+					if(result == 1) {
+						$('#msg').text('ID, 비밀번호가 일치하지 않습니다.');
+					} else if(result == 2) {
+						$('#msg').text('탈퇴된 회원입니다.');
+					} else if(result == 3){
+						alert('로그인 성공하였습니다.');
+						$(location).attr("href","<%=request.getContextPath()%>/home.jsp");
+					}
+				}
+			});
+		});
+	</script>
 	
 
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>

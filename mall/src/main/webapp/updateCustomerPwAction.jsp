@@ -9,5 +9,5 @@
 	CustomerDao customerDao = new CustomerDao();
 	int result = customerDao.updateCustomerPw(customerNo, oldPw, newPw);
 	
-	out.print(result);
+	out.print(result + "");
 %>

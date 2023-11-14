@@ -6,5 +6,7 @@
 	String customerPw = request.getParameter("customerPw");
 
 	CustomerDao customerDao = new CustomerDao();
-	customerDao.withdrawalCustomer(customerNo, customerPw, request, response, session);
+	int result = customerDao.withdrawalCustomer(customerNo, customerPw, session);
+	
+	out.write(result + "");
 %>

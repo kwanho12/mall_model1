@@ -115,10 +115,9 @@
 			isIdCheck = false;
 		});
 		
-		//// ID 중복체크
+		// ID 중복체크, 유효성 검증
 		$('#idCheck').click(function(){
 			
-			// ID 중복체크
 			let customerId = $('#customerId').val(); // 입력된 id를 가져 옴.
 			if(customerId != "") {
 				$.ajax({
@@ -130,10 +129,15 @@
 						if(result == 0) {
 							alert('이미 등록된 아이디입니다. 다른 아이디를 입력하세요.');
 							$('#customerId').focus();
-						} else {
-							isIdCheck = true;
-							alert('사용 가능한 아이디입니다.');
-							$('#customerPw').focus();
+						} else {	
+							if(customerId.length < 5) {
+								alert('아이디를 5자 이상 입력하세요.');
+								$('#customerId').focus();
+							} else {
+								isIdCheck = true;
+								alert('사용 가능한 아이디입니다.');
+								$('#customerPw').focus();
+							}
 						}
 					}
 				});
@@ -143,22 +147,11 @@
 	   });
 		
 		
-		//// 가입하기 
+		// 가입하기 
 		$('#signBtn').click(function(){
 			
 			if(isIdCheck == false) {
 				alert('ID 중복체크를 하세요.')
-				return;
-			}
-			
-			
-			if($('#customerId').val() == "") { 
-				// 아이디 창에 아무것도 입력하지 않았을 때
-				alert('아이디를 입력하세요.');
-				return;
-			} else if($('#customerId').val().length < 5) { 
-				// 아이디 창의 입력값의 length가 5 미만일 때
-				alert('아이디를 5자 이상 입력하세요.');
 				return;
 			}
 			

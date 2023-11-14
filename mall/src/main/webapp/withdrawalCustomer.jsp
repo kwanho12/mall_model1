@@ -37,7 +37,6 @@
 		return;
 	} 
 	
-	String msg = request.getParameter("msg");
 	
 %>
 
@@ -50,21 +49,15 @@
 		<div class="container">
 			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
 				<h3>탈퇴하기</h3>	
-				<form class="row login_form" action="<%=request.getContextPath()%>/withdrawalCustomerAction.jsp">
+				<form class="row login_form" id="withdrawalForm">
 		            <div class="col-md-12 form-group">
-		            	<div>비밀번호 : <input type="password" name="customerPw" id="pw"></div>
+		            	<div>비밀번호 : <input type="password" name="customerPw" id="customerPw"></div>
 		            </div>
-		            <%
-		            	if(request.getParameter("msg") != null) {
-		            %>
-	            		<div class="col-md-12 form-group">
-		            		<div><%=msg%></div>
-			            </div>            
-		            <%
-		            	}
-		            %>     
+            		<div class="col-md-12 form-group">
+	            		<div id="msg"></div>
+		            </div>            
 		            <div class="form-group container" style="width:400px;">
-						<button style="font-size:15px; margin:7px;" class="btn btn-light">탈퇴하기</button>					
+						<button type="button" style="font-size:15px; margin:7px;" class="btn btn-light" id="withdrawalBtn">탈퇴하기</button>					
 					</div>
 				</form>
 			</div>		
@@ -73,7 +66,29 @@
 	<!--================End Login Box Area =================-->
 	
 	<script>
-		$('#pw').focus();
+		$('#customerPw').focus();
+		
+		$('#withdrawalBtn').click(function(){
+			
+			let customerPw = $('#customerPw').val();
+			
+			$.ajax({
+				url: "<%=request.getContextPath()%>/withdrawalCustomerAction.jsp",
+				type: "post",
+				data: {customerPw : customerPw},
+				dataType: 'json',
+				success: function(result) {
+					if(result == 1) {
+						$('#msg').text('비밀번호를 확인하세요.');
+					} else if(return == 3){
+						alert('탈퇴되었습니다.');
+						$(location).attr("href","<%=request.getContextPath()%>/home.jsp");
+					}
+				}
+			});
+		});
+		
+		
 	</script>
 
 

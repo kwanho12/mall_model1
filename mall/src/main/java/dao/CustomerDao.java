@@ -335,7 +335,7 @@ public class CustomerDao {
 
 	}
 	
-	public void withdrawalCustomer(int customerNo, String customerPw, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+	public int withdrawalCustomer(int customerNo, String customerPw, HttpSession session) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;
@@ -352,9 +352,7 @@ public class CustomerDao {
 		ResultSet rs = stmt1.executeQuery();
 		if(!rs.next()) {
 			conn.rollback();
-			String msg = URLEncoder.encode("비밀번호를 확인하세요."); // 한글 깨짐 방지
-			response.sendRedirect(request.getContextPath()+"/withdrawalCustomer.jsp?msg="+msg);
-			return;
+			return 1;
 		}
 		
 		// 비밀번호가 일치하면 active를 'N'으로 변경
@@ -365,18 +363,19 @@ public class CustomerDao {
 		int row = stmt2.executeUpdate();
 		if(row != 1) {
 			conn.rollback();
-			return;
+			return 2;
 		} 
 		
 		conn.commit();
 		
 		session.invalidate();
-		response.sendRedirect(request.getContextPath()+"/home.jsp");
 		
 		conn.close();
 		stmt1.close();
 		rs.close();
 		stmt2.close();
+		
+		return 3;
 
 	}
 	
@@ -473,7 +472,7 @@ public class CustomerDao {
 		
 	}
 	
-	public void customerLogin(Customer customer, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
+	public int customerLogin(Customer customer, HttpSession session) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
@@ -489,29 +488,26 @@ public class CustomerDao {
 		ResultSet rs = stmt1.executeQuery();
 			
 		if(!rs.next()) {
-			String msg = URLEncoder.encode("아이디,비밀번호를 확인하세요."); // 한글 깨짐 방지
-			response.sendRedirect(request.getContextPath()+"/login.jsp?msg="+msg);
-			return;	
+			return 1;	
 		} 
 		
 		int customerNo = rs.getInt("customerNo");
 		String active = rs.getString("active");
 		
-		if(active.equals("Y")) { 
-			// active가 Y이면(회원탈퇴하지 않았다면) 로그인 성공
-			session.setAttribute("customerNo", customerNo);
-			response.sendRedirect(request.getContextPath()+"/home.jsp");
-		} else {
-			// active가 N이면(회원탈퇴하였다면) 로그인 실패
-			String msg = URLEncoder.encode("탈퇴된 회원입니다."); // 한글 깨짐 방지
-			response.sendRedirect(request.getContextPath()+"/login.jsp?msg="+msg);
-			return;	
-		}
-
 		conn.close();
 		stmt1.close();
 		rs.close();
 		
+		if(active.equals("Y")) { 
+			// active가 Y이면(회원탈퇴하지 않았다면) 로그인 성공
+			session.setAttribute("customerNo", customerNo);
+		} else {
+			// active가 N이면(회원탈퇴하였다면) 로그인 실패
+			return 2;	
+		}
+		
+		return 3;
+
 	}
 	
 	public ArrayList<HashMap<String,Object>> customerOne(int customerNo) throws Exception {
