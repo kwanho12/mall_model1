@@ -44,7 +44,7 @@
 				<h3>상품 추가</h3>
 				<form method="post" enctype="multipart/form-data" class="row login_form" action="<%=request.getContextPath()%>/addGoodsAction.jsp">
 					<div class="col-md-12 form-group">
-						<input type="text" class="form-control" id="goodsTitle" name="goodsTitle" placeholder="상품 이름" onfocus="this.placeholder = ''" onblur="this.placeholder = '상품 이름'">
+						<input type="text" class="form-control" id="goodsTitle" name="goodsTitle" placeholder="상품 이름" maxlength="15" onfocus="this.placeholder = ''" onblur="this.placeholder = '상품 이름'">
            				</div>
 		            <div class="col-md-12 form-group">
 						<input type="number" class="form-control" id="goodsPrice" name="goodsPrice" placeholder="상품 가격" onfocus="this.placeholder = ''" onblur="this.placeholder = '상품 가격'">

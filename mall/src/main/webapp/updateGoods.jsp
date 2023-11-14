@@ -59,7 +59,7 @@
 						<input type="file" name="goodsImg">
          			</div>
 		            <div class="col-md-12 form-group">
-		            	<div>상품 이름 : <input type="text" value="<%=g.getGoodsTitle()%>" name="goodsTitle"></div>
+		            	<div>상품 이름 : <input type="text" value="<%=g.getGoodsTitle()%>" name="goodsTitle" maxlength="15"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
 		            	<div>상품 가격 : <input type="text" value="<%=g.getGoodsPrice()%>" name="goodsPrice"></div>
