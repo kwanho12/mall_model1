@@ -8,11 +8,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>문의사항</title>
+<title>관리자 문의 관리</title>
 	<meta charset="UTF-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-  	<title>고객 목록</title>
+  	<title>관리자 문의 관리</title>
 	<link rel="icon" href="img/Fevicon.png" type="image/png">
   	<link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
   	<link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
@@ -107,7 +107,7 @@
 		<div>
 	          <div class="input-group filter-bar-search">
 	            <select name="questionType">
-					<option value="" selected="selected">-문의종류-</option>
+					<option value="" selected="selected">-전체보기-</option>
 				 	<option value="[배송]">[배송]</option>
 				 	<option value="[상품]">[상품]</option>
 				 	<option value="[AS]" >[AS]</option>

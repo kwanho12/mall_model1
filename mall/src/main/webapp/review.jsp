@@ -120,7 +120,7 @@
 		<div>
 	          <div class="input-group filter-bar-search">
 	            <select name=searchGoodsTitle id="searchGoodsTitle">
-				 	<option value="" selected="selected">-상품명-</option>
+				 	<option value="" selected="selected">-전체보기-</option>
 				 <%
 				 		for(int i = 0 ; i <totalGoods; i=i+1){
 				 %>

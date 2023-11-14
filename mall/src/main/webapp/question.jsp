@@ -27,6 +27,8 @@
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
   	
+  	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 
   	
 </head>
@@ -117,8 +119,8 @@
  	<form action="<%=request.getContextPath()%>/question.jsp">
 		<div>
 	          <div class="input-group filter-bar-search">
-	            <select name="questionType">
-					<option value="" selected="selected">-문의종류-</option>
+	            <select name="questionType" id="questionType">
+					<option value="" selected="selected">-전체보기-</option>
 				 	<option value="[배송]">[배송]</option>
 				 	<option value="[상품]">[상품]</option>
 				 	<option value="[AS]" >[AS]</option>
@@ -212,6 +214,11 @@
 	</div>
 	<br>
 	<br>
+	<script>
+	
+	
+	
+	</script>
 	
 
 

@@ -36,7 +36,10 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
-  
+  	
+  	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  	
 </head>
 <style>
 select {
@@ -86,11 +89,11 @@ select {
 
 <div class="container">
 	
-<form action="<%=request.getContextPath()%>/insertQuestionAction.jsp" method="post">
+<form action="<%=request.getContextPath()%>/insertQuestionAction.jsp" method="post" id="insertQuestion">
 		<input type="hidden" name="customerNo" value="<%=session.getAttribute("customerNo")%>">
 	<div class="mb-3 mt-3">
 		<select name="questionType" id="questionType">
-				 <option selected="selected">-문의종류-</option>
+				 <option value="" selected="selected">-문의종류-</option>
 				 <option value="[배송]">[배송]</option>
 				 <option value="[상품]">[상품]</option>
 				 <option value="[AS]" >[AS]</option>
@@ -114,7 +117,7 @@ select {
 	</div>
 	<div class="mb-3 mt-3">
 		<label for="title" class="form-label">제목</label>
-			<input type="text" class="form-control" id="questiontitle" placeholder="제목을 입력하세요." name="questionTitle">
+			<input type="text" class="form-control" id="questionTitle" placeholder="제목을 입력하세요." name="questionTitle">
 	</div>
 	<div class="mb-3">
 		<label for="comment">문의</label>
@@ -126,12 +129,45 @@ select {
   			<input class="form-check-input" type="checkbox" name="private"> 비밀글</label>
 	</div>-->
 	<div class="text-right">
-	<button type="submit" class="btn btn-dark">등록</button>
+	<button type="button" class="btn btn-dark" id="button">등록</button>
 	</div>
 </form>
 </div>
 	<br>
 	<br>
+	<script>
+	
+	$('#button').click(function() {
+
+	//문의 종류 선택 필수
+	if($('#questionType').val() == ""){
+		alert('문의 종류를 선택하세요.');
+		return;
+	}
+	
+	//문의 상품 선택 필수
+	if($('#goodsTitle').val() == "-상품명-"){
+		alert('상품 종류를 선택하세요.');
+		return;
+	}
+	
+	//제목 입력 필수
+	if($('#questionTitle').val().length < 1){
+		alert('제목을 입력하세요.');
+		return;
+	}
+	
+	//내용 입력 필수
+	if($('#questionContent').val().length < 1){
+		alert('문의 내용을 입력하세요.');
+		return;
+	}
+	
+	alert('문의사항작성이 완료되었습니다.')
+	$('#insertQuestion').submit();
+	});
+	
+	</script>
 	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
   	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
   	<script src="vendors/skrollr.min.js"></script>
