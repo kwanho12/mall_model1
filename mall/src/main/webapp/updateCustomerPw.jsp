@@ -47,8 +47,6 @@
 	CustomerDao customerDao = new CustomerDao();
 	ArrayList<HashMap<String,Object>> list = customerDao.customerOne(customerNo);
 	
-	String msg = request.getParameter("msg");
-	
 %>
 
   <!--================ Start Header Menu Area ===============-->

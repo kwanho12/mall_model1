@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/font.css">
   
-  <!-- jQuery -->
+ <!-- jQuery CDN 주소 -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
@@ -36,8 +36,7 @@
 		response.sendRedirect(request.getContextPath()+"/login.jsp");
 		return;
 	} 
-	
-	
+
 %>
 
   <!--================ Start Header Menu Area ===============-->
@@ -51,7 +50,7 @@
 				<h3>탈퇴하기</h3>	
 				<form class="row login_form" id="withdrawalForm">
 		            <div class="col-md-12 form-group">
-		            	<div>비밀번호 : <input type="password" name="customerPw" id="customerPw"></div>
+		            	<div>비밀번호 : <input type="password" name="customerPw" id="customerPw" maxlength="15"></div>
 		            </div>
             		<div class="col-md-12 form-group">
 	            		<div id="msg"></div>
@@ -80,15 +79,13 @@
 				success: function(result) {
 					if(result == 1) {
 						$('#msg').text('비밀번호를 확인하세요.');
-					} else if(return == 3){
+					} else if(result == 3){
 						alert('탈퇴되었습니다.');
 						$(location).attr("href","<%=request.getContextPath()%>/home.jsp");
 					}
 				}
 			});
 		});
-		
-		
 	</script>
 
 
