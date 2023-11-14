@@ -488,6 +488,10 @@ public class CustomerDao {
 		ResultSet rs = stmt1.executeQuery();
 			
 		if(!rs.next()) {
+			conn.close();
+			stmt1.close();
+			rs.close();
+			
 			return 1;	
 		} 
 		

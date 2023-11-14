@@ -86,7 +86,7 @@ public class ManagerDao {
 		
 	}
 	
-	public ResultSet managerLogin(Manager manager) throws Exception{
+	public int managerLogin(Manager manager, HttpSession session) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
@@ -94,17 +94,38 @@ public class ManagerDao {
 		String dbpw = "java1234";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
-		String sql = "SELECT manager_no managerNo FROM manager WHERE manager_id=? AND manager_pw = PASSWORD(?)";
+		// 입력한 ID와 비밀번호가 DB에 있는 데이터와 일치하는지 확인
+		String sql = "SELECT manager_no managerNo, active FROM manager WHERE manager_id=? AND manager_pw = PASSWORD(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1, manager.getManagerId());
 		stmt.setString(2, manager.getManagerPw());
 		ResultSet rs = stmt.executeQuery();
 		
+		if(!rs.next()) {
+			conn.close();
+			stmt.close();
+			rs.close();
+			
+			return 1;
+		}
+		
+		int managerNo = rs.getInt("managerNo");
+		String active = rs.getString("active");
+		
 		conn.close();
 		stmt.close();
 		rs.close();
 		
-		return rs;
+		if(active.equals("Y")) { 
+			// active가 Y이면(회원탈퇴하지 않았다면) 로그인 성공
+			session.setAttribute("managerNo", managerNo);
+		} else {
+			// active가 N이면(회원탈퇴하였다면) 로그인 실패
+			return 2;	
+		}
+		
+		return 3;
+		
 	}
 	
 	public ArrayList<Manager> managerOne(int managerNo) throws Exception {
