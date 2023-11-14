@@ -1,8 +1,3 @@
-<%@page import="java.util.HashMap"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="dao.CustomerDao"%>
-<%@page import="dao.GoodsDao"%>
-<%@page import="vo.Goods"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -43,9 +38,6 @@
 	} else {
 		customerNo = (Integer) session.getAttribute("customerNo");
 	}
-
-	CustomerDao customerDao = new CustomerDao();
-	ArrayList<HashMap<String,Object>> list = customerDao.customerOne(customerNo);
 	
 %>
 

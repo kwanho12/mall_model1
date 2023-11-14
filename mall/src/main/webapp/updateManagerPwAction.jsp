@@ -7,5 +7,7 @@
 	String newPw = request.getParameter("newPw");
 	
 	ManagerDao managerDao = new ManagerDao();
-	managerDao.updateManagerPw(managerNo, oldPw, newPw, request, response);
+	int result = managerDao.updateManagerPw(managerNo, oldPw, newPw);
+	
+	out.write(result + "");
 %>

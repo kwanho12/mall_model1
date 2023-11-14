@@ -6,5 +6,7 @@
 	String managerPw = request.getParameter("managerPw");
 
 	ManagerDao managerDao = new ManagerDao();
-	managerDao.withdrawalManager(managerNo, managerPw, request, response, session);
+	int result = managerDao.withdrawalManager(managerNo, managerPw, session);
+	
+	out.write(result + "");
 %>

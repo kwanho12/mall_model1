@@ -176,7 +176,7 @@ public class ManagerDao {
 		}
 	}
 	
-	public void updateManagerPw(int managerNo, String oldPw, String newPw, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public int updateManagerPw(int managerNo, String oldPw, String newPw) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall";
@@ -194,9 +194,7 @@ public class ManagerDao {
 		ResultSet rs = stmt0.executeQuery();
 		if(rs.next()) { // 변경할 비밀번호가 이전에 사용했던 비밀번호와 같다면
 			conn.rollback();
-			String msg = URLEncoder.encode("변경할 비밀번호가 이전의 비밀번호와 같습니다. 다른 비밀번호를 입력해주세요.");
-			response.sendRedirect(request.getContextPath()+"/updateManagerPw.jsp?msg="+msg);
-			return;
+			return 1;
 		}
 		
 			
@@ -211,9 +209,7 @@ public class ManagerDao {
 		
 		if(row1 != 1) {
 			conn.rollback();
-			String msg = URLEncoder.encode("비밀번호를 확인하세요.");
-			response.sendRedirect(request.getContextPath()+"/updateManagerPw.jsp?msg="+msg);
-			return;
+			return 2;
 		}
 		
 		// 비밀번호를 수정하고 customer_pw_history 테이블에 비밀번호 변경 내역 추가
@@ -225,15 +221,15 @@ public class ManagerDao {
 		
 		if(row2 != 1) {
 			conn.rollback();
-			return;
+			return 3;
 		}
 		
 		conn.commit();
+		return 4;
 		
-		response.sendRedirect(request.getContextPath()+"/managerOne.jsp");
 	}
 	
-	public void withdrawalManager(int managerNo, String managerPw, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+	public int withdrawalManager(int managerNo, String managerPw, HttpSession session) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
 		String url = "jdbc:mariadb://localhost:3306/mall" ;
@@ -242,6 +238,7 @@ public class ManagerDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
+		// 입력한 관리자의 비밀번호가 DB에 저장된 데이터와 일치하는지 확인
 		String sql1 = "SELECT manager_no FROM manager WHERE manager_no = ? AND manager_pw = PASSWORD(?)";
 		PreparedStatement stmt1 = conn.prepareStatement(sql1);
 		stmt1.setInt(1, managerNo);
@@ -250,9 +247,7 @@ public class ManagerDao {
 		ResultSet rs = stmt1.executeQuery();
 		if(!rs.next()) {
 			conn.rollback();
-			String msg = URLEncoder.encode("비밀번호를 확인하세요."); // 한글 깨짐 방지
-			response.sendRedirect(request.getContextPath()+"/withdrawalManager.jsp?msg="+msg);
-			return;
+			return 1;
 		}
 		
 		// 비밀번호가 일치하면 active를 'N'으로 변경
@@ -263,17 +258,18 @@ public class ManagerDao {
 		int row = stmt2.executeUpdate();
 		if(row != 1) {
 			conn.rollback();
-			return;
+			return 2;
 		} 
 		
 		conn.commit();
 		
 		session.invalidate();
-		response.sendRedirect(request.getContextPath()+"/managerLogin.jsp");
 		
 		conn.close();
 		stmt1.close();
 		rs.close();
 		stmt2.close();
+		
+		return 3;
 	}
  }

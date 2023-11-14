@@ -344,12 +344,14 @@ public class CustomerDao {
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
+		// 입력한 고객의 비밀번호가 DB에 저장된 데이터와 일치하는지 확인
 		String sql1 = "SELECT customer_no FROM customer WHERE customer_no = ? AND customer_pw = PASSWORD(?)";
 		PreparedStatement stmt1 = conn.prepareStatement(sql1);
 		stmt1.setInt(1, customerNo);
 		stmt1.setString(2, customerPw);
 		
 		ResultSet rs = stmt1.executeQuery();
+		// 일치하지 않는다면 롤백하고 1 반환
 		if(!rs.next()) {
 			conn.rollback();
 			return 1;
