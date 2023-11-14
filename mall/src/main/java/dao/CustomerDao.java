@@ -192,6 +192,37 @@ public class CustomerDao {
 		
 	}
 	
+	public ArrayList<Integer> getOrdersNo(int customerNo) throws Exception {
+		
+		Class.forName("org.mariadb.jdbc.Driver");
+		String url = "jdbc:mariadb://localhost:3306/mall";
+		String dbuser = "root";
+		String dbpw = "java1234";
+		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
+		
+		/*
+		 * SELECT r.orders_no ordersNo 
+		 * FROM review r INNER JOIN orders o 
+		 * ON r.orders_no = o.orders_no 
+		 * WHERE o.customer_no = ?
+		 * */
+		String sql = "SELECT r.orders_no ordersNo FROM review r INNER JOIN orders o ON r.orders_no = o.orders_no WHERE o.customer_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, customerNo);
+		ResultSet rs = stmt.executeQuery();
+		
+		ArrayList<Integer> list = new ArrayList<>();
+		while(rs.next()) {
+			list.add(rs.getInt("ordersNo"));
+		}
+		
+		stmt.close();
+		rs.close();
+		
+		return list;
+		
+	}
+	
 	public void deleteCustomer(int customerNo) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
@@ -212,6 +243,23 @@ public class CustomerDao {
 		if(row1 != 1) {
 			conn.rollback();
 			return;
+		}
+		
+		// review 테이블 데이터 삭제
+		ArrayList<Integer> list1 = customerDao.getOrdersNo(customerNo);
+		for(int ordersNo : list1) {
+			
+			String sql10 = "DELETE FROM review WHERE orders_no = ?";
+			PreparedStatement stmt10 = conn.prepareStatement(sql10);
+			stmt10.setInt(1, ordersNo);
+			int row10 = stmt10.executeUpdate();
+			System.out.println(row10 + " = row10");
+			
+			if(row10 != 1) {
+				conn.rollback();
+				return;
+			}
+			
 		}
 		
 		// orders 테이블 데이터 삭제

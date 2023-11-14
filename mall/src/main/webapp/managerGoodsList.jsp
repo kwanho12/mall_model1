@@ -131,7 +131,7 @@
                       	<button type="button" onclick="location.href='<%=request.getContextPath()%>/managerGoodsOne.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="ti-search"></i></button>
                       </li>
                       <li>
-						<button type="button" onclick="location.href='<%=request.getContextPath()%>/deleteGoodsAction.jsp?goodsNo=<%=map.get("goodsNo")%>'"><i class="fa-solid fa-x"></i></button>
+						<button type="button" onclick="location.href='<%=request.getContextPath()%>/deleteGoodsAction.jsp?goodsNo=<%=map.get("goodsNo")%>&currentPage=<%=currentPage%>&rowPerPage=<%=rowPerPage%>'"><i class="fa-solid fa-x"></i></button>
 					  </li>
                     </ul>
                   </div>

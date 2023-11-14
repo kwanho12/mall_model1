@@ -137,7 +137,18 @@
 	                </td>
 	                <td></td> 
 	                <td>
-	                  <p>2500 x <%=orderCount%> = <%=2500 * orderCount%> 원</p>
+	                  <%
+	                  if(orderCount != 0) {
+	                  %>
+	   	                  <p>2500 x <%=orderCount%> = <%=2500 * orderCount%> 원</p>
+	                  <%
+	                  } else {
+	                  %>
+	                  	  <p>0 원</p>
+	                  <%
+	                  }
+	                  %>
+	                  
 	                </td>
 	              </tr>
 	              <tr>
