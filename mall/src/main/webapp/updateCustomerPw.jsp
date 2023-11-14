@@ -90,19 +90,19 @@
 	    	
 	    	if($('#oldPw').val() == "") { 
 				// 원래 비밀번호 창에 아무것도 입력하지 않았을 때
-				alert('원래 비밀번호를 입력하세요.');
+				$('#msg').text('원래 비밀번호를 입력하세요.')
 				return;
 			} else if($('#newPw').val() == "") { 
 				// 비밀번호 창에 아무것도 입력하지 않았을 때
-				alert('변경할 비밀번호를 입력하세요.');
+				$('#msg').text('변경할 비밀번호를 입력하세요.')
 				return;
 			}  else if($('#newPw').val().length < 6) { 
 				// 비밀번호 창의 입력값의 length가 6 미만일 때
-				alert('변경할 비밀번호를 6자 이상 입력하세요.');
+				$('#msg').text('변경할 비밀번호를 6자 이상 입력하세요.')
 				return;
 			} else if(checkNumber <0 || checkEnglish <0){
 				// 숫자와 영어를 혼용하지 않았을 때
-		        alert("변경할 비밀번호는 숫자와 영문자를 혼용하여야 합니다.");
+				$('#msg').text('변경할 비밀번호는 숫자와 영문자를 혼용하여야 합니다.')
 		        return;
 		    }
 	 	    	
@@ -117,9 +117,10 @@
 					if(result == 1) {
 						$('#msg').text('변경할 비밀번호가 이전 비밀번호와 같습니다.');
 					} else if(result == 2){
-						$('#msg').text('입력한 비밀번호가 원래 비밀번호와 다릅니다.');
+						$('#msg').text('입력한 원래 비밀번호가 일치하지 않습니다.');
 					} else if(result == 4){
-						$('#msg').text('비밀번호가 변경되었습니다.');
+						alert('비밀번호가 변경되었습니다.')
+						$(location).attr("href","<%=request.getContextPath()%>/customerOne.jsp?customerNo=<%=customerNo%>");
 					}
 				}
 			});
