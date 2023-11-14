@@ -142,7 +142,8 @@
 					}
 				});
 			} else {
-				alert('아이디를 입력해 주세요.');	
+				alert('아이디를 입력해 주세요.');
+				$('#customerId').focus();
 			}		
 	   });
 		
@@ -209,8 +210,6 @@
 			alert('가입이 완료되었습니다.')
 			$('#signinForm').submit();
 		});
-		
-		
 		
 	</script>
 

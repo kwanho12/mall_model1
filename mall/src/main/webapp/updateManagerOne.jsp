@@ -98,10 +98,12 @@
 			if($('#managerName').val() == "") {
 				// 이름 창에 아무것도 입력하지 않았을 때
 				alert('이름을 입력하세요.');
+				$('#managerName').focus();
 				return;
 			} else if($('#managerName').val().length < 2) { 
 				// 이름 창의 입력값의 length가 2 미만일 때
 				alert('이름을 2자 이상 입력하세요.');
+				$('#managerName').focus();
 				return;
 			}
 			

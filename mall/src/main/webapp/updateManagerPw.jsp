@@ -105,8 +105,10 @@
 				success: function(result) {
 					if(result == 1) {
 						$('#msg').text('변경할 비밀번호가 이전 비밀번호와 같습니다.');
+						$('#newPw').focus();
 					} else if(result == 2){
 						$('#msg').text('입력한 원래 비밀번호가 일치하지 않습니다.');
+						$('#oldPw').focus();
 					} else if(result == 4){
 						alert('비밀번호가 변경되었습니다.')
 						$(location).attr("href","<%=request.getContextPath()%>/managerOne.jsp?managerNo=<%=managerNo%>");

@@ -79,6 +79,7 @@
 				success: function(result) {
 					if(result == 1) {
 						$('#msg').text('비밀번호를 확인하세요.');
+						$('#managerPw').focus();
 					} else if(result == 3){
 						alert('탈퇴되었습니다.');
 						$(location).attr("href","<%=request.getContextPath()%>/managerLogin.jsp");

@@ -107,26 +107,31 @@
 			if($('#customerName').val() == "") {
 				// 이름 창에 아무것도 입력하지 않았을 때
 				alert('이름을 입력하세요.');
+				$('#customerName').focus();
 				return;
 			} else if($('#customerName').val().length < 2) { 
 				// 이름 창의 입력값의 length가 2 미만일 때
 				alert('이름을 2자 이상 입력하세요.');
+				$('#customerName').focus();
 				return;
 			}
 			
 			if($('#customerPhone').val() == "") {
 				// 휴대폰 번호 창에 아무것도 입력하지 않았을 때
 				alert('휴대폰 번호를 입력하세요.');
+				$('#customerPhone').focus();
 				return;
 			} else if(($('#customerPhone').val().length != 11) || ($('#customerPhone').val().substr(0,3) != '010') ) {
 				// 휴대폰 번호의 길이가 11이 아니거나 번호가 010으로 시작하지 않을 때
 				alert('휴대폰 번호의 형식이 올바르지 않습니다.');
+				$('#customerPhone').focus();
 				return;
 			}
 			
 			if($('#address').val() == "") {
 				// 주소 창에 아무것도 입력하지 않았을 때
 				alert('주소를 입력하세요.');
+				$('#address').focus();
 				return;
 			}
 			
