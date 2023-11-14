@@ -3,6 +3,7 @@
     pageEncoding="UTF-8"%>
 <%
 	int managerNo = (Integer) session.getAttribute("managerNo");
+
 	String managerName = request.getParameter("managerName");
 	
 	ManagerDao managerDao = new ManagerDao();

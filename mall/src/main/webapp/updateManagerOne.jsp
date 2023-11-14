@@ -63,12 +63,12 @@
 			<% 
 				for(Manager m : list) {
 			%>				
-				<form class="row login_form" action="<%=request.getContextPath()%>/updateManagerOneAction.jsp">
+				<form class="row login_form" id="updateForm" action="<%=request.getContextPath()%>/updateManagerOneAction.jsp">
 		            <div class="col-md-12 form-group">
 		            	<div>ID : <input type="text" value="<%=m.getManagerId()%>" readonly></div>
 		            </div>
 		            <div class="col-md-12 form-group">
-		            	<div>이름 : <input type="text" value="<%=m.getManagerName()%>" name="managerName" id="name"></div>
+		            	<div>이름 : <input type="text" value="<%=m.getManagerName()%>" name="managerName" id="managerName" maxlength="10"></div>
 		            </div>
 		            <div class="col-md-12 form-group">
 		            	<div>가입 날짜 : <input type="text" value="<%=m.getCreatedate()%>" readonly></div>
@@ -78,7 +78,7 @@
 		            </div>     
 		            
 		            <div class="form-group container" style="width:400px;">
-						<button style="font-size:15px; margin:10px;" class="btn btn-light">수정완료</button>													
+						<button type="button" style="font-size:15px; margin:10px;" class="btn btn-light" id="updateBtn">수정완료</button>													
 					</div>
 				</form>
 			<%
@@ -92,7 +92,23 @@
 	<!--================End Login Box Area =================-->
 	
 	<script>
-		$('#name').focus();
+		$('#managerName').focus();
+		
+		$('#updateBtn').click(function(){
+			if($('#managerName').val() == "") {
+				// 이름 창에 아무것도 입력하지 않았을 때
+				alert('이름을 입력하세요.');
+				return;
+			} else if($('#managerName').val().length < 2) { 
+				// 이름 창의 입력값의 length가 2 미만일 때
+				alert('이름을 2자 이상 입력하세요.');
+				return;
+			}
+			
+			alert('정보가 수정되었습니다.')
+			
+			$('#updateForm').submit();
+		});
 	</script>
 
 

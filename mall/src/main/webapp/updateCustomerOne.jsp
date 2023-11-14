@@ -102,6 +102,7 @@
 			$(this).val($(this).val().replace(/[^0-9]/g, ''));
 		});
 		
+		// 수정 버튼 클릭
 		$('#updateBtn').click(function(){
 			if($('#customerName').val() == "") {
 				// 이름 창에 아무것도 입력하지 않았을 때
