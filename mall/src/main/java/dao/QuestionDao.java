@@ -277,31 +277,53 @@ public class QuestionDao {
 		//DB연결을 위한 Connection객체 생성, 연결
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		System.out.println("DB접속 성공");	//DB접속 확인 디버깅
+		
 		conn.setAutoCommit(false); 	//outoCommit을 꺼준다
 		
-		// question 테이블 데이터 삭제
-		/*
-			questionNo를 입력받아 삭제
-			DELETE FROM question_comment WHERE question_no = ?
-		*/
+		/* 	삭제하려는 question_no를 가진 question_comment가 DB에 존재하는지 확인
+		 	SELECT question_no questionNo FROM question_comment WHERE question_no = ?
+		 */
 		
-		// question_comment 테이블 데이터 삭제
-		String sql1 = "DELETE FROM question_comment WHERE question_no = ?";
-		PreparedStatement stmt1 = conn.prepareStatement(sql1);
-		stmt1.setInt(1, questionNo);
-		int row1 = stmt1.executeUpdate();
+		String sql = "SELECT question_no questionNo FROM question_comment WHERE question_no = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, questionNo);
+		ResultSet rs = stmt.executeQuery();
 		
-		if(row1 != 1) {
-			conn.rollback();
-			return;
+		//question_comment가 존재하는지 확인할 변수
+		boolean comment = rs.next();
+		System.out.println(comment + "<--comment true면 comment존재");
+		if(comment) {
+
+			System.out.println("삭제하려는 문의사항에 매니져 코맨트가 존재합니다");
+		
 		}else {
-			System.out.println("quetionComment를 삭제 하지 못했습니다.");
-			System.out.println("rollback");
+			System.out.println("삭제하려는 문의사항에 매니져 코맨트가 존재하지 않습니다");
 		}
 		
+		// 매니져 코맨트가 존재한다면 삭제
+		if(comment) {
+			
+			/* question_comment 테이블 데이터 삭제
+				questionNo를 입력받아 삭제
+				DELETE FROM question_comment WHERE question_no = ?
+			*/
+			
+			// question_comment 테이블 데이터 삭제
+			String sql1 = "DELETE FROM question_comment WHERE question_no = ?";
+			PreparedStatement stmt1 = conn.prepareStatement(sql1);
+			stmt1.setInt(1, questionNo);
+			int row1 = stmt1.executeUpdate();
+			
+			if(row1 != 1) {
+				conn.rollback();
+				System.out.println("questionComment를 삭제 하지 못했습니다.");
+				return;
+			}else {
+				System.out.println("qustionComment를 삭제했습니다");
+			}
+		}
 				
-		// question 테이블 데이터 삭제
-		/*
+		/* question 테이블 데이터 삭제
 			questionNo를 입력받아 삭제
 			DELETE FROM question WHERE question_no = ?
 		 */
@@ -320,12 +342,14 @@ public class QuestionDao {
 			System.out.println("문의사항 삭제성공");
 		}
 		
+		
 		conn.commit();
 		
 		// DB자원 반납
 		conn.close();
-		stmt1.close();
+		stmt.close();
 		stmt2.close();
+		rs.close();
 			
 	}
 	

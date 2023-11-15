@@ -27,12 +27,17 @@
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
   	<link rel="stylesheet" href="css/style.css">
-  
+    <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+  	<link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
+  	
   	<!--구글폰트 -->
   	<link rel="preconnect" href="https://fonts.googleapis.com">
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
+  	
+  	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   
 </head>
 <body>
@@ -63,7 +68,7 @@
 
 <div class="container">
 	
-<form action="<%=request.getContextPath()%>/insertReviewAction.jsp" method="post">
+<form action="<%=request.getContextPath()%>/insertReviewAction.jsp" method="post" id="insertReviewForm">
 		<input type="hidden" name="customerNo" value="<%=session.getAttribute("customerNo")%>">
 	<div class="mb-3 mt-3">
 	</div>
@@ -86,20 +91,49 @@
                    </select>
             </li>
 		</ul>
-
-
+		<br>
 		<br>
 		
 	<div class="mb-3">
 		<label for="comment">리뷰</label>
-			<textarea class="form-control" rows="5" id="reviewContent" name="reviewContent"></textarea>
+			<textarea class="form-control" rows="5" id="reviewContent" name="reviewContent" id="reviewContent"></textarea>
 	</div>
 	<div class="text-right">
-	<button type="submit" class="btn btn-dark">등록</button>
+	<button type="button" class="btn btn-dark" id="button">등록</button>
 	</div>
 </form>
 </div>
 	<br>
 	<br>
+	<script>
+	
+	$('#button').click(function() {
+
+	//리뷰작성할 상품 선택 필수
+	if($('#goodsTitle').val() == ""){
+		alert('리뷰작성할 상품을 선택하세요.');
+		return;
+	}
+	
+	//리뷰내용 입력 필수
+	if($('#reviewContent').val().length < 1){
+		alert('리뷰 내용을 입력하세요.');
+		return;
+	}
+	
+	alert('리뷰작성이 완료되었습니다.')
+	$('#insertReviewForm').submit();
+	});
+	
+	</script>
+	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+  	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
+  	<script src="vendors/skrollr.min.js"></script>
+  	<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+  	<script src="vendors/nice-select/jquery.nice-select.min.js"></script>
+  	<script src="vendors/nouislider/nouislider.min.js"></script>
+  	<script src="vendors/jquery.ajaxchimp.min.js"></script>
+  	<script src="vendors/mail-script.js"></script>
+  	<script src="js/main.js"></script>
 </body>
 </html>

@@ -19,12 +19,18 @@
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
   	<link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
   	<link rel="stylesheet" href="css/style.css">
+  	<link rel="stylesheet" href="vendors/nice-select/nice-select.css">
+  	<link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
   
   	<!--구글폰트 -->
   	<link rel="preconnect" href="https://fonts.googleapis.com">
   	<link rel="preconnect" href="https://fonts.gstatic.com" >
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
+  	
+  	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  
   
 </head>
 <body>
@@ -96,7 +102,7 @@
 	if((session.getAttribute("customerNo") != null)&&((int)session.getAttribute("customerNo") == qDao.askCustomerNo(questionNo))) {
 %>
 	<a href="<%=request.getContextPath() %>/updateQuestionForm.jsp?questionNo=<%=questionNo%>" class="btn btn-dark">수정</a>
-	<a href="<%=request.getContextPath() %>/deleteQuestionAction.jsp?questionNo=<%=questionNo%>" class="btn btn-dark">삭제</a>
+	<a href="<%=request.getContextPath() %>/deleteQuestionAction.jsp?questionNo=<%=questionNo%>" class="btn btn-dark" id="deleteQuestionButton">삭제</a>
 <%
 	}
 %>	
@@ -146,8 +152,27 @@
 %>
 
 	</div>
+	<!--  
+	<script>
+	
+	//삭제 버튼을 누르면 다시 한번 확인하기
+	$('#deleteQuestionButton').click(function() {
 
-  <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+	var result = confirm("정말 삭제하시겠습니까?");
+	    
+	 if (result) {
+	      alert("삭제를 완료했습니다.");
+	      var questionNo = '<%= request.getParameter("questionNo") %>';
+	      var deleteUrl = '<%= request.getContextPath() %>/deleteQuestionAction.jsp?questionNo=' + questionNo;
+	      window.location.href = deleteUrl;
+	    } else {
+	      alert("삭제를 취소했습니다.");
+	      return;
+	    }
+	});
+	
+	</script>
+-->
   <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="vendors/skrollr.min.js"></script>
   <script src="vendors/owl-carousel/owl.carousel.min.js"></script>

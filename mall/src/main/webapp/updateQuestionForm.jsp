@@ -38,9 +38,12 @@
   
   	<!--구글폰트 -->
   	<link rel="preconnect" href="https://fonts.googleapis.com">
-  	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
+  	
+  	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   
 </head>
 <body>
@@ -70,7 +73,7 @@
 	<div class="container">
 		<p>문의사항 내용만 수정이 가능합니다!</p>
 	
-	<form action="<%=request.getContextPath()%>/updateQuestionAction.jsp" method="post">
+	<form action="<%=request.getContextPath()%>/updateQuestionAction.jsp" method="post" id="updateQuestionForm">
 			<input type="hidden" name="customerNo" value="<%=session.getAttribute("customerNo")%>">
 			<input type="hidden" name="questionNo" value="<%=questionNo%>">
   		<div class="mb-3 mt-3">
@@ -85,16 +88,37 @@
     		<label for="comment">문의내용</label>
 				<textarea class="form-control" rows="5" id="questionContent" name="questionContent" ><%=questionContent%></textarea>
   		</div>
-  		<div class="form-check mb-3">	
-			<label class="form-check-label">
-      			<input class="form-check-input" type="checkbox" name="private"> 비밀글</label>
-  		</div>
+  		
 		<div class="text-right">
-  		<button type="submit" class="btn btn-dark">수정</button>
+  		<button type="button" class="btn btn-dark" id="button">수정</button>
   		</div>
 	</form>
 	</div>
 	<br>
 	<br>
+	<script>
+		
+	$('#button').click(function(){
+		
+		//문의사항 내용이 비어있는지 확인
+		if($('#questionContent').val()== ""){
+			alert('문의 내용을 입력하세요.');
+			return;
+		}
+		
+		alert('문의사항 수정이 완료되었습니다');
+		$('#updateQuestionForm').submit();
+	});
+		
+	</script>
+	<script src="vendors/jquery/jquery-3.2.1.min.js"></script>
+  	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
+  	<script src="vendors/skrollr.min.js"></script>
+  	<script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+  	<script src="vendors/nice-select/jquery.nice-select.min.js"></script>
+  	<script src="vendors/nouislider/nouislider.min.js"></script>
+  	<script src="vendors/jquery.ajaxchimp.min.js"></script>
+  	<script src="vendors/mail-script.js"></script>
+  	<script src="js/main.js"></script>
 </body>
 </html>
