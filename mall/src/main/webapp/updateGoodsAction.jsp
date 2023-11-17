@@ -5,8 +5,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-		String uploadPath = request.getServletContext().getRealPath("/upload");
-		// String uploadPath = "/Users/jkh/Desktop/DB/mall-gitRepository/mall/mall/src/main/webapp/upload";
+		// String uploadPath = request.getServletContext().getRealPath("/upload");
+		String uploadPath = "/Users/jkh/Desktop/DB/mall-gitRepository/mall/mall/src/main/webapp/upload";
 		
 		MultipartRequest req = new MultipartRequest(
 			request, uploadPath, 1024*1024*100, "utf-8", new DefaultFileRenamePolicy());
@@ -27,6 +27,7 @@
 		
 		GoodsDao goodsDao = new GoodsDao();
 		String oldName = goodsDao.getOldFilename(g.getGoodsNo());
+		System.out.println(oldName);
 		goodsDao.updateGoods(g, updateName, name, contentType, oldName, uploadPath);
 		
 		response.sendRedirect(request.getContextPath()+"/managerGoodsOne.jsp?goodsNo="+g.getGoodsNo());
