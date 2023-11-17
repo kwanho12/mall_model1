@@ -118,21 +118,20 @@
 <%
 	}
 %>
-
-
+<div class="container text-right">
+	<a href="<%=request.getContextPath() %>/managerDeleteQuestionAction.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-dark">문의 사항 삭제</a>
 
 <%
 	if(comment == 0){
 %>
-<div class="container text-right">
+
 	<a href="<%=request.getContextPath() %>/managerInsertQuestionCommentForm.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-dark" >답글 추가</a>
-	<a href="<%=request.getContextPath() %>/managerDeleteQuestionAction.jsp?questionNo=<%=list.get(0).get("questionNo") %>" class="btn btn-dark">문의 사항 삭제</a>
-</div>
+
 <%
 	}
 	if(comment == 1){	
 %>
-<div class="container text-right">
+
 	<a href="<%=request.getContextPath() %>/managerUpdateQuestionCommentForm.jsp?commentNo=<%=list2.get(0).get("commentNo")%>&&questionNo=<%=questionNo%> " class="btn btn-dark" >
 		답글 수정
 	</a>
