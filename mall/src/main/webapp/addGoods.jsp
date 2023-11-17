@@ -40,7 +40,7 @@
   <!--================Login Box Area =================-->
 	<section class="login_box_area section-margin">
 		<div class="container">
-			<div class="login_form_inner register_form_inner mx-auto" style="width:500px;">
+			<div class="login_form_inner mx-auto" style="width:500px;">
 				<h3>상품 추가</h3>
 				<form method="post" enctype="multipart/form-data" class="row login_form" action="<%=request.getContextPath()%>/addGoodsAction.jsp">
 					<div class="col-md-12 form-group">
