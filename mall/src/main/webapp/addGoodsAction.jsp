@@ -7,8 +7,9 @@
     pageEncoding="UTF-8"%>
 <%
 	
-	// String uploadPath = request.getServletContext().getRealPath("/upload");
-	String uploadPath = "/Users/jkh/Desktop/DB/mall-gitRepository/mall/mall/src/main/webapp/upload";
+	String uploadPath = request.getServletContext().getRealPath("/upload");
+	//String uploadPath = "/Users/jkh/Desktop/DB/mall-gitRepository/mall/mall/src/main/webapp/upload";
+	//String uploadPath = "C:/Users/kdg21/git/mall/mall/src/main/webapp/upload";
 
 	
 	MultipartRequest req = new MultipartRequest(
@@ -39,6 +40,9 @@
 	
 	GoodsDao goodsDao = new GoodsDao();
 	goodsDao.addGoods(goodsTitle, goodsPrice, goodsMemo, contentType, filename, originName);
+	
+	//파일업로드 위치 디버깅 코드
+	System.out.println("Uploaded file path: " + uploadPath);
 	
 	response.sendRedirect(request.getContextPath()+"/managerGoodsList.jsp");
 	
