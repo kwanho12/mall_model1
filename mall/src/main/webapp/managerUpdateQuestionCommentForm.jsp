@@ -43,6 +43,9 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
+  	
+  	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   
 </head>
 <body>
@@ -52,7 +55,7 @@
 
 <div class="container">
 	<h3>답글 수정</h3><br>
-	<form action="<%=request.getContextPath()%>/managerUpdateQuestionCommentAction.jsp" method="post">
+	<form action="<%=request.getContextPath()%>/managerUpdateQuestionCommentAction.jsp" method="post" id="updateComment">
 		<input type="hidden" name="managerNo" value="<%=session.getAttribute("managerNo")%>">
 		<input type="hidden" name="questionNo" value="<%=questionNo%>">
 		<input type="hidden" name="commentNo" value="<%=commentNo%>">
@@ -65,9 +68,23 @@
 		<textarea class="form-control" rows="5" id="commentContent" name="commentContent" ><%=commentContent%></textarea>
 </div>
 <div class="text-right">
-	<button type="submit" class="btn btn-dark">수정</button>
+	<button type="button" class="btn btn-dark" id="commentButton">수정</button>
 </div>
 </form>
 </div>
+	<script>
+	
+	$('#commentButton').click(function() {
+
+	//답변입력 필수
+	if($('#commentContent').val() == 0){
+		alert('답변을 입력하세요.');
+		return;
+	}
+	
+	alert('문의사항 답변이 수정되었습니다.')
+	$('#updateComment').submit();
+	});
+	</script>
 </body>
 </html>

@@ -27,6 +27,9 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   	<link rel="stylesheet" href="css/font.css">
+  	
+   	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script> 	
    
    <style>
       th { background-color: black; color: white;" }
@@ -80,8 +83,24 @@
 </div>
 <div class="container text-right">
 	<a href="<%=request.getContextPath() %>/managerUpdateNoticeForm.jsp?noticeNo=<%=list.get(0).get("noticeNo") %>" class="btn btn-dark">수정</a>
-	<a href="<%=request.getContextPath() %>/managerDeleteNoticeAction.jsp?noticeNo=<%=list.get(0).get("noticeNo") %>" class="btn btn-dark">삭제</a>
+	<a class="btn btn-dark" id="deleteButton">삭제</a>
 </div>
+
+	<script>
+	    $(document).ready(function() {
+	        // 삭제 버튼 클릭 시
+	        $("#deleteButton").click(function() {
+	            // 삭제시 다시한번 확인
+	            var result = confirm("삭제하시겠습니까?");
+	            
+	            // 확인이면 삭제 액션 실행
+	            if (result) {
+	                var deleteUrl = "<%=request.getContextPath() %>/managerDeleteNoticeAction.jsp?noticeNo=<%=list.get(0).get("noticeNo") %>";		               
+	                window.location.href = deleteUrl;
+	            }
+	        });
+	    });
+	</script>
 
 </body>
 </html>

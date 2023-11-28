@@ -40,6 +40,9 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" >
   	<link rel="stylesheet" href="css/font.css">
+  	
+  	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
   
 </head>
 <body>
@@ -49,7 +52,7 @@
 
 <div class="container">
 	<h3>공지 수정</h3><br>
-	<form action="<%=request.getContextPath()%>/managerUpdateNoticeAction.jsp" method="post">
+	<form action="<%=request.getContextPath()%>/managerUpdateNoticeAction.jsp" method="post" id="updateNotice">
 		<input type="hidden" name="managerNo" value="<%=session.getAttribute("managerNo")%>">
 		<input type="hidden" name="noticeNo" value="<%=noticeNo%>">
 <div class="mb-3 mt-3">
@@ -61,9 +64,23 @@
 		<textarea class="form-control" rows="5" id="noticeContent" name="noticeContent" ><%=noticeContent%></textarea>
 </div>
 <div class="text-right">
-	<button type="submit" class="btn btn-dark">수정</button>
+	<button type="button" class="btn btn-dark" id="button">수정</button>
 </div>
 </form>
 </div>
+	<script>
+	$('#button').click(function() {
+	
+	//공지 내용 필수 입력
+	if($('#noticeContent').val() == ""){
+		alert('공지내용을 입력하세요.');
+		return;
+	}
+
+	alert('공지사항수정이 완료되었습니다.')
+	$('#updateNotice').submit();
+	});
+	
+	</script>
 </body>
 </html>

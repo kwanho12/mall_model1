@@ -27,6 +27,9 @@
   	<link rel="preconnect" href="https://fonts.gstatic.com">
   	<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
   	<link rel="stylesheet" href="css/font.css">
+  	
+  	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
 <% 
@@ -162,7 +165,10 @@
 						<td><%=r.get("createdate") %></td>
 						<td><%=r.get("updatedate") %></td>
 						<td>
-							<a href="<%=request.getContextPath()%>/managerDeleteReviewAction.jsp?reviewNo=<%=r.get("reviewNo") %>" class="btn btn-dark">
+						<%
+							int reviewNo = (Integer)r.get("reviewNo");
+						%>
+							<a class="btn btn-dark" id="deleteReview">
 								삭제						
 							</a>
 						</td>
@@ -172,6 +178,22 @@
 				%>
 		</table>
 </div>
+	<script>
+	    $(document).ready(function() {
+	        // 문의사항 삭제 버튼 클릭 시
+	        $("#deleteReview").click(function() {
+	            // 삭제시 다시한번 확인
+	            var result = confirm("삭제하시겠습니까?");
+	            
+	            // 확인이면 삭제 액션 실행
+	            if (result) {
+	                var deleteUrl = "<%=request.getContextPath()%>/managerDeleteReviewAction.jsp?reviewNo=reviewNo";		               
+	                window.location.href = deleteUrl;
+	            }
+	        });
+	    });
+	</script>
+	
 <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
 	<script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
 	<script src="vendors/skrollr.min.js"></script>

@@ -31,6 +31,9 @@
   	 <style>
       th { background-color: black; color: white;" }
     </style>
+    
+      	<!-- jQuery CDN-->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
 <% 
@@ -81,17 +84,30 @@
 		</tr>
 	</table>	
 </div>
-<form action="<%=request.getContextPath()%>/managerInsertQuestionCommentAction.jsp" method="post">
+<form action="<%=request.getContextPath()%>/managerInsertQuestionCommentAction.jsp" method="post" id="insertComment">
 		<input type="hidden" name="managerNo" value="<%=session.getAttribute("managerNo")%>">
 		<input type="hidden" name="questionNo" value="<%=list.get(0).get("questionNo")%>">
 	<div class="container">
 		<label for="comment">답변내용</label>
-			<textarea class="form-control" rows="5" name="questionComment"></textarea>
+			<textarea class="form-control" rows="5" name="questionComment" id="questionComment"></textarea>
 		<div class="text-right">
-		<button type="submit" class="btn btn-dark">답변등록</button>
+		<button type="button" id="commentButton" class="btn btn-dark">답변등록</button>
 		</div>
 	</div>
-	
 </form>
+	<script>
+	
+	$('#commentButton').click(function() {
+
+	//답변입력 필수
+	if($('#questionComment').val() == 0){
+		alert('답변을 입력하세요.');
+		return;
+	}
+	
+	alert('문의사항 답변등록이 완료되었습니다.')
+	$('#insertComment').submit();
+	});
+	</script>
 </body>
 </html>
