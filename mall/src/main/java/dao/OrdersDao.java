@@ -13,9 +13,9 @@ public class OrdersDao {
 	public void orders(int customerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 				
 		/*
@@ -74,9 +74,9 @@ public class OrdersDao {
 	public ArrayList<HashMap<String, Object>> orderList(int customerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		/*
@@ -112,9 +112,9 @@ public class OrdersDao {
 	public void deleteOrder(int ordersNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "DELETE FROM orders WHERE orders_no = ?";

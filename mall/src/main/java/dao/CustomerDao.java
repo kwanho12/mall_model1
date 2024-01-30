@@ -22,9 +22,9 @@ public class CustomerDao {
 	public ArrayList<HashMap<String, Object>> customerList(int beginRow, int rowPerPage) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		// 회원정보 조회 : 고객번호, id, 활동상태, 주소, 고객이름, 휴대폰 번호
@@ -69,9 +69,9 @@ public class CustomerDao {
 	public int getOrdersCount(int customerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT COUNT(*) FROM orders WHERE customer_no = ?";
@@ -92,9 +92,9 @@ public class CustomerDao {
 	public int getCustomerPwHistoryCount(int customerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT COUNT(*) FROM customer_pw_history WHERE customer_no = ?";
@@ -115,9 +115,9 @@ public class CustomerDao {
 	public ArrayList<Integer> getQuestionNo(int customerNo) throws Exception {
 
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		/*
@@ -147,9 +147,9 @@ public class CustomerDao {
 	public int getQuestionCommentCount(int questionNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT COUNT(*) FROM question_comment WHERE question_no = ?";
@@ -171,9 +171,9 @@ public class CustomerDao {
 	public int getQuestionCount(int customerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT COUNT(*) FROM question WHERE customer_no = ?";
@@ -195,9 +195,9 @@ public class CustomerDao {
 	public ArrayList<Integer> getOrdersNo(int customerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		/*
@@ -226,9 +226,9 @@ public class CustomerDao {
 	public void deleteCustomer(int customerNo) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
@@ -386,9 +386,9 @@ public class CustomerDao {
 	public int withdrawalCustomer(int customerNo, String customerPw, HttpSession session) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
@@ -432,9 +432,9 @@ public class CustomerDao {
 	public void customerRegister(Customer customer, CustomerDetail customerDetail, CustomerAddr customerAddr) throws Exception{ 
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
@@ -501,9 +501,9 @@ public class CustomerDao {
 	public int customerIdCheck(String customerId) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT customer_id customerId FROM customer WHERE customer_id = ?";
@@ -525,9 +525,9 @@ public class CustomerDao {
 	public int customerLogin(Customer customer, HttpSession session) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		// 입력한 ID와 비밀번호가 DB에 있는 데이터와 일치하는지 확인
@@ -567,9 +567,9 @@ public class CustomerDao {
 	public ArrayList<HashMap<String,Object>> customerOne(int customerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		/*
@@ -605,9 +605,9 @@ public class CustomerDao {
 	public void updateCustomerOne(int customerNo, String customerName, String customerPhone, String address) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
@@ -648,9 +648,9 @@ public class CustomerDao {
 	public int updateCustomerPw(int customerNo, String oldPw, String newPw) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
@@ -701,9 +701,9 @@ public class CustomerDao {
 	public int customerListPaging() throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		// 페이징 sql
@@ -725,9 +725,9 @@ public class CustomerDao {
 	public int customerSearchListPaging(String searchField, String searchText) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		// 페이징 sql
@@ -813,9 +813,9 @@ public class CustomerDao {
 	public ArrayList<HashMap<String, Object>> searchCustomerList(String searchField, String searchText, int beginRow, int rowPerPage) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();

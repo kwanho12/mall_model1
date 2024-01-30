@@ -20,9 +20,9 @@ public class ManagerDao {
 	public void managerRegister(Manager manager, ManagerPwHistory managerPwHistory) throws Exception{ 
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
@@ -65,9 +65,9 @@ public class ManagerDao {
 	public int managerIdCheck(String managerId) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT manager_id managerId FROM manager WHERE manager_id = ?";
@@ -89,9 +89,9 @@ public class ManagerDao {
 	public int managerLogin(Manager manager, HttpSession session) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		// 입력한 ID와 비밀번호가 DB에 있는 데이터와 일치하는지 확인
@@ -131,9 +131,9 @@ public class ManagerDao {
 	public ArrayList<Manager> managerOne(int managerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT manager_id managerId, manager_name managerName, createdate, updatedate FROM manager WHERE manager_no = ?";
@@ -160,9 +160,9 @@ public class ManagerDao {
 	public void updateManagerOne(int managerNo, String managerName) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "UPDATE manager SET manager_name = ?, updatedate = NOW() WHERE manager_no = ?";
@@ -179,9 +179,9 @@ public class ManagerDao {
 	public int updateManagerPw(int managerNo, String oldPw, String newPw) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
@@ -232,9 +232,9 @@ public class ManagerDao {
 	public int withdrawalManager(int managerNo, String managerPw, HttpSession session) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		

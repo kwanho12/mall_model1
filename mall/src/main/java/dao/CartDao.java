@@ -16,9 +16,9 @@ public class CartDao {
 	public void addCart(Cart c) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql ="INSERT INTO cart(goods_no, customer_no, quantity, createdate, updatedate) VALUES(?, ?, 1, NOW(), NOW())";
@@ -39,9 +39,9 @@ public class CartDao {
 	public int getCartCount(int customerNo) throws Exception { 
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT count(*) FROM cart WHERE customer_no = ?";
@@ -63,9 +63,9 @@ public class CartDao {
 	public ArrayList<HashMap<String, Object>> cartList(int customerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		/*
@@ -104,9 +104,9 @@ public class CartDao {
 	public ArrayList<Integer> getCartNo(int customerNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT cart_no cartNo FROM cart WHERE customer_no = ?";
@@ -128,9 +128,9 @@ public class CartDao {
 	public void updateCart(ArrayList<Integer> cartsNo, HttpServletRequest request) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		for(int cartNo : cartsNo) { // 특정 고객에 대한 장바구니 번호들을 1개씩 가져 오기  [
@@ -156,9 +156,9 @@ public class CartDao {
 	public void deleteCart(int cartNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall";
+		String url = "jdbc:mariadb://52.78.98.70/mall";
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "DELETE FROM cart WHERE cart_no = ?";

@@ -20,9 +20,9 @@ public class GoodsDao {
 		
 		// DB product테이블 & image테이블에 입력
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
@@ -71,9 +71,9 @@ public class GoodsDao {
 	public int goodsListPaging() throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		// 페이징 sql
@@ -95,9 +95,9 @@ public class GoodsDao {
 	public int goodsSearchListPaging(String searchField, String searchText) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		// search 페이징 sql
@@ -140,9 +140,9 @@ public class GoodsDao {
 	public ArrayList<HashMap<String,Object>> selectGoodsList(int beginRow, int rowPerPage) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT g.goods_no goodsNo, g.goods_title goodsTitle, g.goods_price goodsPrice, g.soldout soldout, g.goods_memo goodsMemo, gi.filename filename FROM goods g INNER JOIN goods_img gi ON g.goods_no = gi.goods_no ORDER BY g.goods_no DESC LIMIT ?, ?";
@@ -172,9 +172,9 @@ public class GoodsDao {
 	public Goods goodsOne(int goodsNo) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		String sql = "SELECT goods_title goodsTitle, goods_price goodsPrice, soldout, goods_memo goodsMemo, createdate, updatedate FROM goods WHERE goods_no = ?";
@@ -204,9 +204,9 @@ public class GoodsDao {
 	public String deleteGoods(int goodsNo) throws Exception{
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		conn.setAutoCommit(false);
 		
@@ -266,9 +266,9 @@ public class GoodsDao {
 	public String getOldFilename(int goodsNo) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw); // 기본값 자동 커밋
 		
 		// 수정 전 파일의 저장 이름 가져 오기(oldName)
@@ -293,9 +293,9 @@ public class GoodsDao {
 	public void updateGoods(Goods g, String updateName, String name, String contentType, String oldName, String uploadPath) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw); // 기본값 자동 커밋
 		conn.setAutoCommit(false); // 수동 커밋(conn.commit()메서드를 코드에 호출 필요)
 		
@@ -350,9 +350,9 @@ public class GoodsDao {
 	public ArrayList<HashMap<String,Object>> searchGoodsList(String searchField, String searchText, int beginRow, int rowPerPage) throws Exception {
 		
 		Class.forName("org.mariadb.jdbc.Driver");
-		String url = "jdbc:mariadb://localhost:3306/mall" ;
+		String url = "jdbc:mariadb://52.78.98.70/mall" ;
 		String dbuser = "root";
-		String dbpw = "java1234";
+		String dbpw = "rkskek12";
 		Connection conn = DriverManager.getConnection(url, dbuser, dbpw);
 		
 		ArrayList<HashMap<String, Object>> list = new ArrayList<>();

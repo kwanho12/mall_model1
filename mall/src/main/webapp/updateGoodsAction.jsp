@@ -6,7 +6,7 @@
     pageEncoding="UTF-8"%>
 <%
 		String uploadPath = request.getServletContext().getRealPath("/upload");
-		
+	
 		MultipartRequest req = new MultipartRequest(
 			request, uploadPath, 1024*1024*100, "utf-8", new DefaultFileRenamePolicy());
 		
